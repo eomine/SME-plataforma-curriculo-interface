@@ -90,7 +90,7 @@ const LearningObjectivesActions = {
           dispatch({ ...response, type: LearningObjectivesActions.LOADED_STAGES })
         );
       }
-      if (filter.type = "stages") {
+      if (filter.type === 'stages') {
         Api.get(dispatch, `/api/filtros?${queryString}`).then(response =>
           dispatch({ ...response, type: LearningObjectivesActions.LOADED_YEARS })
         );
