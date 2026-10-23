@@ -4,16 +4,16 @@ import getFiltersQueryString from 'data/getFiltersQueryString';
 const LearningObjectivesActions = {
   LOAD: 'LearningObjectivesActions.LOAD',
   LOADED: 'LearningObjectivesActions.LOADED',
-  LOADED_STAGES: 'FiltersActions.LOADED_STAGES',
-  LOADED_YEARS: 'FiltersActions.LOADED_YEARS',
+  LOADED_STAGES: 'LearningObjectivesActions.LOADED_STAGES',
+  LOADED_YEARS: 'LearningObjectivesActions.LOADED_YEARS',
   HIDE_OBJECTIVES: 'LearningObjectivesActions.HIDE_OBJECTIVES',
   SHOW_OBJECTIVES: 'LearningObjectivesActions.SHOW_OBJECTIVES',
   SEARCH: 'LearningObjectivesActions.SEARCH',
   LOADED_RESULTS: 'LearningObjectivesActions.LOADED_RESULTS',
   HIDE_RESULTS: 'LearningObjectivesActions.HIDE_RESULTS',
   TOGGLE_FILTER: 'LearningObjectivesActions.TOGGLE_FILTER',
-  TOGGLE_SEGMENTS: 'FiltersActions.TOGGLE_SEGMENTS',
-  TOGGLE_STAGES: 'FiltersActions.TOGGLE_STAGES',
+  TOGGLE_SEGMENTS: 'LearningObjectivesActions.TOGGLE_SEGMENTS',
+  TOGGLE_STAGES: 'LearningObjectivesActions.TOGGLE_STAGES',
 
   load() {
     return Api.simpleGet(
@@ -36,7 +36,7 @@ const LearningObjectivesActions = {
   },
   toggleStages(filter) {
     return (dispatch, getState) => {
-      let filterToRemove = getState().FiltersReducer.filters.filter(
+      let filterToRemove = getState().LearningObjectivesReducer.filters.filter(
         item => (item !== filter) && (item.type === 'stages') && (item.isActive === true)
       );
       if (filterToRemove.length > 0) {
