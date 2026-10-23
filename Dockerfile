@@ -12,6 +12,7 @@ RUN npm install
 COPY . ./
 
 RUN npm install && \
+    npm run lint && \
     npm run build --production
 
 FROM nginx:alpine

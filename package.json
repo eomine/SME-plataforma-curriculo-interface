@@ -94,6 +94,7 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
+    "lint": "eslint src --ext .js --max-warnings=0",
     "test": "node scripts/test.js",
     "prettier-js": "./node_modules/.bin/prettier --single-quote --trailing-comma es5 --write \"src/**/*.js\"",
     "prettier-css": "./node_modules/.bin/prettier --write \"src/**/*.scss\""
