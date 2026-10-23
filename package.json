@@ -146,8 +146,8 @@
       "node"
     ],
     "watchPlugins": [
-      "/Volumes/Storage/edu/work/2018/sme_site/test/node_modules/jest-watch-typeahead/filename.js",
-      "/Volumes/Storage/edu/work/2018/sme_site/test/node_modules/jest-watch-typeahead/testname.js"
+      "jest-watch-typeahead/filename",
+      "jest-watch-typeahead/testname"
     ]
   },
   "babel": {
