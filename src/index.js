@@ -197,8 +197,8 @@ class ModalSwitch extends Component {
         />
         <ModalRoute
           exact
-          path="Create/colecao/:id/editar"
-          componCreateent={EditCollection}
+          path="/colecao/:id/editar"
+          component={EditCollection}
           {...modalProps}
         />
         <ModalRoute exact path="/login" component={Login} {...modalProps} />
