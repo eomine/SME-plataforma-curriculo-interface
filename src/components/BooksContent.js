@@ -5,7 +5,6 @@ import ItemsCarousel from 'react-items-carousel';
 import styles from './BooksContent.scss';
 import { connect } from 'react-redux';
 import React, {Component} from 'react';
-import { API_URL } from 'data/constants';
 import {isMobile} from 'react-device-detect';
 
 function checkDevice() {
@@ -31,11 +30,7 @@ class BooksContent extends Component {
   }
 
   render() {
-    const books = this.props.books.filter((book) => {
-      if (this.props.year == book.year) {
-        return book
-      }
-    })
+    const books = this.props.books.filter(book => this.props.year === book.year);
     if(books.length) {
       return (
         <div>

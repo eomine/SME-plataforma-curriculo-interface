@@ -7,7 +7,6 @@ import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Search from '@material-ui/icons/Search';
 import { connect } from 'react-redux';
-import BodyActions from 'actions/BodyActions';
 import ProjectFiltersActions from 'actions/ProjectFiltersActions';
 import ProjectsActions from 'actions/ProjectsActions';
 import styles from './SearchField.scss';

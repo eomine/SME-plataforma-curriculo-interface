@@ -2,11 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { API_URL } from 'data/constants';
 import CollectionActions from 'actions/CollectionActions';
 import ConfirmActions from 'actions/ConfirmActions';
-import createModalLink from 'utils/createModalLink';
-import iconCheck from 'images/icons/check.png';
 import iconDelete from 'images/icons/delete.svg';
 import styles from './Project.scss';
 import logoPrefecture from 'views/project/images/prefecture.jpg';
@@ -27,7 +24,7 @@ class Project extends React.PureComponent {
   };
 
   render() {
-    const { id, curricularComponents, image, slug, title } = this.props;
+    const { curricularComponents, image, slug, title } = this.props;
 
     const link = `/projeto/${slug}`;
 

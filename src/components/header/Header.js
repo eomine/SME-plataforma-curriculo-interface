@@ -77,12 +77,6 @@ class Header extends Component {
       </NavLink>
     ) : null;
 
-    const answerBooksLink = isLogged() ? (
-      <NavLink to='/cadernos-respostas' onClick={this.onClickedClose}>
-        Cadernos dos Professores
-      </NavLink>
-    ) : null;
-
     const avatar = isLogged() ? (
       <button className={styles.avatar} id='avatar' onMouseEnter={this.onMouseEnter}>
         <Avatar size={35} />

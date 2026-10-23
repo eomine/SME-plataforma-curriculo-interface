@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Element, scroller } from 'react-scroll';
 import { NavLink } from 'react-router-dom';
-import { API_URL } from 'data/constants';
 import { history } from 'index';
 import Preview from './Preview';
 import isLogged from 'data/isLogged';

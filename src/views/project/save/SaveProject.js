@@ -26,7 +26,7 @@ class SaveProject extends Component {
       return <span />;
     }
 
-    const { collections, data, inCollections, isSaved } = this.props;
+    const { collections, data } = this.props;
 
     const items = collections.map((item, i) => {
       return <Collection key={i} projectId={data.id} {...item} />;
