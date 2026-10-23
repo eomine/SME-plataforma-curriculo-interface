@@ -9,7 +9,6 @@ import { history } from 'index';
 import BodyActions from 'actions/BodyActions';
 import Page from 'components/layout/Page';
 import ChallengeActions from 'actions/ChallengeActions';
-import ChallengesActions from 'actions/ChallengesActions';
 import ChallengeChars from './chars/ChallengeChars';
 import ChallengeCharsMobile from './chars/ChallengeCharsMobile';
 import Cover from './Cover';

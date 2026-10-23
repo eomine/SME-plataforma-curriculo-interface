@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { history } from 'index';
 import Cover from './Cover';
 import Title from './Title';
 import Page from 'components/layout/Page';
 import ProjectActions from 'actions/ProjectActions';
 import BodyActions from 'actions/BodyActions';
 import ProjectChars from './chars/ProjectChars';
-import ReadMore from 'components/ReadMore';
-import Link from '@material-ui/core/Link';
 import styles from './Project.scss';
 import getTeacherId from 'data/getTeacherId';
 import ReactQuill from 'react-quill';
@@ -41,12 +38,12 @@ class Project extends Component {
     });
   }
 
-  setRedirect = (href) => {
+  getLinkUrl = (href) => {
     let validateUrl = href.search(/http/i);
     if (validateUrl !== -1) {
-      window.location.href = href;
+      return href;
     } else {
-      window.location.href = `https://${href}`;
+      return `https://${href}`;
     }
   }
 
@@ -96,8 +93,7 @@ class Project extends Component {
   }
 
   render() {
-    const { data, isSearching, isSaved, comments } = this.props;
-    const description = data.description;
+    const { data, isSaved, comments } = this.props;
     const { isPrint } = this.state;
     const  cardsComment = comments.map((comment, index) => {
       return (
@@ -201,7 +197,7 @@ class Project extends Component {
                 {data.links && (data.links.map((link, idx) => {
                   return (
                     <p key={idx}>
-                      <a className={styles.links} onClick={()=>this.setRedirect(link.link)}>
+                      <a className={styles.links} href={this.getLinkUrl(link.link)}>
                         {link.link}
                       </a>
                     </p>

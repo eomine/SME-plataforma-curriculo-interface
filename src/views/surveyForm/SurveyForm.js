@@ -54,7 +54,7 @@ class SurveyForm extends Component {
   validationQuestions() {
     let errorsQuestion = JSON.parse(JSON.stringify(this.state.errors.question));
 
-    this.state.surveyFormAnswer.answers_attributes.map((answer, index) => {
+    this.state.surveyFormAnswer.answers_attributes.forEach((answer, index) => {
       if (this.props.contentBlocks[index].content.required_rating === "true" && this.props.contentBlocks[index].content.required_comment === "true"){
         if (answer.rating && answer.comment){
           errorsQuestion[index] = {
@@ -187,7 +187,7 @@ class SurveyForm extends Component {
   }
 
   render() {
-    const { surveyForm, contentBlocks, isLoading, surveyFormAnswer } = this.props;
+    const { surveyForm, contentBlocks } = this.props;
 
     const blocks = contentBlocks
       ? getContentBlocks(contentBlocks)
@@ -247,7 +247,6 @@ class SurveyForm extends Component {
                             <Slider
                               value={this.state.surveyFormAnswer.answers_attributes[index].rating}
                               aria-labelledby="discrete-slider"
-                              valueLabelDisplay="auto"
                               step={1}
                               valueLabelDisplay="on"
                               marks

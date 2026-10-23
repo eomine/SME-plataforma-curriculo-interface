@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Page from 'components/layout/Page';
 import styles from './CreateProject.scss';
-import Home from 'views/home/Home';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import EditProjectActions from 'actions/EditProjectActions';
@@ -171,17 +170,13 @@ class EditProject extends Component {
   }
 
   segmentChange(e) {
-    let stageResult = this.props.stages.map((stage) => {
-      if (e.target.value.includes(stage.segment_id) && this.state.project['stage_ids'].includes(stage.id)) {
-        return stage.id
-      }
-    })
+    let stageResult = this.props.stages
+      .filter(stage => e.target.value.includes(stage.segment_id) && this.state.project['stage_ids'].includes(stage.id))
+      .map(stage => stage.id)
 
-    let yearResult = this.props.years.map((year) => {
-      if (e.target.value.includes(year.segment_id) && this.state.project['year_ids'].includes(year.id)) {
-        return year.id
-      }
-    })
+    let yearResult = this.props.years
+      .filter(year => e.target.value.includes(year.segment_id) && this.state.project['year_ids'].includes(year.id))
+      .map(year => year.id)
 
     stageResult = stageResult.filter(function (sr) {
       return sr != null;
@@ -207,11 +202,9 @@ class EditProject extends Component {
   }
 
   stageChange(e) {
-    let yearResult = this.props.years.map((year) => {
-      if (e.target.value.includes(year.stage_id) && this.state.project['year_ids'].includes(year.id)) {
-        return year.id
-      }
-    })
+    let yearResult = this.props.years
+      .filter(year => e.target.value.includes(year.stage_id) && this.state.project['year_ids'].includes(year.id))
+      .map(year => year.id)
 
     yearResult = yearResult.filter(function (yr) {
       return yr != null;
@@ -445,7 +438,7 @@ class EditProject extends Component {
     let fieldsWithError = {}
     for (var field in this.state.errors) {
       fieldsWithError[`${field}`] = false;
-      if (this.state.errors[`${field}`] == true || this.state.errors[`${field}`] == null ) {
+      if (this.state.errors[`${field}`] === true || this.state.errors[`${field}`] == null ) {
         fieldsWithError[`${field}`] = true;
         result = false
       }
@@ -463,7 +456,7 @@ class EditProject extends Component {
 
   render() {
     const { curricularComponents, knowledgeMatrices, studentProtagonisms, schools} = this.props
-    const {segments, stages, years, learningObjectives, dres, isLogged, isLoading } = this.props;
+    const {segments, stages, years, learningObjectives, dres } = this.props;
     const lastYear = new Date().getFullYear();
     const firstYear = 2014
     const yearsData = this.range(firstYear, lastYear);
@@ -548,6 +541,7 @@ class EditProject extends Component {
                                 <Chip key={index} label={selectedItem.name} style={{backgroundColor: selectedItem.color}} className={styles.chip} />
                               );
                             }
+                            return null;
                           })}
                         </div>
                       </div>
@@ -587,6 +581,7 @@ class EditProject extends Component {
                                 <Chip key={index} label={selectedItem.title} style={{backgroundColor: '#E04758'}} className={styles.chip} />
                               );
                             }
+                            return null;
                           })}
                         </div>
                       </div>
@@ -626,6 +621,7 @@ class EditProject extends Component {
                                 <Chip key={index} label={selectedItem.title} style={{backgroundColor: '#1976D2'}} className={styles.chip} />
                               );
                             }
+                            return null;
                           })}
                         </div>
                       </div>
@@ -653,6 +649,7 @@ class EditProject extends Component {
                                   </MenuItem>
                                 );
                               }
+                              return null;
                             })}
                           </Select>
                           {this.state.errors['segment'] != null && this.state.errors['curricularComponent'] && (
@@ -667,6 +664,7 @@ class EditProject extends Component {
                                 <Chip key={index} label={selectedItem.name} style={{backgroundColor: selectedItem.color}} className={styles.chip} />
                               );
                             }
+                            return null;
                           })}
                         </div>
                       </div>
@@ -687,6 +685,7 @@ class EditProject extends Component {
                                         <Chip key={indx} label={selectedItem.name} style={{backgroundColor: segments.find(segment => segment.id === id).color}} className={styles.chip} />
                                       );
                                     }
+                                    return null;
                                   })}
                                   <Select
                                     style={{marginTop: '2%'}}
@@ -708,6 +707,7 @@ class EditProject extends Component {
                                           </MenuItem>
                                         );
                                       }
+                                      return null;
                                     })}
                                   </Select>
                                   {this.state.errors['stage'] != null && this.state.errors['stage'] && (
@@ -716,6 +716,7 @@ class EditProject extends Component {
                                 </div>
                               );
                             }
+                            return null;
                           })
                         }
                       </div>
@@ -737,6 +738,7 @@ class EditProject extends Component {
                                       <Chip key={indx} label={selectedItem.name} style={{backgroundColor: segment_color}} className={styles.chip} />
                                     );
                                   }
+                                  return null;
                                 })}
                                 <Select
                                   style={{marginTop: '2%'}}
@@ -761,6 +763,7 @@ class EditProject extends Component {
                                         </MenuItem>
                                       );
                                     }
+                                    return null;
                                   })}
                                 </Select>
                                 {this.state.errors['year'] != null && this.state.errors['year'] && (
@@ -808,6 +811,7 @@ class EditProject extends Component {
                                 <Chip key={index} label={selectedItem.code} style={{backgroundColor: segments.find(segment => segment.id === selectedItem.segment_id).color}} title={selectedItem.description} className={styles.chip} />
                               );
                             }
+                            return null;
                           })}
                         </div>
                       </div>
@@ -946,6 +950,7 @@ class EditProject extends Component {
                           <div>
                             <img
                               className={styles.imagePrev}
+                              alt=""
                               src={this.state.photo}
                             />
                             <br></br>

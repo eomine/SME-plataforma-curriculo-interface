@@ -22,7 +22,7 @@ class Consultations extends Component {
   }
 
   render() {
-    const { data, isLoading } = this.props;
+    const { data } = this.props;
 
     let segments = data.map(consultation => consultation.segment).filter(onlyUnique).sort()
 

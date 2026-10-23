@@ -3,10 +3,6 @@ import React, {Component} from 'react';
 import styles from './ConsultationLink.scss';
 
 class ConsultationLink extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   changeDomain() {
     var link_regex = /^(http|https)/;
     if (link_regex.test(this.props.ConsultationLink)) {
@@ -19,7 +15,7 @@ class ConsultationLink extends Component {
 
   render() {
     return (
-      <a className={styles.button} onClick={() => this.changeDomain()}>{this.props.title}</a>
+      <button type="button" className={styles.button} onClick={() => this.changeDomain()}>{this.props.title}</button>
     );
   };
 };

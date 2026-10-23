@@ -59,7 +59,7 @@ class Sequence extends Component {
   }
 
   render() {
-    const { data, isSaved, performed } = this.props;
+    const { data, isSaved } = this.props;
     const { isPrint } = this.state;
 
     if (!data) {

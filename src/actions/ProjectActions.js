@@ -1,6 +1,4 @@
 import Api from 'data/Api';
-import getTeacherId from 'data/getTeacherId';
-import axios from 'axios';
 import AlertActions from './AlertActions';
 import { API_URL } from 'data/constants';
 
