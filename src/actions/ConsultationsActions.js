@@ -1,5 +1,4 @@
 import Api from 'data/Api';
-import AlertActions from './AlertActions';
 
 const ConsultationsActions = {
   LOAD: 'ConsultationsActions.LOAD',

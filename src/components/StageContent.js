@@ -29,17 +29,12 @@ class StageContent extends Component {
   }
 
   render() {
-    const stages = this.props.books.map((book, index) => {
-      if (this.props.segment === book.segment) {
-        return book.stage;
-      }
-    }).filter(onlyUnique).sort();
+    const stages = this.props.books
+      .filter(book => this.props.segment === book.segment)
+      .map(book => book.stage)
+      .filter(onlyUnique).sort();
 
-    const stageBooks = this.state.stages.filter((stage) => {
-      if (stages.includes(stage.name)){
-        return true
-      }
-    }).map(stage => stage.name).filter(onlyUnique)
+    const stageBooks = this.state.stages.filter(stage => stages.includes(stage.name)).map(stage => stage.name).filter(onlyUnique)
 
     return(
       <div className="container">

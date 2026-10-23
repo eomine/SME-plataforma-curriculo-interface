@@ -33,11 +33,7 @@ class ConsutationsContent extends Component {
 
   render() {
     const dateNow = Date.now();
-    const consultations = this.props.consultations.filter((consultation) => {
-      if (this.props.segment == consultation.segment) {
-        return consultation
-      }
-    })
+    const consultations = this.props.consultations.filter(consultation => this.props.segment === consultation.segment);
     if(consultations.length) {
       return (
         <div>
@@ -77,13 +73,14 @@ class ConsutationsContent extends Component {
                     <hr className={styles.carouselDivider}/>
                     <NavLink to={linkModal}>
                       <div className={styles.modalButton}>
-                        <img src={iconPlus}></img>
+                        <img alt="" src={iconPlus}></img>
                       </div>
                     </NavLink>
                   </div>
                 </div>
               );
             }
+            return null;
           })}
           </ItemsCarousel>
         </div>

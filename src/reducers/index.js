@@ -21,7 +21,6 @@ import ProjectsReducer from './ProjectsReducer';
 import ProjectReducer from './ProjectReducer';
 import ProfileReducer from './ProfileReducer';
 import RatingReducer from './RatingReducer';
-import RoadmapReducer from './RoadmapReducer';
 import SequenceReducer from './SequenceReducer';
 import SequencesReducer from './SequencesReducer';
 import SnackbarReducer from './SnackbarReducer';
@@ -52,7 +51,6 @@ export default combineReducers({
   ProjectsReducer,
   ProjectReducer,
   RatingReducer,
-  RoadmapReducer,
   TeacherSurveyFormsReducer,
   SequenceReducer,
   SequencesReducer,

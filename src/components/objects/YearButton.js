@@ -9,7 +9,7 @@ class YearButton extends Component {
 
   render() {
     const { data } = this.props;
-    const { id, isActive, name, color } = data;
+    const { isActive, name, color } = data;
 
     const classes = isActive
       ? [styles.wrapper, styles.isActive]
