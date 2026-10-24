@@ -16,7 +16,6 @@ import ModuleGallery from 'views/modules/ModuleGallery';
 import withWidth from 'components/hoc/withWidth';
 import arrowLeft from 'images/arrows/left.svg';
 import arrowRight from 'images/arrows/right.svg';
-import iconClip from 'images/icons/clip.svg';
 import styles from './Result.module.scss';
 import styles1 from 'views/challenge/Result.module.scss';
 import styles2 from 'views/activity/Activity.module.scss';
@@ -90,7 +89,6 @@ class Result extends Component {
       );
     });
 
-    const icon = false ? <img src={iconClip} alt="Anexos" className={styles1.icon} /> : null;
     const attachments = currResult.documents.map((item, i) => {
       return (
         <Attachment
@@ -139,7 +137,6 @@ class Result extends Component {
                       <div className={styles1.name}>{currResult.teacher.name}</div>
                       <div className={styles1.date}>{currResult.class_name} &middot; {friendlyDate}</div>
                     </div>
-                    {icon}
                   </div>
                   <div className={styles.text}>{currResult.description}</div>
                   <hr />

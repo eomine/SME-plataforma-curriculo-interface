@@ -12,6 +12,7 @@ import iconSave1 from 'images/icons/save.svg';
 import iconSaved from 'images/icons/saved.svg';
 import styles from './GridItemBase.module.scss';
 import logoPrefecture from 'views/project/images/prefecture.jpg';
+import onKeyActivate from 'utils/onKeyActivate';
 
 class GridItemBase extends Component {
   ref = React.createRef();
@@ -87,9 +88,9 @@ class GridItemBase extends Component {
           <div className={styles.component}>
             {data.curricular_components.map((curricular_component, idx) => {
               if(idx > 2) {
-                return <label key={idx}></label>
+                return null
               } else {
-                return <label key={idx} style={{marginLeft: '5px', marginRight: '20px', color: curricular_component.color}}>{curricular_component.name}</label>
+                return <span key={idx} className={styles.curricularComponent} style={{marginLeft: '5px', marginRight: '20px', color: curricular_component.color}}>{curricular_component.name}</span>
               }
             })}
           </div>
@@ -101,7 +102,7 @@ class GridItemBase extends Component {
               return <label key={idx} style={{marginLeft: '3px', marginRight: '3px', color: segment.color}}>{segment.name}</label>
             })}
           </div>
-          <div className={styles.expand} onClick={this.onClickedExpand}>
+          <div className={styles.expand} role="button" tabIndex={0} onClick={this.onClickedExpand} onKeyDown={onKeyActivate(this.onClickedExpand)}>
             <img src={iconToggler} alt={labelToggler} />
           </div>
         </article>

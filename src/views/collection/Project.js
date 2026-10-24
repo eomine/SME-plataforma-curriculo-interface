@@ -54,9 +54,9 @@ class Project extends React.PureComponent {
                 {curricularComponents && (
                   curricularComponents.map((curricular_component, idx) => {
                     if(idx > 2) {
-                      return <label key={idx}></label>
+                      return null
                     } else {
-                      return <label key={idx} style={{marginLeft: '5px', marginRight: '5px', color: curricular_component.color}}>{curricular_component.name}</label>
+                      return <span key={idx} className={styles.curricularComponent} style={{marginLeft: '5px', marginRight: '5px', color: curricular_component.color}}>{curricular_component.name}</span>
                     }
                   })
                 )}

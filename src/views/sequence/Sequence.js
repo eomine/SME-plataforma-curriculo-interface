@@ -129,7 +129,7 @@ class Sequence extends Component {
                 Ver características
               </button>
               <div className={styles.description}>
-                <ReadMore lines={15} children={description} />
+                <ReadMore lines={15}>{description}</ReadMore>
               </div>
               {references}
               <div className={styles.activities}>

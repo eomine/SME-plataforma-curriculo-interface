@@ -143,6 +143,7 @@ class Header extends Component {
             {avatar}
             <button
               className={styles.toggler}
+              aria-label="Menu"
               onClick={this.onClickedToggler}
             />
           </div>

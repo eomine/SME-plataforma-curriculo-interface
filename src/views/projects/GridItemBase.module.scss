@@ -96,3 +96,12 @@
     margin-bottom: rem(16);
   }
 }
+
+// Mesmo estilo que <label> tinha aqui antes (bootstrap-reboot e a regra
+// global de label em Projects.module.scss).
+.curricularComponent {
+  display: inline-block;
+  margin-bottom: 0.5rem;
+  font-size: 0.8rem;
+  text-align: justify;
+}

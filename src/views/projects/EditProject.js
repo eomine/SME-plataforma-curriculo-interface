@@ -1061,6 +1061,7 @@ class EditProject extends Component {
                     <div className="row">
                       <div className='col-sm-1 col-md-1 col-lg-1 col-xl-1'>
                         <Checkbox
+                          id='permission'
                           name='permission'
                           value={this.state.permission}
                           color="primary"
@@ -1068,7 +1069,7 @@ class EditProject extends Component {
                           />
                       </div>
                       <div className='col-sm-11 col-md-11 col-lg-11 col-xl-11'>
-                        <label className={styles.paragraph}>
+                        <label className={styles.paragraph} htmlFor='permission'>
                           <b>
                             Eu, profissional responsável pelo cadastro desse TCA em
                             minha Unidade Escolar, declaro que todos os estudantes
