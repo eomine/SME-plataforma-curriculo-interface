@@ -2,8 +2,8 @@
 @import "~tools.scss";
 
 .wrapper {
-  @include pill;
   border: 1px solid $grey-200;
+  @include pill;
 
   &:hover {
     border-color: $grey-600;
