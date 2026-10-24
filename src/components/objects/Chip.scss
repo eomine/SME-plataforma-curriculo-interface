@@ -2,9 +2,9 @@
 @import "~tools.scss";
 
 .wrapper {
-  @include pill;
   background-color: $grey-100;
   display: inline-block;
+  @include pill;
 
   &.isColored {
     color: white;

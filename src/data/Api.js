@@ -64,7 +64,7 @@ function doRequest(method, url, data, isJson) {
 
   if (data) {
     if (isJson) {
-      options.headers['Content-Type'] = 'application/json';
+      options.headers = { ...options.headers, 'Content-Type': 'application/json' };
       options.body = JSON.stringify(data);
     } else {
       const body = new FormData();

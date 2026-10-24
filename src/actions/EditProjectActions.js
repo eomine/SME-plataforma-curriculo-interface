@@ -1,8 +1,5 @@
 import Api from 'data/Api';
 import AlertActions from 'actions/AlertActions';
-import getProjectFiltersQueryString, {
-  getSearchQueryString,
-} from 'data/getProjectFiltersQueryString';
 import { API_URL } from 'data/constants';
 import { history } from 'index';
 import axios from 'axios';

@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { history } from 'index';
 import Avatar from './Avatar';
 import BodyActions from 'actions/BodyActions';
-import ChallengesActions from 'actions/ChallengesActions';
 import MyProjectList from './projects/MyProjectList';
 import ChallengeList from './challenges/ChallengeList';
 import CollectionsActions from 'actions/CollectionsActions';

@@ -6,10 +6,6 @@ import styles from './ComplementBooks.scss';
 import ComplementBooksContent from 'components/ComplementBooksContent';
 import { API_URL } from 'data/constants';
 
-function onlyUnique(value, index, self) {
-    return self.indexOf(value) === index;
-}
-
 
 
 class ComplementBooks extends Component {

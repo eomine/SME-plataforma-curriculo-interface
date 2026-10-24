@@ -37,9 +37,6 @@ class Collection extends Component {
 
   onClickedDelete = () => {
     const { name } = this.props.data;
-    const { sequences } = this.props;
-
-    const numSequences = sequences.length;
 
     this.props.openConfirm(
       'Excluir essa coleção e todas as suas sequências de atividades?',

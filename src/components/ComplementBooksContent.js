@@ -5,7 +5,6 @@ import ItemsCarousel from 'react-items-carousel';
 import styles from './ComplementBooksContent.scss';
 import { connect } from 'react-redux';
 import React, {Component} from 'react';
-import { API_URL } from 'data/constants';
 import {isMobile} from 'react-device-detect';
 
 function checkDevice() {
@@ -31,11 +30,7 @@ class ComplementBooksContent extends Component {
   }
 
   render() {
-    const books = this.props.complementBooks.filter((book) => {
-      if (book["partner"].name == this.props.partner) {
-        return book
-      }
-    })
+    const books = this.props.complementBooks.filter(book => book["partner"].name === this.props.partner);
     if(books.length) {
       return (
         <div>
@@ -83,7 +78,7 @@ class ComplementBooksContent extends Component {
                 <ul className={styles.componentList}>
                 {book["complement_book_links"].map((link, idx) => {
                   return(
-                    <a key={idx.toString()} target="_blank" href={link["link"]}><li className={styles.componentLink}>{"link " + (idx + 1)}</li></a>
+                    <a key={idx.toString()} target="_blank" rel="noopener noreferrer" href={link["link"]}><li className={styles.componentLink}>{"link " + (idx + 1)}</li></a>
                   );
                 })}
                 </ul>
