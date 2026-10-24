@@ -10,7 +10,7 @@ import TextField from '@material-ui/core/TextField';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { connect } from 'react-redux';
-import { history } from 'index';
+import { history } from 'utils/history';
 import DesktopModal from 'components/layout/DesktopModal';
 import ModalFooter from 'components/footer/ModalFooter';
 import ModalPage from 'components/layout/ModalPage';

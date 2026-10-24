@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { API_URL } from 'data/constants';
-import { history } from 'index';
+import { history } from 'utils/history';
 import SustainableDevGoalsActions from 'actions/SustainableDevGoalsActions';
 import FullModal from 'components/layout/FullModal';
 import Goal from './Goal';

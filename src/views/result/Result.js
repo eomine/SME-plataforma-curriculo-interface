@@ -5,7 +5,7 @@ import 'moment/locale/pt-br';
 import 'moment-timezone';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { history } from 'index';
+import { history } from 'utils/history';
 import Attachment from './Attachment';
 import Avatar from 'components/objects/Avatar';
 import ChallengeActions from 'actions/ChallengeActions';

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { history } from 'index';
+import { history } from 'utils/history';
 import BodyActions from 'actions/BodyActions';
 import ClassroomYear from 'components/objects/ClassroomYear';
 import CollectionActions from 'actions/CollectionActions';

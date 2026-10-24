@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Headroom from 'react-headroom';
 import { NavLink } from 'react-router-dom';
-import { history } from 'index';
+import { history } from 'utils/history';
 import { API_URL } from 'data/constants';
 import isLogged from 'data/isLogged';
 import iconSave from 'images/icons/save.svg';

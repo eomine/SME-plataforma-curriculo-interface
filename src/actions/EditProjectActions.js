@@ -1,7 +1,7 @@
 import Api from 'data/Api';
 import AlertActions from 'actions/AlertActions';
 import { API_URL } from 'data/constants';
-import { history } from 'index';
+import { history } from 'utils/history';
 import axios from 'axios';
 
 

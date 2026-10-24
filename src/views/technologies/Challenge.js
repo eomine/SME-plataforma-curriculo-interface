@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { history } from 'index';
+import { history } from 'utils/history';
 import { API_URL } from 'data/constants';
 import ChallengeActions from 'actions/ChallengeActions';
 import isLogged from 'data/isLogged';

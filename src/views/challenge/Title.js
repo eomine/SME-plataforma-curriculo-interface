@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { history } from 'index';
+import { history } from 'utils/history';
 import ChallengeActions from 'actions/ChallengeActions';
 import isLogged from 'data/isLogged';
 import iconSave from 'images/icons/save.svg';
