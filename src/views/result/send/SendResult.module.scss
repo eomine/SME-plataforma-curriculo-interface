@@ -48,8 +48,11 @@
 
 .label {
   display: block;
+  // Tamanho que a regra global de label (Projects.module.scss) dava a este texto.
+  font-size: 0.8rem;
   margin-top: rem(40);
   margin-bottom: rem(10);
+  text-align: justify;
 }
 
 .btnAddVideo {

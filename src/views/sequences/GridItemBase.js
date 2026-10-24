@@ -12,6 +12,7 @@ import iconPlus from 'images/icons/plus1.svg';
 import iconSave1 from 'images/icons/save.svg';
 import iconSaved from 'images/icons/saved.svg';
 import styles from './GridItemBase.module.scss';
+import onKeyActivate from 'utils/onKeyActivate';
 
 class GridItemBase extends Component {
   ref = React.createRef();
@@ -115,7 +116,7 @@ class GridItemBase extends Component {
               <div className={styles.label}>{word2}</div>
             </div>
           </div>
-          <div className={styles.expand} onClick={this.onClickedExpand}>
+          <div className={styles.expand} role="button" tabIndex={0} onClick={this.onClickedExpand} onKeyDown={onKeyActivate(this.onClickedExpand)}>
             <img src={iconToggler} alt={labelToggler} />
           </div>
         </article>

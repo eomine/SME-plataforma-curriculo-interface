@@ -236,7 +236,7 @@ class SendResult extends Component {
                   Adicionar mais um vídeo
                 </button>
                 
-                <label className={styles.label}>Outros anexos (opcional)</label>
+                <p className={styles.label}>Outros anexos (opcional)</p>
                 <div className={styles.attachments}>{attachmentItems}</div>
                 <label className={styles.btnAddFile}>
                   Selecionar arquivo

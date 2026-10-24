@@ -52,12 +52,12 @@ class ConsutationsContent extends Component {
           activeItemIndex={this.state.activeItemIndex}
           requestToChangeActive={value => this.setState({ activeItemIndex: value })}
           rightChevron={
-            <button>
+            <button aria-label="Próximo">
             <img alt="" src={chevronRight}/>
             </button>
           }
           leftChevron={
-            <button>
+            <button aria-label="Anterior">
             <img alt="" src={chevronLeft}/>
             </button>
           }

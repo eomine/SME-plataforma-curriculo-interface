@@ -49,12 +49,12 @@ class BooksContent extends Component {
           activeItemIndex={this.state.activeItemIndex}
           requestToChangeActive={value => this.setState({ activeItemIndex: value })}
           rightChevron={
-            <button>
+            <button aria-label="Próximo">
             <img alt="" src={chevronRight}/>
             </button>
           }
           leftChevron={
-            <button>
+            <button aria-label="Anterior">
             <img alt="" src={chevronLeft}/>
             </button>
           }
@@ -65,7 +65,7 @@ class BooksContent extends Component {
                 <img className={styles.bookImage} alt="" src={book["cover_image"]}></img>
                 <p className={styles.name}>{book["name"]}</p>
                 <hr className={styles.line}></hr>
-                <a href={book["book_file"]}>
+                <a href={book["book_file"]} aria-label={`Baixar ${book["name"]}`}>
                   <div className={"row " + styles.downloadWrapper}>
                     <div className="col-10 pr-0 d-flex justify-content-start">
                       <span className={"align-self-center " + styles.componentName}>{book["curricular_component"]}</span>

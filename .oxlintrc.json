@@ -5,9 +5,6 @@
     "jsx-a11y",
     "import"
   ],
-  "categories": {
-    "correctness": "off"
-  },
   "env": {
     "browser": true,
     "es2024": true
@@ -16,6 +13,14 @@
     "process": "readonly"
   },
   "rules": {
+    // Padrão em componentes de classe: setState com o resultado de um fetch ou
+    // sincronizando props. O Oxlint também acusa setState dentro de callbacks
+    // (arrow functions), que o ESLint permite.
+    "react/no-did-mount-set-state": "off",
+    "react/no-did-update-set-state": "off",
+    // Os elementos com role="button" contêm títulos e blocos, que não podem
+    // ficar dentro de um <button>.
+    "jsx-a11y/prefer-tag-over-role": "off",
     "array-callback-return": "warn",
     "default-case": [
       "warn",
