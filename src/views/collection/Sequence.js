@@ -8,7 +8,7 @@ import ConfirmActions from 'actions/ConfirmActions';
 import createModalLink from 'utils/createModalLink';
 import iconCheck from 'images/icons/check.png';
 import iconDelete from 'images/icons/delete.svg';
-import styles from './Sequence.scss';
+import styles from './Sequence.module.scss';
 
 class Sequence extends React.PureComponent {
   onClickedConfirm = () => {

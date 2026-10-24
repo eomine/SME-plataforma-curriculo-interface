@@ -17,9 +17,9 @@ import withWidth from 'components/hoc/withWidth';
 import arrowLeft from 'images/arrows/left.svg';
 import arrowRight from 'images/arrows/right.svg';
 import iconClip from 'images/icons/clip.svg';
-import styles from './Result.scss';
-import styles1 from 'views/challenge/Result.scss';
-import styles2 from 'views/activity/Activity.scss';
+import styles from './Result.module.scss';
+import styles1 from 'views/challenge/Result.module.scss';
+import styles2 from 'views/activity/Activity.module.scss';
 
 class Result extends Component {
   onClickedPrev = () => {

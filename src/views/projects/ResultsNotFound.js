@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ProjectFiltersActions from 'actions/ProjectFiltersActions';
 import ProjectsActions from 'actions/ProjectsActions';
-import styles from 'views/sequences/ResultsNotFound.scss';
+import styles from 'views/sequences/ResultsNotFound.module.scss';
 
 class ResultsNotFound extends Component {
   onClicked = () => {

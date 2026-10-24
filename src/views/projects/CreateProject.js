@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Page from 'components/layout/Page';
-import styles from './CreateProject.scss';
+import styles from './CreateProject.module.scss';
 import CreateProjectActions from 'actions/CreateProjectActions';
 import InputLabel from '@material-ui/core/InputLabel';
 import TextField from '@material-ui/core/TextField';

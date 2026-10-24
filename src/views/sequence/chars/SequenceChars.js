@@ -8,7 +8,7 @@ import SustainableDevGoalItem from 'components/objects/SustainableDevGoalItem';
 import Tooltips from 'components/Tooltips';
 import iconHelp from 'images/icons/help.svg';
 import iconPrint from 'images/icons/print.svg';
-import styles from './SequenceChars.scss';
+import styles from './SequenceChars.module.scss';
 
 class SequenceChars extends Component {
   state = { isShowingAllLearningObjectives: false };

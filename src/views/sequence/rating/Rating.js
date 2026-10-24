@@ -10,8 +10,8 @@ import ModalPage from 'components/layout/ModalPage';
 import Question from 'views/sequence/rate/Question';
 import SequenceActions from 'actions/SequenceActions';
 import SequencePreview from 'views/activity/SequencePreview';
-import styles from 'views/sequence/rate/RateSequence.scss';
-import styles1 from 'views/sequence/save/SaveSequence.scss';
+import styles from 'views/sequence/rate/RateSequence.module.scss';
+import styles1 from 'views/sequence/save/SaveSequence.module.scss';
 
 class Rating extends Component {
   onClickedClose = () => {

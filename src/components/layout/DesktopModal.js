@@ -6,7 +6,7 @@ import {
   enableBodyScroll,
 } from 'body-scroll-lock';
 import withWidth from 'components/hoc/withWidth';
-import styles from './DesktopModal.scss';
+import styles from './DesktopModal.module.scss';
 
 class DesktopModal extends Component {
   target = null;

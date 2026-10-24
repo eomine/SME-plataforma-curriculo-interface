@@ -13,7 +13,7 @@ import ModuleTextWithTables from 'views/modules/ModuleTextWithTables';
 import ModuleTeacher from 'views/modules/ModuleTeacher';
 import Title from 'views/sequence/Title';
 import convertQuillToHtml from 'utils/convertQuillToHtml';
-import styles from './ActivityPrintItem.scss';
+import styles from './ActivityPrintItem.module.scss';
 
 class ActivityPrintItem extends Component {
   componentDidMount() {

@@ -7,7 +7,7 @@ import Truncate from 'react-truncate';
 import { NavLink } from 'react-router-dom';
 import Avatar from 'components/objects/Avatar';
 import iconClip from 'images/icons/clip.svg';
-import styles from './Result.scss';
+import styles from './Result.module.scss';
 
 class Result extends Component {
   render() {

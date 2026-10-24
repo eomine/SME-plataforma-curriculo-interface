@@ -1,0 +1,7 @@
+@import "variables.scss";
+@import "tools.scss";
+
+.list {
+  overflow-y: scroll;
+  padding: rem(16);
+}

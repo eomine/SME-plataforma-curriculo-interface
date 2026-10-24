@@ -7,7 +7,7 @@ import Page from 'components/layout/Page';
 import ProjectActions from 'actions/ProjectActions';
 import BodyActions from 'actions/BodyActions';
 import ProjectChars from './chars/ProjectChars';
-import styles from './Project.scss';
+import styles from './Project.module.scss';
 import getTeacherId from 'data/getTeacherId';
 import ReactQuill from 'react-quill';
 import Button from '@material-ui/core/Button';

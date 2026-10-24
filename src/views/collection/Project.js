@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import CollectionActions from 'actions/CollectionActions';
 import ConfirmActions from 'actions/ConfirmActions';
 import iconDelete from 'images/icons/delete.svg';
-import styles from './Project.scss';
+import styles from './Project.module.scss';
 import logoPrefecture from 'views/project/images/prefecture.jpg';
 
 class Project extends React.PureComponent {

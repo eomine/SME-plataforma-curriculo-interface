@@ -9,7 +9,7 @@ import DesktopModal from 'components/layout/DesktopModal';
 import ModalPage from 'components/layout/ModalPage';
 import ModalFooter from 'components/footer/ModalFooter';
 import ModalHeader from 'components/header/ModalHeader';
-import styles from './EditCollection.scss';
+import styles from './EditCollection.module.scss';
 
 class EditCollection extends Component {
   state = {

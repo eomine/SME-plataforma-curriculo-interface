@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ClassroomYear from 'components/objects/ClassroomYear';
-import styles from './Classroom.scss';
+import styles from './Classroom.module.scss';
 
 class Classroom extends React.PureComponent {
   state = {

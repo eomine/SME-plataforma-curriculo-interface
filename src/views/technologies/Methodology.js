@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import { API_URL } from 'data/constants';
 import arrowRight from 'images/arrows/right.svg';
-import styles from './Methodology.scss';
+import styles from './Methodology.module.scss';
 
 class Methodology extends Component {
   render() {

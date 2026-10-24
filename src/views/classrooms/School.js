@@ -4,7 +4,7 @@ import Collapse from '@material-ui/core/Collapse';
 import Classroom from './Classroom';
 import chevronDown from 'images/chevrons/down.svg';
 import chevronUp from 'images/chevrons/up.svg';
-import styles from './School.scss';
+import styles from './School.module.scss';
 
 class School extends React.PureComponent {
   state = { isExpanded: true };

@@ -15,7 +15,7 @@ import ProfileActions from 'actions/ProfileActions';
 import ProfilePopover from 'components/popovers/ProfilePopover';
 import isLogged from 'data/isLogged';
 import chevronDown from 'images/chevrons/down.svg';
-import styles from './Header.scss';
+import styles from './Header.module.scss';
 
 class Header extends Component {
   state = { anchor: null };

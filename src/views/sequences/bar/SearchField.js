@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import BodyActions from 'actions/BodyActions';
 import FiltersActions from 'actions/FiltersActions';
 import SequencesActions from 'actions/SequencesActions';
-import styles from './SearchField.scss';
+import styles from './SearchField.module.scss';
 
 class SearchField extends Component {
   onChangedQuery = e => {

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styles from './ModuleExercise.scss';
+import styles from './ModuleExercise.module.scss';
 
 class ModuleExercise extends React.PureComponent {
   render() {

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { history } from 'utils/history';
 import ClassroomYear from './ClassroomYear';
 import CollectionActions from 'actions/CollectionActions';
-import styles from './Collection.scss';
+import styles from './Collection.module.scss';
 
 class Collection extends React.PureComponent {
   onClicked = () => {

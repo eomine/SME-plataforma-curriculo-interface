@@ -5,8 +5,8 @@ import Tooltips from 'components/Tooltips';
 import getEnvironmentIconAndLabel from './getEnvironmentIconAndLabel';
 import iconHelp from 'images/icons/help.svg';
 import iconPrint from 'images/icons/print.svg';
-import styles from 'views/sequence/chars/SequenceChars.scss';
-import styles1 from './ActivityChars.scss';
+import styles from 'views/sequence/chars/SequenceChars.module.scss';
+import styles1 from './ActivityChars.module.scss';
 
 class ActivityChars extends Component {
   onClickedPrint = () => {

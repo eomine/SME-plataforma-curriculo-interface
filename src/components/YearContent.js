@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import React, {Component} from 'react';
 import BooksContent from './BooksContent';
-import styles from './YearContent.scss'
+import styles from './YearContent.module.scss'
 import { API_URL } from 'data/constants';
 
 function onlyUnique(value, index, self) {

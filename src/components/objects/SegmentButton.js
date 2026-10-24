@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import styles from './SegmentButton.scss';
+import styles from './SegmentButton.module.scss';
 
 class SegmentButton extends Component {
   onClicked = async () => {

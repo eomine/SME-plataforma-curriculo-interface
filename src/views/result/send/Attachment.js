@@ -5,7 +5,7 @@ import ConfirmActions from 'actions/ConfirmActions';
 import formatFileSize from 'utils/formatFileSize';
 import iconClip from 'images/icons/clip.svg';
 import iconDelete from 'images/icons/delete.svg';
-import styles from './Attachment.scss';
+import styles from './Attachment.module.scss';
 
 class Attachment extends React.PureComponent {
   state = {

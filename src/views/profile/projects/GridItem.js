@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import styles from './GridItem.scss';
+import styles from './GridItem.module.scss';
 import { NavLink } from 'react-router-dom';
 import logoPrefecture from 'views/project/images/prefecture.jpg';
 import { Element } from 'react-scroll';

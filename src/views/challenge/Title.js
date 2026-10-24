@@ -6,7 +6,7 @@ import ChallengeActions from 'actions/ChallengeActions';
 import isLogged from 'data/isLogged';
 import iconSave from 'images/icons/save.svg';
 import iconSaved from 'images/icons/saved.svg';
-import styles from './Title.scss';
+import styles from './Title.module.scss';
 
 class Title extends Component {
   onClickedSave = () => {

@@ -8,7 +8,7 @@ import SustainableDevGoalsActions from 'actions/SustainableDevGoalsActions';
 import FullModal from 'components/layout/FullModal';
 import Goal from './Goal';
 import iconCloseBigWhite from 'images/icons/closeBigWhite.svg';
-import styles from './Detail.scss';
+import styles from './Detail.module.scss';
 
 class Detail extends Component {
   onClickedClose = () => {

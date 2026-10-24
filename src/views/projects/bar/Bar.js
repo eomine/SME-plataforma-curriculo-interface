@@ -8,7 +8,7 @@ import OrderButton from 'views/projects/bar/OrderButton';
 import SearchField from 'views/projects/bar/SearchField';
 import withWidth from 'components/hoc/withWidth';
 import iconFilters from 'images/icons/filters.svg';
-import styles from './Bar.scss';
+import styles from './Bar.module.scss';
 
 class Bar extends Component {
   componentDidMount() {

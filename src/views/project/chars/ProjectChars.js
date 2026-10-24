@@ -5,7 +5,7 @@ import KnowledgeMatrixItem from 'components/objects/KnowledgeMatrixItem';
 import SustainableDevGoalItem from 'components/objects/SustainableDevGoalItem';
 import Tooltips from 'components/Tooltips';
 import iconHelp from 'images/icons/help.svg';
-import styles from './ProjectChars.scss';
+import styles from './ProjectChars.module.scss';
 
 function onlyUnique(value, index, self) {
     if (value === undefined) {

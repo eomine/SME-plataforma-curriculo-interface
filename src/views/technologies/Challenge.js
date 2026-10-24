@@ -8,7 +8,7 @@ import ChallengeActions from 'actions/ChallengeActions';
 import isLogged from 'data/isLogged';
 import iconSave1 from 'images/icons/save.svg';
 import iconSaved from 'images/icons/saved.svg';
-import styles from './Challenge.scss';
+import styles from './Challenge.module.scss';
 
 class Challenge extends Component {
   onClickedSave = () => {

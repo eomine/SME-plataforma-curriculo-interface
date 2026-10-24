@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import styles from './Goal.scss';
+import styles from './Goal.module.scss';
 
 class Goal extends Component {
   render() {

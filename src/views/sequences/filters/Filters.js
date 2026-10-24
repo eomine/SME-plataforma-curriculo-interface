@@ -12,7 +12,7 @@ import SegmentButton from 'views/sequences/objects/SegmentButton';
 import StageButton from 'views/sequences/objects/StageButton';
 import YearButton from 'views/sequences/objects/YearButton';
 import iconCloseBig from 'images/icons/closeBig.svg';
-import styles from './Filters.scss';
+import styles from './Filters.module.scss';
 
 class Filters extends Component {
   ref = React.createRef();

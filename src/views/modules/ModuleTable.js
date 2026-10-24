@@ -6,7 +6,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import convertQuillToHtml from 'utils/convertQuillToHtml';
-import styles from './ModuleTable.scss';
+import styles from './ModuleTable.module.scss';
 
 class ModuleTable extends Component {
   state = {

@@ -9,7 +9,7 @@ import SearchField from './SearchField';
 import SegmentField from './SegmentField';
 import StageField from './StageField';
 import YearField from './YearField';
-import styles from './Search.scss';
+import styles from './Search.module.scss';
 
 class Search extends Component {
   onSubmit = () => {

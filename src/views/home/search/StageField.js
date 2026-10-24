@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import StageButton from 'views/sequences/objects/StageButton';
 import chevronDown from 'images/chevrons/down.svg';
 import chevronUp from 'images/chevrons/up.svg';
-import styles from './Field.scss';
+import styles from './Field.module.scss';
 
 class StageField extends Component {
   ref = React.createRef();
