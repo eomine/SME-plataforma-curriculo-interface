@@ -1,13 +1,17 @@
 import AlertActions from 'actions/AlertActions';
 import BodyActions from 'actions/BodyActions';
-import parse from 'parse-link-header';
 import { API_URL } from 'data/constants';
 import { history } from 'utils/history';
 
 function getNextPage(headers) {
   if (headers.has('link')) {
-    const parsed = parse(headers.get('link'));
-    return parsed.next ? parsed.next.url : null;
+    // Ex.: <https://.../api/sequences?page=2>; rel="next", <...>; rel="last"
+    const next = headers
+      .get('link')
+      .split(/,\s*(?=<)/)
+      .map(link => link.match(/^<([^>]*)>(.*)$/))
+      .find(match => match && /;\s*rel="?([^";]*\s)?next(\s[^";]*)?"?/.test(match[2]));
+    return next ? next[1] : null;
   }
 
   return null;
