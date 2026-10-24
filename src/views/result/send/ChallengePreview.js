@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { API_URL } from 'data/constants';
-import styles from 'views/activity/SequencePreview.scss';
+import styles from 'views/activity/SequencePreview.module.scss';
 
 class ChallengePreview extends Component {
   render() {

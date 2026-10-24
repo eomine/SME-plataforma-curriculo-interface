@@ -2,10 +2,9 @@ import chevronRight from 'images/chevrons/right.svg';
 import chevronLeft from 'images/chevrons/left.svg';
 import downloadIcon from 'images/icons/download.svg';
 import ItemsCarousel from 'react-items-carousel';
-import styles from './BooksContent.scss';
+import styles from './BooksContent.module.scss';
 import { connect } from 'react-redux';
 import React, {Component} from 'react';
-import { API_URL } from 'data/constants';
 import {isMobile} from 'react-device-detect';
 
 function checkDevice() {
@@ -31,11 +30,7 @@ class BooksContent extends Component {
   }
 
   render() {
-    const books = this.props.books.filter((book) => {
-      if (this.props.year == book.year) {
-        return book
-      }
-    })
+    const books = this.props.books.filter(book => this.props.year === book.year);
     if(books.length) {
       return (
         <div>
@@ -54,12 +49,12 @@ class BooksContent extends Component {
           activeItemIndex={this.state.activeItemIndex}
           requestToChangeActive={value => this.setState({ activeItemIndex: value })}
           rightChevron={
-            <button>
+            <button aria-label="Próximo">
             <img alt="" src={chevronRight}/>
             </button>
           }
           leftChevron={
-            <button>
+            <button aria-label="Anterior">
             <img alt="" src={chevronLeft}/>
             </button>
           }
@@ -70,7 +65,7 @@ class BooksContent extends Component {
                 <img className={styles.bookImage} alt="" src={book["cover_image"]}></img>
                 <p className={styles.name}>{book["name"]}</p>
                 <hr className={styles.line}></hr>
-                <a href={book["book_file"]}>
+                <a href={book["book_file"]} aria-label={`Baixar ${book["name"]}`}>
                   <div className={"row " + styles.downloadWrapper}>
                     <div className="col-10 pr-0 d-flex justify-content-start">
                       <span className={"align-self-center " + styles.componentName}>{book["curricular_component"]}</span>

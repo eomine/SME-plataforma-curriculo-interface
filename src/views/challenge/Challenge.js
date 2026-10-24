@@ -5,11 +5,10 @@ import SwipeableViews from 'react-swipeable-views';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 import { connect } from 'react-redux';
-import { history } from 'index';
+import { history } from 'utils/history';
 import BodyActions from 'actions/BodyActions';
 import Page from 'components/layout/Page';
 import ChallengeActions from 'actions/ChallengeActions';
-import ChallengesActions from 'actions/ChallengesActions';
 import ChallengeChars from './chars/ChallengeChars';
 import ChallengeCharsMobile from './chars/ChallengeCharsMobile';
 import Cover from './Cover';
@@ -22,7 +21,8 @@ import getContentBlocks from 'utils/getContentBlocks';
 import isLogged from 'data/isLogged';
 import chevronDown from 'images/chevrons/down.svg';
 import chevronUp from 'images/chevrons/up.svg';
-import styles from './Challenge.scss';
+import styles from './Challenge.module.scss';
+import onKeyActivate from 'utils/onKeyActivate';
 
 class Challenge extends Component {
   state = {
@@ -120,7 +120,7 @@ class Challenge extends Component {
 
       materials = (
         <div className={styles.materials}>
-          <div className={styles.btnMaterials} onClick={this.onClickedMaterials}>
+          <div className={styles.btnMaterials} role="button" tabIndex={0} onClick={this.onClickedMaterials} onKeyDown={onKeyActivate(this.onClickedMaterials)}>
             <h3 className={styles.categoryName}>{data.list.title}</h3>
             <img src={chevron} alt={label} />
           </div>

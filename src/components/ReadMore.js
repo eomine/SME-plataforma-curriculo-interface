@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Truncate from 'react-truncate';
-import styles from './ReadMore.scss';
+import styles from './ReadMore.module.scss';
 
 class ReadMore extends React.PureComponent {
   state = {

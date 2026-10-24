@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import styles from './YearButton.scss';
+import styles from './YearButton.module.scss';
 
 class YearButton extends Component {
   onClicked = () => {
@@ -9,7 +9,7 @@ class YearButton extends Component {
 
   render() {
     const { data } = this.props;
-    const { id, isActive, name, color } = data;
+    const { isActive, name, color } = data;
 
     const classes = isActive
       ? [styles.wrapper, styles.isActive]

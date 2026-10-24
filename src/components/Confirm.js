@@ -5,8 +5,8 @@ import { connect } from 'react-redux';
 import Modal from 'react-modal';
 import ConfirmActions from 'actions/ConfirmActions';
 import iconClose from 'images/icons/close.svg';
-import styles from './Alert.scss';
-import styles1 from './Confirm.scss';
+import styles from './Alert.module.scss';
+import styles1 from './Confirm.module.scss';
 
 Modal.setAppElement('#root');
 

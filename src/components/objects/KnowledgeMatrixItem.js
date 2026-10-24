@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import createModalLink from 'utils/createModalLink';
-import styles from './KnowledgeMatrixItem.scss';
+import styles from './KnowledgeMatrixItem.module.scss';
 
 class KnowledgeMatrixItem extends Component {
   render() {

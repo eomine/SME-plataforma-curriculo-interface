@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import FiltersActions from 'actions/FiltersActions';
-import styles from './Field.scss';
+import styles from './Field.module.scss';
 
 class ThemeField extends Component {
   onChanged = e => {

@@ -1,0 +1,36 @@
+@import "variables.scss";
+@import "tools.scss";
+
+.confirm {
+  background: white;
+  border-radius: rem(4);
+  color: black;
+  font-size: rem(18);
+  line-height: rem(22);
+  margin: rem(16);
+  padding: rem(46) rem(32) rem(34) rem(32);
+  width: rem(345);
+
+  > p {
+    margin-bottom: rem(14);
+
+    > strong {
+      font-weight: 600;
+    }
+  }
+}
+
+.btnYes,
+.btnNo {
+  composes: btnFullWidth from global;
+}
+
+.btnYes {
+  margin-top: rem(28);
+  margin-bottom: rem(10);
+}
+
+.btnNo {
+  background-color: $grey-200;
+  border: 0;
+}

@@ -8,7 +8,7 @@ import SustainableDevGoalItem from 'components/objects/SustainableDevGoalItem';
 import Tooltips from 'components/Tooltips';
 import withWidth from 'components/hoc/withWidth';
 import iconHelp from 'images/icons/help.svg';
-import styles from './Preview.scss';
+import styles from './Preview.module.scss';
 
 function onlyUnique(value, index, self) {
     if (value === undefined) {

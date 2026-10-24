@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { history } from 'index';
+import { history } from 'utils/history';
 import BodyActions from 'actions/BodyActions';
 import FullModal from 'components/layout/FullModal';
 import KnowledgeMatrixActions from 'actions/KnowledgeMatrixActions';
 import iconCloseBig from 'images/icons/closeBig.svg';
-import styles from './Detail.scss';
+import styles from './Detail.module.scss';
 
 class Detail extends Component {
   state = { isLoaded: true };

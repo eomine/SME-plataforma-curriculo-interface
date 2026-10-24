@@ -8,7 +8,7 @@ import MobileModal from 'components/layout/MobileModal';
 import createModalLink from 'utils/createModalLink';
 import isLogged from 'data/isLogged';
 import iconCloseBig from 'images/icons/closeBig.svg';
-import styles from './MobileMenu.scss';
+import styles from './MobileMenu.module.scss';
 
 class MobileMenu extends React.PureComponent {
   target = null;

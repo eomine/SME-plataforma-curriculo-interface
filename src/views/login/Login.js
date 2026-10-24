@@ -10,14 +10,14 @@ import TextField from '@material-ui/core/TextField';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { connect } from 'react-redux';
-import { history } from 'index';
+import { history } from 'utils/history';
 import DesktopModal from 'components/layout/DesktopModal';
 import ModalFooter from 'components/footer/ModalFooter';
 import ModalPage from 'components/layout/ModalPage';
 import LoginActions from 'actions/LoginActions';
 import iconClose from 'images/icons/closeBig.svg';
 import logo from 'images/logo.svg';
-import styles from './Login.scss';
+import styles from './Login.module.scss';
 
 class Login extends Component {
   ref = React.createRef();

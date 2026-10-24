@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import { API_URL } from 'data/constants';
 import iconClock from 'images/icons/clock.svg';
-import styles from './ActivityItem.scss';
+import styles from './ActivityItem.module.scss';
 
 class ActivityItem extends Component {
   render() {

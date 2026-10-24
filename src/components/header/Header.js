@@ -15,7 +15,7 @@ import ProfileActions from 'actions/ProfileActions';
 import ProfilePopover from 'components/popovers/ProfilePopover';
 import isLogged from 'data/isLogged';
 import chevronDown from 'images/chevrons/down.svg';
-import styles from './Header.scss';
+import styles from './Header.module.scss';
 
 class Header extends Component {
   state = { anchor: null };
@@ -74,12 +74,6 @@ class Header extends Component {
     const ConsultationLink = isLogged() ? (
       <NavLink to='/consultas-publicas' onClick={this.onClickedClose}>
         Consultas à Rede
-      </NavLink>
-    ) : null;
-
-    const answerBooksLink = isLogged() ? (
-      <NavLink to='/cadernos-respostas' onClick={this.onClickedClose}>
-        Cadernos dos Professores
       </NavLink>
     ) : null;
 
@@ -149,6 +143,7 @@ class Header extends Component {
             {avatar}
             <button
               className={styles.toggler}
+              aria-label="Menu"
               onClick={this.onClickedToggler}
             />
           </div>

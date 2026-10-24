@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { API_URL } from 'data/constants';
 import ProjectFiltersActions from 'actions/ProjectFiltersActions';
-import styles from './ImageButton.scss';
+import styles from './ImageButton.module.scss';
 
 class ImageButton extends Component {
   onClicked = () => {

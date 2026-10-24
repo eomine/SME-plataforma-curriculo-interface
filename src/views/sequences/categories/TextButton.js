@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import FiltersActions from 'actions/FiltersActions';
-import styles from './TextButton.scss';
+import styles from './TextButton.module.scss';
 
 class TextButton extends Component {
   onClicked = () => {

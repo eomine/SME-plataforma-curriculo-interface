@@ -4,7 +4,8 @@ import Collapse from '@material-ui/core/Collapse';
 import Classroom from './Classroom';
 import chevronDown from 'images/chevrons/down.svg';
 import chevronUp from 'images/chevrons/up.svg';
-import styles from './School.scss';
+import styles from './School.module.scss';
+import onKeyActivate from 'utils/onKeyActivate';
 
 class School extends React.PureComponent {
   state = { isExpanded: true };
@@ -36,7 +37,7 @@ class School extends React.PureComponent {
 
     return (
       <div className={styles.wrapper}>
-        <div className={[classes.join(' ')]} onClick={this.onToggled}>
+        <div className={[classes.join(' ')]} role="button" tabIndex={0} onClick={this.onToggled} onKeyDown={onKeyActivate(this.onToggled)}>
           <h2>
             {name} ({classrooms.length})
           </h2>

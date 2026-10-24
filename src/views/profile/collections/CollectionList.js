@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 import Collection from './Collection';
 import createModalLink from 'utils/createModalLink';
 import iconPlus from 'images/icons/plus.svg';
-import styles from './CollectionList.scss';
+import styles from './CollectionList.module.scss';
 
 class CollectionList extends Component {
   render() {

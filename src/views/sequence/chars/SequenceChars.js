@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { history } from 'index';
+import { history } from 'utils/history';
 import Chip from 'components/objects/Chip';
 import ExpandableLearningObjective from 'components/objects/ExpandableLearningObjective';
 import KnowledgeMatrixItem from 'components/objects/KnowledgeMatrixItem';
@@ -8,7 +8,7 @@ import SustainableDevGoalItem from 'components/objects/SustainableDevGoalItem';
 import Tooltips from 'components/Tooltips';
 import iconHelp from 'images/icons/help.svg';
 import iconPrint from 'images/icons/print.svg';
-import styles from './SequenceChars.scss';
+import styles from './SequenceChars.module.scss';
 
 class SequenceChars extends Component {
   state = { isShowingAllLearningObjectives: false };

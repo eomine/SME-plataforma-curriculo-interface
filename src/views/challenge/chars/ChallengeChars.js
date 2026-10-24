@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { history } from 'index';
+import { history } from 'utils/history';
 import AxisItem from 'components/objects/AxisItem';
 import Chip from 'components/objects/Chip';
 import ExpandableLearningObjective from 'components/objects/ExpandableLearningObjective';
@@ -9,7 +9,7 @@ import SustainableDevGoalItem from 'components/objects/SustainableDevGoalItem';
 import Tooltips from 'components/Tooltips';
 import iconHelp from 'images/icons/help.svg';
 import iconPrint from 'images/icons/print.svg';
-import styles from 'views/sequence/chars/SequenceChars.scss';
+import styles from 'views/sequence/chars/SequenceChars.module.scss';
 
 class ChallengeChars extends Component {
   state = { isShowingAllLearningObjectives: false };

@@ -1,7 +1,7 @@
 import chevronRight from 'images/chevrons/right.svg';
 import chevronLeft from 'images/chevrons/left.svg';
 import ItemsCarousel from 'react-items-carousel';
-import styles from './ConsultationsContent.scss';
+import styles from './ConsultationsContent.module.scss';
 import { NavLink } from 'react-router-dom';
 import createModalLink from 'utils/createModalLink';
 import { connect } from 'react-redux';
@@ -33,11 +33,7 @@ class ConsutationsContent extends Component {
 
   render() {
     const dateNow = Date.now();
-    const consultations = this.props.consultations.filter((consultation) => {
-      if (this.props.segment == consultation.segment) {
-        return consultation
-      }
-    })
+    const consultations = this.props.consultations.filter(consultation => this.props.segment === consultation.segment);
     if(consultations.length) {
       return (
         <div>
@@ -56,12 +52,12 @@ class ConsutationsContent extends Component {
           activeItemIndex={this.state.activeItemIndex}
           requestToChangeActive={value => this.setState({ activeItemIndex: value })}
           rightChevron={
-            <button>
+            <button aria-label="Próximo">
             <img alt="" src={chevronRight}/>
             </button>
           }
           leftChevron={
-            <button>
+            <button aria-label="Anterior">
             <img alt="" src={chevronLeft}/>
             </button>
           }
@@ -77,13 +73,14 @@ class ConsutationsContent extends Component {
                     <hr className={styles.carouselDivider}/>
                     <NavLink to={linkModal}>
                       <div className={styles.modalButton}>
-                        <img src={iconPlus}></img>
+                        <img alt="" src={iconPlus}></img>
                       </div>
                     </NavLink>
                   </div>
                 </div>
               );
             }
+            return null;
           })}
           </ItemsCarousel>
         </div>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { history } from 'index';
+import { history } from 'utils/history';
 import AlertActions from 'actions/AlertActions';
 import CurricularComponentField from './CurricularComponentField';
 import FiltersActions from 'actions/FiltersActions';
@@ -9,7 +9,7 @@ import SearchField from './SearchField';
 import SegmentField from './SegmentField';
 import StageField from './StageField';
 import YearField from './YearField';
-import styles from './Search.scss';
+import styles from './Search.module.scss';
 
 class Search extends Component {
   onSubmit = () => {

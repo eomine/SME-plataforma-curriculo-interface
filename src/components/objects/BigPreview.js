@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { API_URL } from 'data/constants';
-import styles from './BigPreview.scss';
+import styles from './BigPreview.module.scss';
 
 class BigPreview extends Component {
   render() {

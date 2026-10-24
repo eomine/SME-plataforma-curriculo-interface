@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Page from 'components/layout/Page';
-import styles from './CreateProject.scss';
+import styles from './CreateProject.module.scss';
 import CreateProjectActions from 'actions/CreateProjectActions';
 import InputLabel from '@material-ui/core/InputLabel';
 import TextField from '@material-ui/core/TextField';
@@ -147,17 +147,13 @@ class CreateProject extends Component {
   }
 
   segmentChange(e) {
-    let stageResult = this.props.stages.map((stage) => {
-      if (e.target.value.includes(stage.segment_id) && this.state.project['stage_ids'].includes(stage.id)) {
-        return stage.id
-      }
-    })
+    let stageResult = this.props.stages
+      .filter(stage => e.target.value.includes(stage.segment_id) && this.state.project['stage_ids'].includes(stage.id))
+      .map(stage => stage.id)
 
-    let yearResult = this.props.years.map((year) => {
-      if (e.target.value.includes(year.segment_id) && this.state.project['year_ids'].includes(year.id)) {
-        return year.id
-      }
-    })
+    let yearResult = this.props.years
+      .filter(year => e.target.value.includes(year.segment_id) && this.state.project['year_ids'].includes(year.id))
+      .map(year => year.id)
 
     stageResult = stageResult.filter(function (sr) {
       return sr != null;
@@ -183,11 +179,9 @@ class CreateProject extends Component {
   }
 
   stageChange(e) {
-    let yearResult = this.props.years.map((year) => {
-      if (e.target.value.includes(year.stage_id) && this.state.project['year_ids'].includes(year.id)) {
-        return year.id
-      }
-    })
+    let yearResult = this.props.years
+      .filter(year => e.target.value.includes(year.stage_id) && this.state.project['year_ids'].includes(year.id))
+      .map(year => year.id)
 
     yearResult = yearResult.filter(function (yr) {
       return yr != null;
@@ -401,7 +395,7 @@ class CreateProject extends Component {
     let fieldsWithError = {}
     for (var field in this.state.errors) {
       fieldsWithError[`${field}`] = false;
-      if (this.state.errors[`${field}`] == true || this.state.errors[`${field}`] == null ) {
+      if (this.state.errors[`${field}`] === true || this.state.errors[`${field}`] == null ) {
         fieldsWithError[`${field}`] = true;
         result = false
       }
@@ -469,7 +463,7 @@ class CreateProject extends Component {
   }
 
   render() {
-    const { curricularComponents, knowledgeMatrices, studentProtagonisms, segments, stages, years, learningObjectives, dres, schools, isLoading, isLogged, blocked } = this.props;
+    const { curricularComponents, knowledgeMatrices, studentProtagonisms, segments, stages, years, learningObjectives, dres, schools, isLogged, blocked } = this.props;
     const modules = {
       toolbar: [
         [{ 'header': '1'}, {'header': '2'}, { 'font': [] }],
@@ -552,6 +546,7 @@ class CreateProject extends Component {
                             <Chip key={index} label={selectedItem.name} style={{backgroundColor: selectedItem.color}} className={styles.chip} />
                           );
                         }
+                        return null;
                       })}
                     </div>
                   </div>
@@ -591,6 +586,7 @@ class CreateProject extends Component {
                             <Chip key={index} label={selectedItem.title} style={{backgroundColor: '#E04758'}} className={styles.chip} />
                           );
                         }
+                        return null;
                       })}
                     </div>
                   </div>
@@ -630,6 +626,7 @@ class CreateProject extends Component {
                             <Chip key={index} label={selectedItem.title} style={{backgroundColor: '#1976D2'}} className={styles.chip} />
                           );
                         }
+                        return null;
                       })}
                     </div>
                   </div>
@@ -657,6 +654,7 @@ class CreateProject extends Component {
                               </MenuItem>
                             );
                           }
+                          return null;
                         })}
                       </Select>
                       {this.state.errors['segment'] != null && this.state.errors['curricularComponent'] && (
@@ -671,6 +669,7 @@ class CreateProject extends Component {
                             <Chip key={index} label={selectedItem.name} style={{backgroundColor: selectedItem.color}} className={styles.chip} />
                           );
                         }
+                        return null;
                       })}
                     </div>
                   </div>
@@ -691,6 +690,7 @@ class CreateProject extends Component {
                                     <Chip key={indx} label={selectedItem.name} style={{backgroundColor: segments.find(segment => segment.id === id).color}} className={styles.chip} />
                                   );
                                 }
+                                return null;
                               })}
                               <Select
                                 style={{marginTop: '2%'}}
@@ -712,6 +712,7 @@ class CreateProject extends Component {
                                       </MenuItem>
                                     );
                                   }
+                                  return null;
                                 })}
                               </Select>
                               {this.state.errors['stage'] != null && this.state.errors['stage'] && (
@@ -720,6 +721,7 @@ class CreateProject extends Component {
                             </div>
                           );
                         }
+                        return null;
                       })
                     }
                   </div>
@@ -741,6 +743,7 @@ class CreateProject extends Component {
                                   <Chip key={indx} label={selectedItem.name} style={{backgroundColor: segment_color}} className={styles.chip} />
                                 );
                               }
+                              return null;
                             })}
                             <Select
                               style={{marginTop: '2%'}}
@@ -765,6 +768,7 @@ class CreateProject extends Component {
                                     </MenuItem>
                                   );
                                 }
+                                return null;
                               })}
                             </Select>
                             {this.state.errors['year'] != null && this.state.errors['year'] && (
@@ -812,6 +816,7 @@ class CreateProject extends Component {
                             <Chip key={index} label={selectedItem.code} style={{backgroundColor: segments.find(segment => segment.id === selectedItem.segment_id).color}} title={selectedItem.description} className={styles.chip} />
                           );
                         }
+                        return null;
                       })}
                     </div>
                   </div>
@@ -948,6 +953,7 @@ class CreateProject extends Component {
                       <div>
                         <img
                           className={styles.imagePrev}
+                          alt=""
                           src={this.state.photo}
                         />
                         <br></br>
@@ -1055,6 +1061,7 @@ class CreateProject extends Component {
                 <div className="row">
                   <div className='col-sm-1 col-md-1 col-lg-1 col-xl-1'>
                     <Checkbox
+                      id='permission'
                       name='permission'
                       value={this.state.permission}
                       color="primary"
@@ -1062,7 +1069,7 @@ class CreateProject extends Component {
                       />
                   </div>
                   <div className='col-sm-11 col-md-11 col-lg-11 col-xl-11'>
-                    <label className={styles.paragraph}>
+                    <label className={styles.paragraph} htmlFor='permission'>
                       <b>
                         Eu, profissional responsável pelo cadastro desse TCA em
                         minha Unidade Escolar, declaro que todos os estudantes

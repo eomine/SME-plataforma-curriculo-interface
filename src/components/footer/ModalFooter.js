@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Loading from 'components/loading/Loading';
-import styles from './ModalFooter.scss';
+import styles from './ModalFooter.module.scss';
 
 class ModalFooter extends React.PureComponent {
   render() {

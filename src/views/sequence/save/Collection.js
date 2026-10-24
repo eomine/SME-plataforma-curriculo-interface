@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { history } from 'index';
+import { history } from 'utils/history';
 import ClassroomYear from './ClassroomYear';
 import CollectionActions from 'actions/CollectionActions';
-import styles from './Collection.scss';
+import styles from './Collection.module.scss';
 
 class Collection extends React.PureComponent {
   onClicked = () => {

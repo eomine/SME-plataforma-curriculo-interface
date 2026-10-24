@@ -4,7 +4,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import { connect } from 'react-redux';
 import ProjectFiltersActions from 'actions/ProjectFiltersActions';
-import styles from './OrderButton.scss';
+import styles from './OrderButton.module.scss';
 
 class OrderButton extends Component {
   state = { order: 'default' };

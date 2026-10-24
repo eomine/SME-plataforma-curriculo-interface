@@ -6,7 +6,7 @@ import Modal from 'react-modal';
 import AlertActions from 'actions/AlertActions';
 import iconClose from 'images/icons/close.svg';
 import iconWarningBig from 'images/icons/warningBig.svg';
-import styles from './Alert.scss';
+import styles from './Alert.module.scss';
 
 Modal.setAppElement('#root');
 

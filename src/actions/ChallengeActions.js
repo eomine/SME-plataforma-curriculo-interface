@@ -3,7 +3,7 @@ import AlertActions from 'actions/AlertActions';
 import ChallengesActions from 'actions/ChallengesActions';
 import SnackbarActions from 'actions/SnackbarActions';
 import getTeacherId from 'data/getTeacherId';
-import { history } from 'index';
+import { history } from 'utils/history';
 
 const ChallengeActions = {
   DELETE: 'ChallengeActions.DELETE',

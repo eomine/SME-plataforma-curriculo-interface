@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { history } from 'index';
+import { history } from 'utils/history';
 import BodyActions from 'actions/BodyActions';
 import ClassroomYear from 'components/objects/ClassroomYear';
 import CollectionActions from 'actions/CollectionActions';
@@ -16,7 +16,7 @@ import createModalLink from 'utils/createModalLink';
 import iconClose from 'images/icons/closeBig.svg';
 import iconEdit from 'images/icons/edit.svg';
 import iconDelete from 'images/icons/delete1.svg';
-import styles from './Collection.scss';
+import styles from './Collection.module.scss';
 
 class Collection extends Component {
   componentDidMount() {
@@ -37,9 +37,6 @@ class Collection extends Component {
 
   onClickedDelete = () => {
     const { name } = this.props.data;
-    const { sequences } = this.props;
-
-    const numSequences = sequences.length;
 
     this.props.openConfirm(
       'Excluir essa coleção e todas as suas sequências de atividades?',

@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { history } from 'index';
-import ClassroomYear from './ClassroomYear';
+import { history } from 'utils/history';
 import CollectionActions from 'actions/CollectionActions';
-import styles from './Collection.scss';
+import styles from './Collection.module.scss';
 
 class Collection extends React.PureComponent {
   onClicked = () => {
@@ -14,7 +13,7 @@ class Collection extends React.PureComponent {
   };
 
   render() {
-    const { name, years } = this.props;
+    const { name } = this.props;
 
     return (
       <button className={styles.wrapper} onClick={this.onClicked}>

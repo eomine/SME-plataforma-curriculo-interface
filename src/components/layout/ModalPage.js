@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import styles from './ModalPage.scss';
+import styles from './ModalPage.module.scss';
 
 class ModalPage extends Component {
   render() {

@@ -4,7 +4,7 @@ import Page from 'components/layout/Page';
 import iconKnowledgeMatrix from 'images/illustrations/knowledgeMatrix.svg';
 import iconLearningObjectives from 'images/illustrations/learningObjectives.svg';
 import iconSustainableDevGoals from 'images/illustrations/sustainableDevGoals.svg';
-import styles from './Basic.scss';
+import styles from './Basic.module.scss';
 
 class Basic extends Component {
   render() {

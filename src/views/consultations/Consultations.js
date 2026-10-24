@@ -5,7 +5,7 @@ import ConsultationsActions from 'actions/ConsultationsActions';
 import BodyActions from 'actions/BodyActions';
 import ConsultationsContent from 'components/ConsultationsContent';
 import Page from 'components/layout/Page';
-import styles from './Consultations.scss';
+import styles from './Consultations.module.scss';
 
 function onlyUnique(value, index, self) {
     return self.indexOf(value) === index;
@@ -22,7 +22,7 @@ class Consultations extends Component {
   }
 
   render() {
-    const { data, isLoading } = this.props;
+    const { data } = this.props;
 
     let segments = data.map(consultation => consultation.segment).filter(onlyUnique).sort()
 

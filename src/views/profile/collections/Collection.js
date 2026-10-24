@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import ClassroomYear from 'components/objects/ClassroomYear';
-import styles from './Collection.scss';
+import styles from './Collection.module.scss';
 
 class Collection extends React.PureComponent {
   render() {

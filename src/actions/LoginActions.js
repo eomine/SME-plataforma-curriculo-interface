@@ -1,6 +1,6 @@
 import Api from 'data/Api';
 import AlertActions from 'actions/AlertActions';
-import { history } from 'index';
+import { history } from 'utils/history';
 
 const LoginActions = {
   LOGGED_IN: 'LoginActions.LOGGED_IN',

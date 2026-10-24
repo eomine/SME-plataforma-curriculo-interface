@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { API_URL } from 'data/constants';
 import formatFileSize from 'utils/formatFileSize';
 import iconClip from 'images/icons/clip.svg';
-import styles from './Attachment.scss';
+import styles from './Attachment.module.scss';
 
 class Attachment extends Component {
   render() {
