@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { a } from 'react-router-dom';
 import Page from 'components/layout/Page';
 import iconKnowledgeMatrix from 'images/illustrations/knowledgeMatrix.svg';
 import iconLearningObjectives from 'images/illustrations/learningObjectives.svg';
