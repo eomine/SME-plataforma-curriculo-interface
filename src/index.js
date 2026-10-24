@@ -8,8 +8,8 @@ import './index.scss';
 import React, { Component, Fragment } from 'react';
 import ReactDOM from 'react-dom';
 import Analytics from 'react-router-ga';
-import createBrowserHistory from 'history/createBrowserHistory';
 import thunk from 'redux-thunk';
+import { history } from 'utils/history';
 import { ModalContainer, ModalRoute } from 'react-router-modal';
 import { Provider } from 'react-redux';
 import { Route, Router, Switch } from 'react-router';
@@ -61,8 +61,6 @@ import moment from 'moment';
 import reducers from 'reducers';
 // import registerServiceWorker from 'utils/registerServiceWorker';
 import theme from 'utils/theme';
-
-export const history = createBrowserHistory();
 
 moment.updateLocale('pt-br', {
   relativeTime : {

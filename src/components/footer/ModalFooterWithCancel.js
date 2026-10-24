@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Loading from 'components/loading/Loading';
 import styles from './ModalFooterWithCancel.scss';
-import { history } from 'index';
+import { history } from 'utils/history';
 
 class ModalFooterWithCancel extends React.PureComponent {
   onClickedCancel = () => {

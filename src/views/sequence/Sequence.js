@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { history } from 'index';
+import { history } from 'utils/history';
 import ActivityItem from './ActivityItem';
 import ActivityPrintItem from 'views/activity/ActivityPrintItem';
 import BodyActions from 'actions/BodyActions';

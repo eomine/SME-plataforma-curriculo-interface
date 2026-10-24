@@ -2,7 +2,7 @@ import Api from 'data/Api';
 import AlertActions from './AlertActions';
 import getTeacherId from 'data/getTeacherId';
 import { API_URL } from 'data/constants';
-import { history } from 'index';
+import { history } from 'utils/history';
 
 const TeacherSurveyFormsActions = {
   NEW: 'TeacherSurveyFormsActions.NEW',

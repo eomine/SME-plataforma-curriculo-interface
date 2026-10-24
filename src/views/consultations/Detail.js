@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { history } from 'index';
+import { history } from 'utils/history';
 import ConsultationActions from 'actions/ConsultationActions';
 import TeacherSurveyFormsActions from 'actions/TeacherSurveyFormsActions';
 import FullModal from 'components/layout/FullModal';

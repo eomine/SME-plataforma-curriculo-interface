@@ -2,7 +2,7 @@ import AlertActions from 'actions/AlertActions';
 import BodyActions from 'actions/BodyActions';
 import parse from 'parse-link-header';
 import { API_URL } from 'data/constants';
-import { history } from 'index';
+import { history } from 'utils/history';
 
 function getNextPage(headers) {
   if (headers.has('link')) {

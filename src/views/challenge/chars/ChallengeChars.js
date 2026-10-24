@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { history } from 'index';
+import { history } from 'utils/history';
 import AxisItem from 'components/objects/AxisItem';
 import Chip from 'components/objects/Chip';
 import ExpandableLearningObjective from 'components/objects/ExpandableLearningObjective';
