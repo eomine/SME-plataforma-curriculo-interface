@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import LoginActions from 'actions/LoginActions';
-import styles from './ProfilePopover.scss';
+import styles from './ProfilePopover.module.scss';
 
 class ProfilePopover extends React.PureComponent {
   onClickedLogout = () => {

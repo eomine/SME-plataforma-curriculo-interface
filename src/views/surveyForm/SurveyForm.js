@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Page from 'components/layout/Page';
 import SurveyFormActions from 'actions/SurveyFormActions';
 import TeacherSurveyFormsActions from 'actions/TeacherSurveyFormsActions';
-import styles from './SurveyForm.scss';
+import styles from './SurveyForm.module.scss';
 import getContentBlocks from 'utils/getContentBlocks';
 import Slider from '@material-ui/core/Slider';
 

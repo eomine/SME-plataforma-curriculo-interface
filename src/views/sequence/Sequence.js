@@ -18,7 +18,7 @@ import Tooltips from 'components/Tooltips';
 import convertQuillToHtml from 'utils/convertQuillToHtml';
 import createModalLink from 'utils/createModalLink';
 import isLogged from 'data/isLogged';
-import styles from './Sequence.scss';
+import styles from './Sequence.module.scss';
 
 class Sequence extends Component {
   state = {

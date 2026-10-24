@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import { API_URL } from 'data/constants';
 import createModalLink from 'utils/createModalLink';
-import styles from './Button.scss';
+import styles from './Button.module.scss';
 
 class Button extends Component {
   render() {

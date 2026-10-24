@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Page from 'components/layout/Page';
-import styles from './CreateProject.scss';
+import styles from './CreateProject.module.scss';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import EditProjectActions from 'actions/EditProjectActions';

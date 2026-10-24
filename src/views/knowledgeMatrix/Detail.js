@@ -7,7 +7,7 @@ import BodyActions from 'actions/BodyActions';
 import FullModal from 'components/layout/FullModal';
 import KnowledgeMatrixActions from 'actions/KnowledgeMatrixActions';
 import iconCloseBig from 'images/icons/closeBig.svg';
-import styles from './Detail.scss';
+import styles from './Detail.module.scss';
 
 class Detail extends Component {
   state = { isLoaded: true };

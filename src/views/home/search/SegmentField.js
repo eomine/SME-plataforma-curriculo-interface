@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import SegmentButton from 'views/sequences/objects/SegmentButton';
 import chevronDown from 'images/chevrons/down.svg';
 import chevronUp from 'images/chevrons/up.svg';
-import styles from './Field.scss';
+import styles from './Field.module.scss';
 
 class SegmentField extends Component {
   ref = React.createRef();

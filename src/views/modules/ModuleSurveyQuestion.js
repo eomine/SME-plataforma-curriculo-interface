@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styles from './ModuleSurveyQuestion.scss';
+import styles from './ModuleSurveyQuestion.module.scss';
 import StarRatingComponent from 'react-star-rating-component';
 
 class ModuleSurveyQuestion extends React.PureComponent {

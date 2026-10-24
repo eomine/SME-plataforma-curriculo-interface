@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import styles from './StageButton.scss';
+import styles from './StageButton.module.scss';
 
 class StageButton extends Component {
   onClicked = async () => {

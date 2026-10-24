@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import { API_URL } from 'data/constants';
 import createModalLink from 'utils/createModalLink';
-import styles from './SustainableDevGoalItem.scss';
+import styles from './SustainableDevGoalItem.module.scss';
 
 class SustainableDevGoalItem extends Component {
   render() {

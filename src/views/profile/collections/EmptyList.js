@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import createModalLink from 'utils/createModalLink';
 import iconCollections from './collections.svg';
-import styles from './EmptyList.scss';
+import styles from './EmptyList.module.scss';
 
 class EmptyList extends React.PureComponent {
   render() {

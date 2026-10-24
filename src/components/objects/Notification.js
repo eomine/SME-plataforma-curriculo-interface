@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Collapse from '@material-ui/core/Collapse';
-import styles from './Notification.scss';
+import styles from './Notification.module.scss';
 
 class Notification extends Component {
   state = {

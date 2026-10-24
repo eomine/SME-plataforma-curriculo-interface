@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import FiltersActions from 'actions/FiltersActions';
 import chevronRight from 'images/chevrons/right.svg';
-import styles from './Category.scss';
+import styles from './Category.module.scss';
 
 class Category extends Component {
   onClicked = () => {

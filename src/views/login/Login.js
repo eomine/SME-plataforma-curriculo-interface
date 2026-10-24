@@ -17,7 +17,7 @@ import ModalPage from 'components/layout/ModalPage';
 import LoginActions from 'actions/LoginActions';
 import iconClose from 'images/icons/closeBig.svg';
 import logo from 'images/logo.svg';
-import styles from './Login.scss';
+import styles from './Login.module.scss';
 
 class Login extends Component {
   ref = React.createRef();

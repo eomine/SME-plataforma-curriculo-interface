@@ -5,7 +5,7 @@ import LearningObjectiveItem from './LearningObjectiveItem';
 import chevronDown from 'images/chevrons/down.svg';
 import chevronRight from 'images/chevrons/right.svg';
 import chevronUp from 'images/chevrons/up.svg';
-import styles from './ExpandableLearningObjective.scss';
+import styles from './ExpandableLearningObjective.module.scss';
 
 class ExpandableLearningObjective extends Component {
   ref = React.createRef();

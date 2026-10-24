@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Page from 'components/layout/Page';
 import Home from 'views/home/Home';
-import styles from './AnswerBooks.scss';
+import styles from './AnswerBooks.module.scss';
 import StageContent from 'components/StageContent';
 import { API_URL } from 'data/constants';
 

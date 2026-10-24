@@ -1,7 +1,7 @@
 import chevronRight from 'images/chevrons/right.svg';
 import chevronLeft from 'images/chevrons/left.svg';
 import ItemsCarousel from 'react-items-carousel';
-import styles from './ConsultationsContent.scss';
+import styles from './ConsultationsContent.module.scss';
 import { NavLink } from 'react-router-dom';
 import createModalLink from 'utils/createModalLink';
 import { connect } from 'react-redux';

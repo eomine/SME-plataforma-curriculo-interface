@@ -8,7 +8,7 @@ import TextButton from './TextButton';
 import arrowLeft from 'images/arrows/left.svg';
 import chevronLeft from 'images/chevrons/left.svg';
 import iconHelp from 'images/icons/help.svg';
-import styles from './CategoryPanel.scss';
+import styles from './CategoryPanel.module.scss';
 
 function isCategoryOneOf(category, list) {
   return category && list.indexOf(category.slug) >= 0;

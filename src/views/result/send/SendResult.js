@@ -17,8 +17,8 @@ import ModalPage from 'components/layout/ModalPage';
 import formatFileSize from 'utils/formatFileSize';
 import iconClip from 'images/icons/clip.svg';
 import iconPlus from 'images/icons/plus1.svg';
-import styles from './SendResult.scss';
-import styles1 from 'views/sequence/save/SaveSequence.scss';
+import styles from './SendResult.module.scss';
+import styles1 from 'views/sequence/save/SaveSequence.module.scss';
 
 const MAX_CHARS = 3000;
 const MAX_SIZE = 10 * 1024 * 1024;

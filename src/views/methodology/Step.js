@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { API_URL } from 'data/constants';
-import styles from './Step.scss';
+import styles from './Step.module.scss';
 
 class Step extends Component {
   render() {

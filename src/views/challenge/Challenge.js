@@ -21,7 +21,7 @@ import getContentBlocks from 'utils/getContentBlocks';
 import isLogged from 'data/isLogged';
 import chevronDown from 'images/chevrons/down.svg';
 import chevronUp from 'images/chevrons/up.svg';
-import styles from './Challenge.scss';
+import styles from './Challenge.module.scss';
 
 class Challenge extends Component {
   state = {

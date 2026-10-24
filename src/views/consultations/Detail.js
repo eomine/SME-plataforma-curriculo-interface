@@ -6,7 +6,7 @@ import ConsultationActions from 'actions/ConsultationActions';
 import TeacherSurveyFormsActions from 'actions/TeacherSurveyFormsActions';
 import FullModal from 'components/layout/FullModal';
 import iconCloseBigWhite from 'images/icons/closeBigWhite.svg';
-import styles from './Detail.scss';
+import styles from './Detail.module.scss';
 import { API_URL } from 'data/constants';
 
 class Detail extends Component {

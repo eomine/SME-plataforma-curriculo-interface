@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Chip from 'components/objects/Chip';
-import styles from 'views/sequence/Cover.scss';
+import styles from 'views/sequence/Cover.module.scss';
 import { API_URL } from 'data/constants';
 
 const component = {

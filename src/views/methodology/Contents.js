@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { API_URL } from 'data/constants';
 import convertQuillToHtml from 'utils/convertQuillToHtml';
 import iconClip from 'images/icons/clip.svg';
-import styles from './Contents.scss';
+import styles from './Contents.module.scss';
 
 class Contents extends Component {
   componentDidMount() {

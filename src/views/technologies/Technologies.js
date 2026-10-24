@@ -12,7 +12,7 @@ import iconLiteracy from './images/literacy.png';
 import iconProgramming from './images/programming.png';
 import iconTechnologies from './images/technologies.png';
 import iconTechnologies1 from './images/technologies.svg';
-import styles from './Technologies.scss';
+import styles from './Technologies.module.scss';
 
 class Technologies extends Component {
   state = {

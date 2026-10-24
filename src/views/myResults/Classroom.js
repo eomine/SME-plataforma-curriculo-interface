@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { history } from 'utils/history';
 import iconEdit from 'images/icons/edit.svg';
-import styles from './Classroom.scss';
+import styles from './Classroom.module.scss';
 
 class Classroom extends React.PureComponent {
   onClickedEdit = () => {

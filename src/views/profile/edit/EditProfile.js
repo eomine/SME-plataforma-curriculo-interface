@@ -10,7 +10,7 @@ import ProfileActions from 'actions/ProfileActions';
 import ModalPage from 'components/layout/ModalPage';
 import ModalFooterWithCancel from 'components/footer/ModalFooterWithCancel';
 import ModalHeader from 'components/header/ModalHeader';
-import styles from './EditProfile.scss';
+import styles from './EditProfile.module.scss';
 
 class EditProfile extends Component {
   state = {

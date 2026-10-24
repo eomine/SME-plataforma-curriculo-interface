@@ -12,7 +12,7 @@ import SequenceActions from 'actions/SequenceActions';
 import SequencePreview from 'views/activity/SequencePreview';
 import createModalLink from 'utils/createModalLink';
 import iconPlus from 'images/icons/plus1.svg';
-import styles from './SaveSequence.scss';
+import styles from './SaveSequence.module.scss';
 
 class SaveSequence extends Component {
   componentDidMount() {

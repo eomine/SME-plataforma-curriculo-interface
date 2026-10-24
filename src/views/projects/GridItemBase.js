@@ -10,7 +10,7 @@ import iconMinus from 'images/icons/minus.svg';
 import iconPlus from 'images/icons/plus1.svg';
 import iconSave1 from 'images/icons/save.svg';
 import iconSaved from 'images/icons/saved.svg';
-import styles from './GridItemBase.scss';
+import styles from './GridItemBase.module.scss';
 import logoPrefecture from 'views/project/images/prefecture.jpg';
 
 class GridItemBase extends Component {

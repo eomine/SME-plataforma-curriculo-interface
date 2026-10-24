@@ -10,8 +10,8 @@ import OtherMethodology from './OtherMethodology';
 import Page from 'components/layout/Page';
 import ProjectContents from './ProjectContents';
 import arrowDownGreen from 'images/arrows/downGreen.svg';
-import styles from './Methodology.scss';
-import styles1 from 'views/technologies/Technologies.scss';
+import styles from './Methodology.module.scss';
+import styles1 from 'views/technologies/Technologies.module.scss';
 
 class Methodology extends Component {
   state = {

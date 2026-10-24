@@ -7,7 +7,7 @@ import { API_URL } from 'data/constants';
 import isLogged from 'data/isLogged';
 import iconSave from 'images/icons/save.svg';
 import iconSaved from 'images/icons/saved.svg';
-import styles from './SequencePreview.scss';
+import styles from './SequencePreview.module.scss';
 
 class SequencePreview extends Component {
   onClickedSave = () => {

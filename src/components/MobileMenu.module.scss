@@ -1,0 +1,75 @@
+@import "variables.scss";
+@import "tools.scss";
+
+.wrapper {
+  padding: rem(16);
+
+  > hr {
+    margin: rem(24) rem(-15);
+  }
+}
+
+.btn {
+  color: black;
+  display: block;
+  font-size: rem(18);
+  font-weight: bold;
+  line-height: rem(36);
+  margin-top: rem(20);
+  text-decoration: none;
+}
+
+.btnSmall {
+  color: $grey-600;
+  display: block;
+  font-size: rem(16);
+  font-weight: 600;
+  line-height: rem(22);
+  margin-left: rem(20);
+  margin-top: rem(14);
+}
+
+.popover {
+  padding: rem(20) rem(28);
+}
+
+.close {
+  position: absolute;
+  right: rem(15);
+  top: rem(13);
+}
+
+.login {
+  max-width: rem(270);
+
+  > h3 {
+    color: black;
+    font-size: rem(16);
+    font-weight: 600;
+    line-height: rem(22);
+    margin-bottom: rem(17);
+  }
+}
+
+.btnLogin {
+  composes: btn from global;
+  background-color: $color-turquoise;
+  border: 0;
+  color: black;
+  font-size: rem(15);
+  margin-bottom: rem(14);
+  padding-left: rem(46);
+  padding-right: rem(46);
+}
+
+.obs {
+  color: $grey-600;
+  font-size: rem(13);
+  line-height: rem(18);
+  margin-bottom: 0;
+
+  a {
+    color: $grey-600;
+    text-decoration: underline;
+  }
+}

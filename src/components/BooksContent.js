@@ -2,7 +2,7 @@ import chevronRight from 'images/chevrons/right.svg';
 import chevronLeft from 'images/chevrons/left.svg';
 import downloadIcon from 'images/icons/download.svg';
 import ItemsCarousel from 'react-items-carousel';
-import styles from './BooksContent.scss';
+import styles from './BooksContent.module.scss';
 import { connect } from 'react-redux';
 import React, {Component} from 'react';
 import {isMobile} from 'react-device-detect';

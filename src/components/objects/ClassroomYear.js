@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styles from './ClassroomYear.scss';
+import styles from './ClassroomYear.module.scss';
 
 class ClassroomYear extends React.PureComponent {
   render() {

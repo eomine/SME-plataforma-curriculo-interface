@@ -15,7 +15,7 @@ import ProfileActions from 'actions/ProfileActions';
 import createModalLink from 'utils/createModalLink';
 import withWidth from 'components/hoc/withWidth';
 import iconEdit from 'images/icons/edit.svg';
-import styles from './Profile.scss';
+import styles from './Profile.module.scss';
 
 class Profile extends Component {
   onClickedChallenge = () => {
