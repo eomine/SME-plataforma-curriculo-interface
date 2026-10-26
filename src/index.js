@@ -64,7 +64,6 @@ import Technologies from 'views/technologies/Technologies';
 import Redirect from 'views/redirect/Redirect';
 import moment from 'moment';
 import reducers from 'reducers';
-// import registerServiceWorker from 'utils/registerServiceWorker';
 import theme from 'utils/theme';
 
 moment.updateLocale('pt-br', {
@@ -172,4 +171,3 @@ createRoot(document.getElementById('root')).render(
   </Provider>
 );
 
-// registerServiceWorker();
