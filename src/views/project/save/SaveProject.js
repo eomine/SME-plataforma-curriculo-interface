@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router';
 import { connect } from 'react-redux';
 import CollectionsActions from 'actions/CollectionsActions';
 import Collection from './Collection';
@@ -10,7 +10,7 @@ import ModalPage from 'components/layout/ModalPage';
 import ProjectActions from 'actions/ProjectActions';
 import createModalLink from 'utils/createModalLink';
 import iconPlus from 'images/icons/plus1.svg';
-import styles from './SaveProject.scss';
+import styles from './SaveProject.module.scss';
 
 class SaveProject extends Component {
   componentDidMount() {
@@ -26,7 +26,7 @@ class SaveProject extends Component {
       return <span />;
     }
 
-    const { collections, data, inCollections, isSaved } = this.props;
+    const { collections, data } = this.props;
 
     const items = collections.map((item, i) => {
       return <Collection key={i} projectId={data.id} {...item} />;
@@ -39,7 +39,7 @@ class SaveProject extends Component {
     link.state.projectId = data.id;
 
     const btnCreate = (
-      <NavLink className={styles.btn} to={link}>
+      <NavLink className={styles.btn} {...link}>
         <img src={iconPlus} alt="Criar coleção" />
         Criar coleção
       </NavLink>

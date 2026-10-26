@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import styles from './Chip.scss';
+import styles from './Chip.module.scss';
 
 class Chip extends Component {
   render() {

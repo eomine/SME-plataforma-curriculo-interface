@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import styles from './StageButton.scss';
+import styles from './StageButton.module.scss';
 
 class StageButton extends Component {
   onClicked = async () => {
@@ -10,7 +10,7 @@ class StageButton extends Component {
 
   render() {
     const { data } = this.props;
-    const { id, isActive, name, color } = data;
+    const { isActive, name, color } = data;
 
     const classes = isActive
       ? [styles.wrapper, styles.isActive]

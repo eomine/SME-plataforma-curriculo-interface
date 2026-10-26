@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import ReactTooltip from 'react-tooltip';
+import { Tooltip } from 'react-tooltip';
 import { connect } from 'react-redux';
 import FiltersActions from 'actions/FiltersActions';
 import ImageButton from './ImageButton';
@@ -8,7 +8,7 @@ import TextButton from './TextButton';
 import arrowLeft from 'images/arrows/left.svg';
 import chevronLeft from 'images/chevrons/left.svg';
 import iconHelp from 'images/icons/help.svg';
-import styles from './CategoryPanel.scss';
+import styles from './CategoryPanel.module.scss';
 
 function isCategoryOneOf(category, list) {
   return category && list.indexOf(category.slug) >= 0;
@@ -83,22 +83,20 @@ class CategoryPanel extends Component {
       }
 
       btnTooltip = (
-        <button data-tip data-for="tooltip">
+        <button data-tooltip-id="tooltip">
           <img src={iconHelp} alt="Ajuda" />
         </button>
       );
 
       tooltip = (
-        <ReactTooltip
+        <Tooltip
           place="bottom"
-          type="dark"
-          effect="solid"
           id="tooltip"
           className="tooltip"
         >
           <strong>{tooltipTitle}</strong>
           <p>{tooltipText}</p>
-        </ReactTooltip>
+        </Tooltip>
       );
     }
 

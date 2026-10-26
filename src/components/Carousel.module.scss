@@ -1,0 +1,29 @@
+$chevron-width: 60px;
+
+.carousel {
+  position: relative;
+}
+
+.chevron {
+  align-items: center;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  width: $chevron-width;
+
+  // O Swiper marca as setas sem para onde ir (início/fim, ou poucos cards).
+  &:global(.swiper-button-disabled),
+  &:global(.swiper-button-lock) {
+    display: none;
+  }
+}
+
+.prev {
+  left: -$chevron-width;
+}
+
+.next {
+  right: -$chevron-width;
+}

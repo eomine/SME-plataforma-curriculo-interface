@@ -2,13 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Page from 'components/layout/Page';
 import Home from 'views/home/Home';
-import styles from './ComplementBooks.scss';
+import styles from './ComplementBooks.module.scss';
 import ComplementBooksContent from 'components/ComplementBooksContent';
 import { API_URL } from 'data/constants';
-
-function onlyUnique(value, index, self) {
-    return self.indexOf(value) === index;
-}
 
 
 

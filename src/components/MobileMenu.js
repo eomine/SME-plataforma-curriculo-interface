@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router';
 import { connect } from 'react-redux';
 import BodyActions from 'actions/BodyActions';
 import LoginActions from 'actions/LoginActions';
@@ -8,7 +8,7 @@ import MobileModal from 'components/layout/MobileModal';
 import createModalLink from 'utils/createModalLink';
 import isLogged from 'data/isLogged';
 import iconCloseBig from 'images/icons/closeBig.svg';
-import styles from './MobileMenu.scss';
+import styles from './MobileMenu.module.scss';
 
 class MobileMenu extends React.PureComponent {
   target = null;
@@ -178,7 +178,7 @@ class MobileMenu extends React.PureComponent {
           Salve sequências de atividades.
           <br />E acesse em qualquer lugar.
         </h3>
-        <NavLink className={styles.btnLogin} to={link}>
+        <NavLink className={styles.btnLogin} {...link}>
           Login
         </NavLink>
         <p className={styles.obs}>

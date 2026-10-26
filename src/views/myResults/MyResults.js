@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { history } from 'index';
+import { history } from 'utils/history';
 import BigPreview from 'components/objects/BigPreview';
 import ChallengeActions from 'actions/ChallengeActions';
 import ChallengePreview from 'views/result/send/ChallengePreview';
@@ -10,8 +10,8 @@ import DesktopModal from 'components/layout/DesktopModal';
 import ModalHeader from 'components/header/ModalHeader';
 import ModalPage from 'components/layout/ModalPage';
 import iconPlus from 'images/icons/plus1.svg';
-import styles from './MyResults.scss';
-import styles1 from 'views/sequence/save/SaveSequence.scss';
+import styles from './MyResults.module.scss';
+import styles1 from 'views/sequence/save/SaveSequence.module.scss';
 
 class MyResults extends Component {
   onClickedAddResult = () => {

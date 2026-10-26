@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router';
 import { connect } from 'react-redux';
 import { API_URL } from 'data/constants';
 import ChallengeActions from 'actions/ChallengeActions';
@@ -8,7 +8,7 @@ import ConfirmActions from 'actions/ConfirmActions';
 import createModalLink from 'utils/createModalLink';
 import iconCheck from 'images/icons/check.png';
 import iconDelete from 'images/icons/delete.svg';
-import styles from 'views/collection/Sequence.scss';
+import styles from 'views/collection/Sequence.module.scss';
 
 class Challenge extends React.PureComponent {
   onClickedConfirm = () => {
@@ -67,7 +67,7 @@ class Challenge extends React.PureComponent {
             <img src={iconCheck} alt="Desafio realizado" />
             Desafio realizado
           </span>
-          <NavLink to={link}>Ver meu resultado</NavLink>
+          <NavLink {...link}>Ver meu resultado</NavLink>
         </div>
       );
     }

@@ -2,19 +2,18 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Page from 'components/layout/Page';
-import styles from './CreateProject.scss';
-import Home from 'views/home/Home';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
+import styles from './CreateProject.module.scss';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
 import EditProjectActions from 'actions/EditProjectActions';
-import InputLabel from '@material-ui/core/InputLabel';
-import TextField from '@material-ui/core/TextField';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import Chip from '@material-ui/core/Chip';
-import ReactQuill from 'react-quill';
-import Button from '@material-ui/core/Button';
-import Checkbox from '@material-ui/core/Checkbox';
+import InputLabel from '@mui/material/InputLabel';
+import TextField from '@mui/material/TextField';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import Chip from '@mui/material/Chip';
+import RichTextEditor from 'components/RichTextEditor';
+import Button from '@mui/material/Button';
+import Checkbox from '@mui/material/Checkbox';
 import BodyActions from 'actions/BodyActions';
 
 class EditProject extends Component {
@@ -171,17 +170,13 @@ class EditProject extends Component {
   }
 
   segmentChange(e) {
-    let stageResult = this.props.stages.map((stage) => {
-      if (e.target.value.includes(stage.segment_id) && this.state.project['stage_ids'].includes(stage.id)) {
-        return stage.id
-      }
-    })
+    let stageResult = this.props.stages
+      .filter(stage => e.target.value.includes(stage.segment_id) && this.state.project['stage_ids'].includes(stage.id))
+      .map(stage => stage.id)
 
-    let yearResult = this.props.years.map((year) => {
-      if (e.target.value.includes(year.segment_id) && this.state.project['year_ids'].includes(year.id)) {
-        return year.id
-      }
-    })
+    let yearResult = this.props.years
+      .filter(year => e.target.value.includes(year.segment_id) && this.state.project['year_ids'].includes(year.id))
+      .map(year => year.id)
 
     stageResult = stageResult.filter(function (sr) {
       return sr != null;
@@ -207,11 +202,9 @@ class EditProject extends Component {
   }
 
   stageChange(e) {
-    let yearResult = this.props.years.map((year) => {
-      if (e.target.value.includes(year.stage_id) && this.state.project['year_ids'].includes(year.id)) {
-        return year.id
-      }
-    })
+    let yearResult = this.props.years
+      .filter(year => e.target.value.includes(year.stage_id) && this.state.project['year_ids'].includes(year.id))
+      .map(year => year.id)
 
     yearResult = yearResult.filter(function (yr) {
       return yr != null;
@@ -445,7 +438,7 @@ class EditProject extends Component {
     let fieldsWithError = {}
     for (var field in this.state.errors) {
       fieldsWithError[`${field}`] = false;
-      if (this.state.errors[`${field}`] == true || this.state.errors[`${field}`] == null ) {
+      if (this.state.errors[`${field}`] === true || this.state.errors[`${field}`] == null ) {
         fieldsWithError[`${field}`] = true;
         result = false
       }
@@ -463,7 +456,7 @@ class EditProject extends Component {
 
   render() {
     const { curricularComponents, knowledgeMatrices, studentProtagonisms, schools} = this.props
-    const {segments, stages, years, learningObjectives, dres, isLogged, isLoading } = this.props;
+    const {segments, stages, years, learningObjectives, dres } = this.props;
     const lastYear = new Date().getFullYear();
     const firstYear = 2014
     const yearsData = this.range(firstYear, lastYear);
@@ -487,7 +480,7 @@ class EditProject extends Component {
     const formats = [
       'header', 'font', 'size',
       'bold', 'italic', 'underline', 'strike', 'blockquote',
-      'list', 'bullet', 'indent',
+      'list', 'indent',
       'link', 'image', 'video'
     ]
 
@@ -518,6 +511,7 @@ class EditProject extends Component {
                         <div className="col-sm-12 col-md-12 col-lg-6 col-xl-6">
                           <InputLabel id="demo-simple-select-filled-label">Selecione os Componentes Curriculares</InputLabel>
                           <Select
+                            variant="standard"
                             className={styles.selectOptions}
                             labelId="demo-simple-select-filled-label"
                             id="demo-simple-select-filled"
@@ -548,6 +542,7 @@ class EditProject extends Component {
                                 <Chip key={index} label={selectedItem.name} style={{backgroundColor: selectedItem.color}} className={styles.chip} />
                               );
                             }
+                            return null;
                           })}
                         </div>
                       </div>
@@ -557,6 +552,7 @@ class EditProject extends Component {
                         <div className="col-sm-12 col-md-12 col-lg-6 col-xl-6">
                           <InputLabel id="demo-simple-select-filled-label">Selecione a Matriz de Saberes</InputLabel>
                           <Select
+                            variant="standard"
                             className={styles.selectOptions}
                             labelId="demo-simple-select-filled-label"
                             id="demo-simple-select-filled"
@@ -587,6 +583,7 @@ class EditProject extends Component {
                                 <Chip key={index} label={selectedItem.title} style={{backgroundColor: '#E04758'}} className={styles.chip} />
                               );
                             }
+                            return null;
                           })}
                         </div>
                       </div>
@@ -596,6 +593,7 @@ class EditProject extends Component {
                         <div className="col-sm-12 col-md-12 col-lg-6 col-xl-6">
                           <InputLabel id="demo-simple-select-filled-label">Selecione as opções do Protagonismo Estudantil</InputLabel>
                           <Select
+                            variant="standard"
                             className={styles.selectOptions}
                             labelId="demo-simple-select-filled-label"
                             id="demo-simple-select-filled"
@@ -626,6 +624,7 @@ class EditProject extends Component {
                                 <Chip key={index} label={selectedItem.title} style={{backgroundColor: '#1976D2'}} className={styles.chip} />
                               );
                             }
+                            return null;
                           })}
                         </div>
                       </div>
@@ -635,6 +634,7 @@ class EditProject extends Component {
                         <div className="col-sm-12 col-md-12 col-lg-6 col-xl-6">
                           <InputLabel id="demo-simple-select-filled-label">Selecione os Segmentos</InputLabel>
                           <Select
+                            variant="standard"
                             className={styles.selectOptions}
                             labelId="demo-simple-select-filled-label"
                             id="demo-simple-select-filled"
@@ -653,6 +653,7 @@ class EditProject extends Component {
                                   </MenuItem>
                                 );
                               }
+                              return null;
                             })}
                           </Select>
                           {this.state.errors['segment'] != null && this.state.errors['curricularComponent'] && (
@@ -667,6 +668,7 @@ class EditProject extends Component {
                                 <Chip key={index} label={selectedItem.name} style={{backgroundColor: selectedItem.color}} className={styles.chip} />
                               );
                             }
+                            return null;
                           })}
                         </div>
                       </div>
@@ -687,8 +689,10 @@ class EditProject extends Component {
                                         <Chip key={indx} label={selectedItem.name} style={{backgroundColor: segments.find(segment => segment.id === id).color}} className={styles.chip} />
                                       );
                                     }
+                                    return null;
                                   })}
                                   <Select
+                                    variant="standard"
                                     style={{marginTop: '2%'}}
                                     className={styles.selectOptions}
                                     labelId="demo-simple-select-filled-label"
@@ -708,6 +712,7 @@ class EditProject extends Component {
                                           </MenuItem>
                                         );
                                       }
+                                      return null;
                                     })}
                                   </Select>
                                   {this.state.errors['stage'] != null && this.state.errors['stage'] && (
@@ -716,6 +721,7 @@ class EditProject extends Component {
                                 </div>
                               );
                             }
+                            return null;
                           })
                         }
                       </div>
@@ -737,8 +743,10 @@ class EditProject extends Component {
                                       <Chip key={indx} label={selectedItem.name} style={{backgroundColor: segment_color}} className={styles.chip} />
                                     );
                                   }
+                                  return null;
                                 })}
                                 <Select
+                                  variant="standard"
                                   style={{marginTop: '2%'}}
                                   className={styles.selectOptions}
                                   labelId="demo-simple-select-filled-label"
@@ -761,6 +769,7 @@ class EditProject extends Component {
                                         </MenuItem>
                                       );
                                     }
+                                    return null;
                                   })}
                                 </Select>
                                 {this.state.errors['year'] != null && this.state.errors['year'] && (
@@ -777,6 +786,7 @@ class EditProject extends Component {
                         <div className="col-sm-12 col-md-12 col-lg-6 col-xl-6">
                           <InputLabel id="demo-simple-select-filled-label">Selecione os Objetivos de Aprendizagem</InputLabel>
                           <Select
+                            variant="standard"
                             className={styles.selectOptions}
                             labelId="demo-simple-select-filled-label"
                             id="demo-simple-select-filled"
@@ -808,6 +818,7 @@ class EditProject extends Component {
                                 <Chip key={index} label={selectedItem.code} style={{backgroundColor: segments.find(segment => segment.id === selectedItem.segment_id).color}} title={selectedItem.description} className={styles.chip} />
                               );
                             }
+                            return null;
                           })}
                         </div>
                       </div>
@@ -822,6 +833,7 @@ class EditProject extends Component {
                         <div className={`${styles.projectInformations} col-sm-12 col-md-12 col-lg-6 col-xl-6`}>
                           <InputLabel id="demo-simple-select-filled-label">Diretoria Regional de Educação</InputLabel>
                           <Select
+                            variant="standard"
                             className={styles.selectOptions}
                             labelId="demo-simple-select-filled-label"
                             id="demo-simple-select-filled"
@@ -848,6 +860,7 @@ class EditProject extends Component {
                         <div className={`${styles.projectInformations} col-sm-12 col-md-12 col-lg-6 col-xl-6`}>
                           <InputLabel id="demo-simple-select-filled-label">Escola</InputLabel>
                           <Select
+                            variant="standard"
                             className={styles.selectOptions}
                             labelId="demo-simple-select-filled-label"
                             id="demo-simple-select-filled"
@@ -883,6 +896,7 @@ class EditProject extends Component {
                         <div className={`${styles.projectInformations} col-sm-12 col-md-12 col-lg-6 col-xl-6`}>
                           <InputLabel id="demo-simple-select-filled-label">Ano Letivo</InputLabel>
                           <Select
+                            variant="standard"
                             className={styles.selectOptions}
                             labelId="demo-simple-select-filled-label"
                             id="demo-simple-select-filled"
@@ -946,6 +960,7 @@ class EditProject extends Component {
                           <div>
                             <img
                               className={styles.imagePrev}
+                              alt=""
                               src={this.state.photo}
                             />
                             <br></br>
@@ -991,7 +1006,7 @@ class EditProject extends Component {
                     <div className="row">
                       <div className={`${styles.projectInformations} col-sm-12 col-md-12 col-lg-12 co-xl-12`}>
                         <InputLabel id="demo-simple-select-filled-label">Desenvolvimento do Projeto</InputLabel>
-                        <ReactQuill
+                        <RichTextEditor
                           style={{marginTop: '5%', marginBottom: '5%'}}
                           theme={this.state.theme}
                           onChange={(html) => this.descriptionChange(html)}
@@ -1056,6 +1071,7 @@ class EditProject extends Component {
                     <div className="row">
                       <div className='col-sm-1 col-md-1 col-lg-1 col-xl-1'>
                         <Checkbox
+                          id='permission'
                           name='permission'
                           value={this.state.permission}
                           color="primary"
@@ -1063,7 +1079,7 @@ class EditProject extends Component {
                           />
                       </div>
                       <div className='col-sm-11 col-md-11 col-lg-11 col-xl-11'>
-                        <label className={styles.paragraph}>
+                        <label className={styles.paragraph} htmlFor='permission'>
                           <b>
                             Eu, profissional responsável pelo cadastro desse TCA em
                             minha Unidade Escolar, declaro que todos os estudantes

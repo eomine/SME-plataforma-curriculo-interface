@@ -138,12 +138,12 @@ const FiltersActions = {
 
       const queryString = getFiltersQueryString(filters);
 
-      if (filter.type = "segments") {
+      if (filter.type === 'segments') {
         Api.get(dispatch, `/api/filtros?${queryString}`).then(response =>
           dispatch({ ...response, type: FiltersActions.LOADED_STAGES })
         );
       }
-      if (filter.type = "stages") {
+      if (filter.type === 'stages') {
         Api.get(dispatch, `/api/filtros?${queryString}`).then(response =>
           dispatch({ ...response, type: FiltersActions.LOADED_YEARS })
         );

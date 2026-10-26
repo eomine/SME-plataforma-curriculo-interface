@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router';
 import ActivityActions from 'actions/ActivityActions';
 import ActivityChars from './chars/ActivityChars';
 import ActivityCharsMobile from './chars/ActivityCharsMobile';
@@ -16,8 +16,8 @@ import getContentBlocks from 'utils/getContentBlocks';
 import isLogged from 'data/isLogged';
 import arrowLeft from 'images/arrows/left.svg';
 import arrowRight from 'images/arrows/right.svg';
-import styles from 'views/sequence/Sequence.scss';
-import styles1 from './Activity.scss';
+import styles from 'views/sequence/Sequence.module.scss';
+import styles1 from './Activity.module.scss';
 
 class Activity extends Component {
   state = {

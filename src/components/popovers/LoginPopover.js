@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router';
 import createModalLink from 'utils/createModalLink';
-import styles from 'components/MobileMenu.scss';
+import styles from 'components/MobileMenu.module.scss';
 
 class LoginPopover extends React.PureComponent {
   render() {
@@ -15,7 +15,7 @@ class LoginPopover extends React.PureComponent {
             Salve sequências de atividades.
             <br />E acesse em qualquer lugar.
           </h3>
-          <NavLink className={styles.btnLogin} to={link}>
+          <NavLink className={styles.btnLogin} {...link}>
             Login
           </NavLink>
           <p className={styles.obs}>

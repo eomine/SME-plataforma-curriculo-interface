@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Popover from '@material-ui/core/Popover';
+import Popover from '@mui/material/Popover';
 import { connect } from 'react-redux';
 import StageButton from 'views/sequences/objects/StageButton';
 import chevronDown from 'images/chevrons/down.svg';
 import chevronUp from 'images/chevrons/up.svg';
-import styles from './Field.scss';
+import styles from './Field.module.scss';
+import onKeyActivate from 'utils/onKeyActivate';
 
 class StageField extends Component {
   ref = React.createRef();
   state = { anchor: null };
 
   onClicked = e => {
-    const anchor = !!this.state.anchor ? null : e.currentTarget;
+    const anchor = this.state.anchor ? null : e.currentTarget;
     this.setState({ anchor });
   };
 
@@ -48,7 +49,10 @@ class StageField extends Component {
       <div className={styles.wrapper}>
         <div
           className={classes.join(' ')}
+          role="button"
+          tabIndex={0}
           onClick={this.onClicked}
+          onKeyDown={onKeyActivate(this.onClicked)}
           ref={this.ref}
         >
           <span>{label}</span>

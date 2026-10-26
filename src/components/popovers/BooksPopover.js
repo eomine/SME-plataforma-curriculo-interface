@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router';
 import { connect } from 'react-redux';
-import styles from './ProfilePopover.scss';
+import styles from './ProfilePopover.module.scss';
 
 class BooksPopover extends React.PureComponent {
   render() {

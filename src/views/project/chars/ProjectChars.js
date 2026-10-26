@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { history } from 'index';
 import Chip from 'components/objects/Chip';
-import ExpandableLearningObjective from 'components/objects/ExpandableLearningObjective';
 import KnowledgeMatrixItem from 'components/objects/KnowledgeMatrixItem';
 import SustainableDevGoalItem from 'components/objects/SustainableDevGoalItem';
 import Tooltips from 'components/Tooltips';
 import iconHelp from 'images/icons/help.svg';
-import iconPrint from 'images/icons/print.svg';
-import styles from './ProjectChars.scss';
+import styles from './ProjectChars.module.scss';
 
 function onlyUnique(value, index, self) {
     if (value === undefined) {
@@ -74,7 +71,7 @@ class ProjectChars extends Component {
         </div>
         <div className={styles.title}>
           Objetivos de aprendizagem
-          <button data-tip data-for="tooltipLearningObjectives">
+          <button data-tooltip-id="tooltipLearningObjectives">
             <img src={iconHelp} alt="Ajuda" />
           </button>
           <div>
@@ -86,7 +83,7 @@ class ProjectChars extends Component {
         </div>
         <div className={styles.title}>
           Objetivos de Desenvolvimento Sustentável (ODS)
-          <button data-tip data-for="tooltipDevelopmentGoals">
+          <button data-tooltip-id="tooltipDevelopmentGoals">
             <img src={iconHelp} alt="Ajuda" />
           </button>
           <div>
@@ -99,7 +96,7 @@ class ProjectChars extends Component {
         <div className={styles.spacer} />
         <div className={styles.title}>
           Matriz de saberes
-          <button data-tip data-for="tooltipKnowledgeMatrices">
+          <button data-tooltip-id="tooltipKnowledgeMatrices">
             <img src={iconHelp} alt="Ajuda" />
           </button>
           <div>

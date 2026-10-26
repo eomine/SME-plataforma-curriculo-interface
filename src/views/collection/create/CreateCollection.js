@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import TextField from '@material-ui/core/TextField';
+import TextField from '@mui/material/TextField';
 import { connect } from 'react-redux';
-import { history } from 'index';
+import { history } from 'utils/history';
 import BigPreview from 'components/objects/BigPreview';
 import CollectionActions from 'actions/CollectionActions';
 import DesktopModal from 'components/layout/DesktopModal';
@@ -11,8 +11,8 @@ import ModalFooter from 'components/footer/ModalFooter';
 import ModalHeader from 'components/header/ModalHeader';
 import SequenceActions from 'actions/SequenceActions';
 import SequencePreview from 'views/activity/SequencePreview';
-import styles from 'views/collection/edit/EditCollection.scss';
-import styles1 from 'views/sequence/save/SaveSequence.scss';
+import styles from 'views/collection/edit/EditCollection.module.scss';
+import styles1 from 'views/sequence/save/SaveSequence.module.scss';
 
 class CreateCollection extends Component {
   state = {
@@ -34,7 +34,7 @@ class CreateCollection extends Component {
       history.go(-2);
     } else {
       this.props.create(this.state.name);
-      history.goBack();
+      history.back();
     }
   };
 

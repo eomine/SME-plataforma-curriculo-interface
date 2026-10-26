@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Chip from 'components/objects/Chip';
-import styles from './Cover.scss';
+import styles from './Cover.module.scss';
 import logoPrefecture from './images/prefecture.jpg';
 
 class Cover extends Component {

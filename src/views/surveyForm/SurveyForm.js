@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import Page from 'components/layout/Page';
 import SurveyFormActions from 'actions/SurveyFormActions';
 import TeacherSurveyFormsActions from 'actions/TeacherSurveyFormsActions';
-import styles from './SurveyForm.scss';
+import styles from './SurveyForm.module.scss';
 import getContentBlocks from 'utils/getContentBlocks';
-import Slider from '@material-ui/core/Slider';
+import Slider from '@mui/material/Slider';
 
 class SurveyForm extends Component {
 
@@ -31,18 +31,20 @@ class SurveyForm extends Component {
     this.validationFields = this.validationFields.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (Object.keys(nextProps.surveyFormAnswer).length > 0){
+  // Copia para o state as respostas e as perguntas quando chegam da API.
+  componentDidUpdate(prevProps) {
+    const { surveyFormAnswer, contentBlocks } = this.props;
+    if (surveyFormAnswer !== prevProps.surveyFormAnswer && Object.keys(surveyFormAnswer).length > 0){
       this.setState({
-        surveyFormAnswer: nextProps.surveyFormAnswer,
+        surveyFormAnswer,
       });
     }
 
-    if (nextProps.contentBlocks.length > 0){
+    if (contentBlocks !== prevProps.contentBlocks && contentBlocks.length > 0){
       this.setState({
         errors: {
           ...this.state.errors,
-          question: nextProps.contentBlocks.map(() => ({
+          question: contentBlocks.map(() => ({
             rating: false,
             comment: false,
           }))
@@ -54,7 +56,7 @@ class SurveyForm extends Component {
   validationQuestions() {
     let errorsQuestion = JSON.parse(JSON.stringify(this.state.errors.question));
 
-    this.state.surveyFormAnswer.answers_attributes.map((answer, index) => {
+    this.state.surveyFormAnswer.answers_attributes.forEach((answer, index) => {
       if (this.props.contentBlocks[index].content.required_rating === "true" && this.props.contentBlocks[index].content.required_comment === "true"){
         if (answer.rating && answer.comment){
           errorsQuestion[index] = {
@@ -187,7 +189,7 @@ class SurveyForm extends Component {
   }
 
   render() {
-    const { surveyForm, contentBlocks, isLoading, surveyFormAnswer } = this.props;
+    const { surveyForm, contentBlocks } = this.props;
 
     const blocks = contentBlocks
       ? getContentBlocks(contentBlocks)
@@ -247,7 +249,6 @@ class SurveyForm extends Component {
                             <Slider
                               value={this.state.surveyFormAnswer.answers_attributes[index].rating}
                               aria-labelledby="discrete-slider"
-                              valueLabelDisplay="auto"
                               step={1}
                               valueLabelDisplay="on"
                               marks

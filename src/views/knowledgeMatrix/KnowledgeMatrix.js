@@ -5,7 +5,7 @@ import BodyActions from 'actions/BodyActions';
 import KnowledgeMatrixActions from 'actions/KnowledgeMatrixActions';
 import Button from './Button';
 import Page from 'components/layout/Page';
-import styles from './KnowledgeMatrix.scss';
+import styles from './KnowledgeMatrix.module.scss';
 
 class KnowledgeMatrix extends Component {
   componentDidMount() {

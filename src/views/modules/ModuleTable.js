@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TablePagination from '@material-ui/core/TablePagination';
-import TableRow from '@material-ui/core/TableRow';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TablePagination from '@mui/material/TablePagination';
+import TableRow from '@mui/material/TableRow';
 import convertQuillToHtml from 'utils/convertQuillToHtml';
-import styles from './ModuleTable.scss';
+import styles from './ModuleTable.module.scss';
 
 class ModuleTable extends Component {
   state = {
@@ -59,16 +59,16 @@ class ModuleTable extends Component {
           count={this.props.data.length}
           labelDisplayedRows={this.getLabelDisplayedRows}
           labelRowsPerPage="Linhas por página:"
-          onChangePage={this.onChangedPage}
-          onChangeRowsPerPage={this.onChangedRowsPerPage}
+          onPageChange={this.onChangedPage}
+          onRowsPerPageChange={this.onChangedRowsPerPage}
           page={page}
           rowsPerPage={rowsPerPage}
           rowsPerPageOptions={[5, 10, 25]}
-          backIconButtonProps={{
-            'aria-label': 'Anterior',
-          }}
-          nextIconButtonProps={{
-            'aria-label': 'Próxima',
+          slotProps={{
+            actions: {
+              previousButton: { 'aria-label': 'Anterior' },
+              nextButton: { 'aria-label': 'Próxima' },
+            },
           }}
         />
       ) : null;

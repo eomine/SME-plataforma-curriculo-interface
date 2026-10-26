@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router';
 import { connect } from 'react-redux';
-import { history } from 'index';
+import { history } from 'utils/history';
 import Avatar from './Avatar';
 import BodyActions from 'actions/BodyActions';
-import ChallengesActions from 'actions/ChallengesActions';
 import MyProjectList from './projects/MyProjectList';
 import ChallengeList from './challenges/ChallengeList';
 import CollectionsActions from 'actions/CollectionsActions';
@@ -16,7 +15,7 @@ import ProfileActions from 'actions/ProfileActions';
 import createModalLink from 'utils/createModalLink';
 import withWidth from 'components/hoc/withWidth';
 import iconEdit from 'images/icons/edit.svg';
-import styles from './Profile.scss';
+import styles from './Profile.module.scss';
 
 class Profile extends Component {
   onClickedChallenge = () => {
@@ -61,10 +60,10 @@ class Profile extends Component {
               <Avatar size={size} />
               <div className={styles.name}>
                 <h2>{nickname}</h2>
-                <NavLink to={linkEdit}>Editar perfil</NavLink>
+                <NavLink {...linkEdit}>Editar perfil</NavLink>
               </div>
             </div>
-            <NavLink to={linkEdit}>
+            <NavLink {...linkEdit}>
               <img src={iconEdit} alt="Editar perfil" />
             </NavLink>
           </div>

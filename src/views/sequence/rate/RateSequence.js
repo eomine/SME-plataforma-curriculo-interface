@@ -10,8 +10,8 @@ import Question from './Question';
 import RatingActions from 'actions/RatingActions';
 import SequenceActions from 'actions/SequenceActions';
 import SequencePreview from 'views/activity/SequencePreview';
-import styles from './RateSequence.scss';
-import styles1 from 'views/sequence/save/SaveSequence.scss';
+import styles from './RateSequence.module.scss';
+import styles1 from 'views/sequence/save/SaveSequence.module.scss';
 
 class RateSequence extends Component {
   state = {

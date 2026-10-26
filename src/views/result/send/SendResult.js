@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import TextField from '@material-ui/core/TextField';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import TextField from '@mui/material/TextField';
 import { connect } from 'react-redux';
-import { withStyles } from '@material-ui/core/styles';
+import { styled } from '@mui/material/styles';
 import AlertActions from 'actions/AlertActions';
 import Attachment from './Attachment';
 import BigPreview from 'components/objects/BigPreview';
@@ -17,22 +17,19 @@ import ModalPage from 'components/layout/ModalPage';
 import formatFileSize from 'utils/formatFileSize';
 import iconClip from 'images/icons/clip.svg';
 import iconPlus from 'images/icons/plus1.svg';
-import styles from './SendResult.scss';
-import styles1 from 'views/sequence/save/SaveSequence.scss';
+import styles from './SendResult.module.scss';
+import styles1 from 'views/sequence/save/SaveSequence.module.scss';
 
 const MAX_CHARS = 3000;
 const MAX_SIZE = 10 * 1024 * 1024;
 const MAX_SIZE_FORMATTED = formatFileSize(MAX_SIZE);
 
-const CustomCheckbox = withStyles({
-  root: {
-    color: '#6a6a6a',
-    '&$checked': {
-      color: '#008080',
-    },
+const CustomCheckbox = styled(Checkbox)({
+  color: '#6a6a6a',
+  '&.Mui-checked': {
+    color: '#008080',
   },
-  checked: {},
-})(Checkbox);
+});
 
 class SendResult extends Component {
   state = {
@@ -236,7 +233,7 @@ class SendResult extends Component {
                   Adicionar mais um vídeo
                 </button>
                 
-                <label className={styles.label}>Outros anexos (opcional)</label>
+                <p className={styles.label}>Outros anexos (opcional)</p>
                 <div className={styles.attachments}>{attachmentItems}</div>
                 <label className={styles.btnAddFile}>
                   Selecionar arquivo

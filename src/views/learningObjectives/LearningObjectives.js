@@ -18,7 +18,7 @@ import withWidth from 'components/hoc/withWidth';
 import chevronLeft from 'images/chevrons/left.svg';
 import iconCloseBig from 'images/icons/closeBig.svg';
 import iconWarning from 'images/icons/warning.svg';
-import styles from './LearningObjectives.scss';
+import styles from './LearningObjectives.module.scss';
 
 class LearningObjectives extends Component {
   refFilters = React.createRef();
@@ -74,8 +74,12 @@ class LearningObjectives extends Component {
     this.target = document.querySelector('#learningObjectives');
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.isShowingResults) {
+  componentDidUpdate(prevProps) {
+    const { isShowingResults, results } = this.props;
+    if (
+      isShowingResults &&
+      (!prevProps.isShowingResults || results !== prevProps.results)
+    ) {
       this.tl.kill();
       this.tl.clear();
       this.tl.to(this.refFilters.current, 0.1, { opacity: 0, display: 'none' });
