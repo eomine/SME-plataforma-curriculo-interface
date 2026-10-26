@@ -2,76 +2,48 @@ import CollectionActions from 'actions/CollectionActions';
 import ProjectsActions from 'actions/ProjectsActions';
 
 const initialState = {
-	items: [],
-	isSearching: false,
-	nextPage: null,
-	totalItems: 0,
+  // Busca atual e prévia expandida da lista pública (data/curriculoApi).
+  query: null,
+  expandedId: null,
+  // "Meus projetos" do perfil.
+  items: [],
 };
 
 function ProjectsReducer(state = initialState, action) {
-	switch (action.type) {
+  switch (action.type) {
+    case ProjectsActions.SEARCH:
+      return {
+        ...state,
+        query: action.query,
+        expandedId: null,
+      };
 
-	case ProjectsActions.LOAD:
-		return {
-			...state,
-			isSearching: true,
-		};
+    case ProjectsActions.TOGGLE_PREVIEW:
+      return {
+        ...state,
+        expandedId: state.expandedId === action.id ? null : action.id,
+      };
 
-	case ProjectsActions.LOADED:
-		return {
-			...state,
-			items: action.data,
-			isSearching: false,
-			nextPage: action.nextPage,
-			totalItems: action.totalItems,
-		};
+    case ProjectsActions.LOADED:
+      return {
+        ...state,
+        items: action.data,
+      };
 
-	case ProjectsActions.LOAD_MORE:
-		return {
-			...state,
-			isSearching: true,
-		};
+    case CollectionActions.SAVED_PROJECT:
+      return {
+        ...state,
+        items: state.items.map(item => {
+          return {
+            ...item,
+            isSaved: item.id === action.projectId || item.isSaved,
+          };
+        }),
+      };
 
-	case ProjectsActions.LOADED_MORE:
-		return {
-			...state,
-			items: state.items.concat(action.data),
-			isSearching: false,
-			nextPage: action.nextPage,
-		};
-
-	case ProjectsActions.SEARCH:
-		return {
-			...state,
-			isSearching: true,
-		};
-
-
-	case ProjectsActions.TOGGLE_PREVIEW:
-		return {
-			...state,
-			items: state.items.map(item => {
-				return {
-					...item,
-					isExpanded: !item.isExpanded && item.id === action.id,
-				};
-			}),
-		};
-
-	case CollectionActions.SAVED_PROJECT:
-		return {
-			...state,
-			items: state.items.map(item => {
-				return {
-					...item,
-					isSaved: item.id === action.projectId || item.isSaved,
-				};
-			}),
-		};
-
-	default:
-		return state;
-	}
+    default:
+      return state;
+  }
 }
 
 export default ProjectsReducer;

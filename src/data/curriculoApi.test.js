@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import AlertReducer from 'reducers/AlertReducer';
-import { curriculoApi, markSequenceSaved } from 'data/curriculoApi';
+import { curriculoApi, markProjectSaved, markSequenceSaved } from 'data/curriculoApi';
 
 // O history real precisa de window.
 vi.mock('utils/history', () => ({ history: { push: vi.fn() } }));
@@ -109,6 +109,19 @@ describe('curriculoApi', () => {
       const { data } = getSequences.select(arg)(store.getState());
       expect(data.pages[0].items).toEqual([{ id: 1 }, { id: 2, isSaved: true }]);
     }
+  });
+
+  it('marca o projeto salvo só na lista de projetos', async () => {
+    vi.stubGlobal('fetch', vi.fn(() => Promise.resolve(new Response(JSON.stringify([{ id: 2 }])))));
+    const store = createStore();
+    const { getProjects, getSequences } = curriculoApi.endpoints;
+    await store.dispatch(getProjects.initiate(''));
+    await store.dispatch(getSequences.initiate(''));
+
+    store.dispatch(markProjectSaved(2));
+
+    expect(getProjects.select('')(store.getState()).data.pages[0].items).toEqual([{ id: 2, isSaved: true }]);
+    expect(getSequences.select('')(store.getState()).data.pages[0].items).toEqual([{ id: 2 }]);
   });
 
   it('mostra o alerta de erro, como as actions faziam', async () => {

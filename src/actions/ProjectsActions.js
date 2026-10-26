@@ -1,64 +1,29 @@
-import Api from 'data/Api';
-import AlertActions from 'actions/AlertActions';
-import getProjectFiltersQueryString, {
-  getSearchQueryString,
-} from 'data/getProjectFiltersQueryString';
+import { getSearchQueryString } from 'data/getProjectFiltersQueryString';
 
+// A lista de projetos vem do curriculoApi (getProjects); aqui fica a busca
+// atual (a query string) e a prévia expandida. LOAD e LOADED continuam para
+// os "meus projetos" do perfil (ProfileActions.loadMyProjects).
 const ProjectsActions = {
   LOAD: 'ProjectsActions.LOAD',
-	LOADED: 'ProjectsActions.LOADED',
-	LOAD_MORE: 'ProjectsActions.LOAD_MORE',
-  LOADED_MORE: 'ProjectsActions.LOADED_MORE',
+  LOADED: 'ProjectsActions.LOADED',
   SEARCH: 'ProjectsActions.SEARCH',
   TOGGLE_PREVIEW: 'ProjectsActions.TOGGLE_PREVIEW',
 
-  load() {
-		return Api.simpleGet(
-			'/api/projects',
-			ProjectsActions.LOAD,
-			ProjectsActions.LOADED
-		);
-	},
-	loadMore(page) {
-    return Api.simpleGet(
-      page,
-      ProjectsActions.LOAD_MORE,
-      ProjectsActions.LOADED_MORE
-    );
-  },
+  // Busca com os filtros e o texto do ProjectFiltersReducer no momento da chamada.
   search() {
     return (dispatch, getState) => {
-      const state = getState().ProjectFiltersReducer;
-      const { filters, filtersExtra, order, query } = state;
+      const { filters, filtersExtra, order, query } = getState().ProjectFiltersReducer;
       const activeFilters = filters.filter(item => item.isActive);
       const activeFiltersExtra = filtersExtra.filter(item => item.isActive);
       const queryString = getSearchQueryString(activeFilters, activeFiltersExtra, query, order);
-
-      dispatch({ type: ProjectsActions.SEARCH });
-      return Api.get(dispatch, `/api/projects?${queryString}`)
-        .then(response =>
-          dispatch({ ...response, type: ProjectsActions.LOADED })
-        )
-        .catch(error =>
-          dispatch(AlertActions.open(`Ocorreu um erro: ${error}`))
-        );
+      dispatch({ type: ProjectsActions.SEARCH, query: queryString });
     };
   },
-  loadWithFilter(filter) {
-    const queryString = getProjectFiltersQueryString([filter]);
-    return Api.simpleGet(
-      `/api/projects?${queryString}`,
-      ProjectsActions.SEARCH,
-      ProjectsActions.LOADED
-    );
+  load() {
+    return { type: ProjectsActions.SEARCH, query: '' };
   },
   togglePreview(id) {
     return { type: ProjectsActions.TOGGLE_PREVIEW, id };
-  },
-  alertError(error) {
-    return dispatch => {
-      return dispatch(AlertActions.open(`Ocorreu um erro: ${error}`))
-    };
   },
 };
 

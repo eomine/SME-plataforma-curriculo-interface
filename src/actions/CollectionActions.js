@@ -4,7 +4,7 @@ import Api from 'data/Api';
 import CollectionsActions from './CollectionsActions';
 import SnackbarActions from './SnackbarActions';
 import getTeacherId from 'data/getTeacherId';
-import { markSequenceSaved } from 'data/curriculoApi';
+import { markProjectSaved, markSequenceSaved } from 'data/curriculoApi';
 import { history } from 'utils/history';
 
 function doSaveSequence(dispatch, id, name, sequenceId) {
@@ -45,6 +45,7 @@ function doSaveProject(dispatch, id, name, projectId) {
   )
     .then(response => {
       dispatch({ ...response, projectId, type: CollectionActions.SAVED_PROJECT });
+      dispatch(markProjectSaved(projectId));
       dispatch(
         SnackbarActions.open(
           <span>
