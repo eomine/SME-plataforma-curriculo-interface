@@ -9,7 +9,7 @@ import BodyActions from 'actions/BodyActions';
 import ProjectChars from './chars/ProjectChars';
 import styles from './Project.module.scss';
 import getTeacherId from 'data/getTeacherId';
-import ReactQuill from 'react-quill';
+import RichTextEditor from 'components/RichTextEditor';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -146,7 +146,7 @@ class Project extends Component {
     const formats = [
       'header', 'font', 'size',
       'bold', 'italic', 'underline', 'strike', 'blockquote',
-      'list', 'bullet', 'indent',
+      'list', 'indent',
       'link', 'image', 'video'
     ]
 
@@ -226,7 +226,7 @@ class Project extends Component {
             <div className="row">
               <div className='col-sm-12 col-md-12 col-lg-12 co-xl-12'>
                 <h3>Novo Comentário:</h3>
-                <ReactQuill
+                <RichTextEditor
                   style={{marginTop: '5%', marginBottom: '5%'}}
                   theme={this.state.theme}
                   onChange={(html) => this.commentChange(html)}

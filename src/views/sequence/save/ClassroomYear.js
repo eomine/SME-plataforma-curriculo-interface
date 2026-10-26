@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import ReactTooltip from 'react-tooltip';
+import { Tooltip } from 'react-tooltip';
 import ClassroomYear1 from 'components/objects/ClassroomYear';
 
 class ClassroomYear extends React.PureComponent {
@@ -11,18 +11,16 @@ class ClassroomYear extends React.PureComponent {
 
     return (
       <Fragment>
-        <div data-tip data-for={tooltipId}>
+        <div data-tooltip-id={tooltipId}>
           <ClassroomYear1 color={color} year={year} />
         </div>
-        <ReactTooltip
+        <Tooltip
           place="bottom"
-          type="dark"
-          effect="solid"
           id={tooltipId}
           className="tooltip"
         >
           {tooltip}
-        </ReactTooltip>
+        </Tooltip>
       </Fragment>
     );
   }

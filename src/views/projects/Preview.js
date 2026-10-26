@@ -51,7 +51,7 @@ class Preview extends Component {
     const sustainableDevGoalsTitle = sustainableDevGoals.length ? (
       <div className={styles.title}>
         Objetivos de Desenvolvimento Sustentável (ODS)
-        <button data-tip data-for={`tooltipDevelopmentGoals-${salt}`}>
+        <button data-tooltip-id={`tooltipDevelopmentGoals-${salt}`}>
           <img src={iconHelp} alt="Ajuda" />
         </button>
       </div>
@@ -64,14 +64,14 @@ class Preview extends Component {
         <div className={styles.scroll}>
           <div className={styles.title}>
             Matriz de Saberes
-            <button data-tip data-for={`tooltipKnowledgeMatrices-${salt}`}>
+            <button data-tooltip-id={`tooltipKnowledgeMatrices-${salt}`}>
               <img src={iconHelp} alt="Ajuda" />
             </button>
           </div>
           <div>{knowledgeMatrices}</div>
           <div className={styles.title}>
             Objetivos de Aprendizagem
-            <button data-tip data-for={`tooltipLearningObjectives-${salt}`}>
+            <button data-tooltip-id={`tooltipLearningObjectives-${salt}`}>
               <img src={iconHelp} alt="Ajuda" />
             </button>
           </div>

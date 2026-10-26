@@ -11,7 +11,7 @@ import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import Chip from '@material-ui/core/Chip';
-import ReactQuill from 'react-quill';
+import RichTextEditor from 'components/RichTextEditor';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
 import BodyActions from 'actions/BodyActions';
@@ -480,7 +480,7 @@ class EditProject extends Component {
     const formats = [
       'header', 'font', 'size',
       'bold', 'italic', 'underline', 'strike', 'blockquote',
-      'list', 'bullet', 'indent',
+      'list', 'indent',
       'link', 'image', 'video'
     ]
 
@@ -996,7 +996,7 @@ class EditProject extends Component {
                     <div className="row">
                       <div className={`${styles.projectInformations} col-sm-12 col-md-12 col-lg-12 co-xl-12`}>
                         <InputLabel id="demo-simple-select-filled-label">Desenvolvimento do Projeto</InputLabel>
-                        <ReactQuill
+                        <RichTextEditor
                           style={{marginTop: '5%', marginBottom: '5%'}}
                           theme={this.state.theme}
                           onChange={(html) => this.descriptionChange(html)}

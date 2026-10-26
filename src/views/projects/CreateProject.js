@@ -9,13 +9,12 @@ import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import Chip from '@material-ui/core/Chip';
-import ReactQuill from 'react-quill';
+import RichTextEditor from 'components/RichTextEditor';
 import Card from '@material-ui/core/Card';
 import Home from 'views/home/Home';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
-import 'react-quill/dist/quill.snow.css';
 import BodyActions from 'actions/BodyActions';
 
 
@@ -482,7 +481,7 @@ class CreateProject extends Component {
     const formats = [
       'header', 'font', 'size',
       'bold', 'italic', 'underline', 'strike', 'blockquote',
-      'list', 'bullet', 'indent',
+      'list', 'indent',
       'link', 'image', 'video'
     ]
 
@@ -997,7 +996,7 @@ class CreateProject extends Component {
                 <div className="row">
                   <div className={`${styles.projectInformations} col-sm-12 col-md-12 col-lg-12 co-xl-12`}>
                     <InputLabel id="demo-simple-select-filled-label">Desenvolvimento do Projeto</InputLabel>
-                    <ReactQuill
+                    <RichTextEditor
                       style={{marginTop: '5%', marginBottom: '5%'}}
                       theme={this.state.theme}
                       onChange={(html) => this.descriptionChange(html)}

@@ -105,7 +105,8 @@ a:hover {
   width: 100%;
 }
 
-.tooltip {
+// .react-tooltip para vencer os estilos que o react-tooltip injeta.
+.react-tooltip.tooltip {
   font-size: rem(13);
   font-weight: normal;
   line-height: rem(16);
@@ -113,7 +114,11 @@ a:hover {
   min-width: rem(120);
   padding: rem(13) rem(20);
 
-  > strong {
+  .react-tooltip-content-wrapper {
+    padding: 0;
+  }
+
+  strong {
     display: block;
     font-size: rem(15);
     font-weight: normal;
