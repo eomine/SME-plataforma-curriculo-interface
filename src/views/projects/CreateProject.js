@@ -450,8 +450,8 @@ class CreateProject extends Component {
     this.props.load();
   }
 
-  componentWillReceiveProps() {
-    if (this.props.teacherId) {
+  componentDidUpdate() {
+    if (this.props.teacherId && this.props.teacherId !== this.state.project.teacher_id) {
       this.setState({
         project: {
           ...this.state.project,

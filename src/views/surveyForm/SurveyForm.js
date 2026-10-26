@@ -31,18 +31,20 @@ class SurveyForm extends Component {
     this.validationFields = this.validationFields.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (Object.keys(nextProps.surveyFormAnswer).length > 0){
+  // Copia para o state as respostas e as perguntas quando chegam da API.
+  componentDidUpdate(prevProps) {
+    const { surveyFormAnswer, contentBlocks } = this.props;
+    if (surveyFormAnswer !== prevProps.surveyFormAnswer && Object.keys(surveyFormAnswer).length > 0){
       this.setState({
-        surveyFormAnswer: nextProps.surveyFormAnswer,
+        surveyFormAnswer,
       });
     }
 
-    if (nextProps.contentBlocks.length > 0){
+    if (contentBlocks !== prevProps.contentBlocks && contentBlocks.length > 0){
       this.setState({
         errors: {
           ...this.state.errors,
-          question: nextProps.contentBlocks.map(() => ({
+          question: contentBlocks.map(() => ({
             rating: false,
             comment: false,
           }))
