@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import ReactTooltip from 'react-tooltip';
+import { Tooltip } from 'react-tooltip';
 
 class Tooltips extends React.PureComponent {
   render() {
@@ -16,10 +16,8 @@ class Tooltips extends React.PureComponent {
 
     return (
       <Fragment>
-        <ReactTooltip
+        <Tooltip
           place="bottom"
-          type="dark"
-          effect="solid"
           id={id1}
           className="tooltip"
         >
@@ -29,11 +27,9 @@ class Tooltips extends React.PureComponent {
             atual, sem comprometer a capacidades das gerações futuras de
             satisfazerem as suas próprias necessidades.
           </p>
-        </ReactTooltip>
-        <ReactTooltip
+        </Tooltip>
+        <Tooltip
           place="bottom"
-          type="dark"
-          effect="solid"
           id={id2}
           className="tooltip"
         >
@@ -43,11 +39,9 @@ class Tooltips extends React.PureComponent {
             atual, sem comprometer a capacidades das gerações futuras de
             satisfazerem as suas próprias necessidades.
           </p>
-        </ReactTooltip>
-        <ReactTooltip
+        </Tooltip>
+        <Tooltip
           place="bottom"
-          type="dark"
-          effect="solid"
           id={id3}
           className="tooltip"
         >
@@ -57,7 +51,7 @@ class Tooltips extends React.PureComponent {
             atual, sem comprometer a capacidades das gerações futuras de
             satisfazerem as suas próprias necessidades.
           </p>
-        </ReactTooltip>
+        </Tooltip>
       </Fragment>
     );
   }

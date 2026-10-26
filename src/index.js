@@ -1,12 +1,12 @@
 import 'bootstrap/dist/css/bootstrap-reboot.css';
 import 'bootstrap/dist/css/bootstrap-grid.css';
-import 'react-image-gallery/styles/css/image-gallery-no-icon.css';
+import 'react-image-gallery/styles/image-gallery.css';
 import 'react-router-modal/css/react-router-modal.css';
 import 'components/layout/FullModal.scss';
 import './index.scss';
 
 import React, { Component, Fragment } from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import thunk from 'redux-thunk';
 import { history } from 'utils/history';
 import { ModalContainer, ModalRoute } from 'react-router-modal';
@@ -277,7 +277,7 @@ class ModalSwitch extends Component {
   }
 }
 
-ReactDOM.render(
+createRoot(document.getElementById('root')).render(
   <Provider store={store}>
     <Router history={history}>
       <MuiThemeProvider theme={theme}>
@@ -288,8 +288,7 @@ ReactDOM.render(
         <Confirm />
       </MuiThemeProvider>
     </Router>
-  </Provider>,
-  document.getElementById('root')
+  </Provider>
 );
 
 // registerServiceWorker();

@@ -71,7 +71,7 @@ class ProjectChars extends Component {
         </div>
         <div className={styles.title}>
           Objetivos de aprendizagem
-          <button data-tip data-for="tooltipLearningObjectives">
+          <button data-tooltip-id="tooltipLearningObjectives">
             <img src={iconHelp} alt="Ajuda" />
           </button>
           <div>
@@ -83,7 +83,7 @@ class ProjectChars extends Component {
         </div>
         <div className={styles.title}>
           Objetivos de Desenvolvimento Sustentável (ODS)
-          <button data-tip data-for="tooltipDevelopmentGoals">
+          <button data-tooltip-id="tooltipDevelopmentGoals">
             <img src={iconHelp} alt="Ajuda" />
           </button>
           <div>
@@ -96,7 +96,7 @@ class ProjectChars extends Component {
         <div className={styles.spacer} />
         <div className={styles.title}>
           Matriz de saberes
-          <button data-tip data-for="tooltipKnowledgeMatrices">
+          <button data-tooltip-id="tooltipKnowledgeMatrices">
             <img src={iconHelp} alt="Ajuda" />
           </button>
           <div>

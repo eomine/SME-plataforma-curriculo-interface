@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import ReactTooltip from 'react-tooltip';
+import { Tooltip } from 'react-tooltip';
 import { connect } from 'react-redux';
 import ProjectFiltersActions from 'actions/ProjectFiltersActions';
 import ImageButton from './ImageButton';
@@ -83,22 +83,20 @@ class CategoryPanel extends Component {
       }
 
       btnTooltip = (
-        <button data-tip data-for="tooltip">
+        <button data-tooltip-id="tooltip">
           <img src={iconHelp} alt="Ajuda" />
         </button>
       );
 
       tooltip = (
-        <ReactTooltip
+        <Tooltip
           place="bottom"
-          type="dark"
-          effect="solid"
           id="tooltip"
           className="tooltip"
         >
           <strong>{tooltipTitle}</strong>
           <p>{tooltipText}</p>
-        </ReactTooltip>
+        </Tooltip>
       );
     }
 

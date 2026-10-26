@@ -25,7 +25,7 @@ class ActivityChars extends Component {
     const learningObjectivesTitle = data.learning_objectives.length ? (
       <div className={styles.title}>
         Objetivos de aprendizagem
-        <button data-tip data-for="tooltipLearningObjectives">
+        <button data-tooltip-id="tooltipLearningObjectives">
           <img src={iconHelp} alt="Ajuda" />
         </button>
       </div>
