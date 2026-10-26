@@ -8,6 +8,8 @@ import ModalHeader from 'components/header/ModalHeader';
 import ModalPage from 'components/layout/ModalPage';
 import Question from './Question';
 import RatingActions from 'actions/RatingActions';
+import { useGetRatingCriteriaQuery } from 'data/curriculoApi';
+import withQuery from 'utils/withQuery';
 import SequenceActions from 'actions/SequenceActions';
 import SequencePreview from 'views/activity/SequencePreview';
 import styles from './RateSequence.module.scss';
@@ -45,10 +47,6 @@ class RateSequence extends Component {
   componentDidMount() {
     if (!this.props.data) {
       this.props.load(this.props.match.params.slug);
-    }
-
-    if (!this.props.questions.length) {
-      this.props.loadQuestions();
     }
 
     // this.setState({
@@ -113,7 +111,6 @@ RateSequence.propTypes = {
 const mapStateToProps = state => {
   return {
     data: state.SequenceReducer.currItem,
-    questions: state.RatingReducer.items,
   };
 };
 
@@ -122,16 +119,15 @@ const mapDispatchToProps = dispatch => {
     load: slug => {
       dispatch(SequenceActions.load(slug));
     },
-    loadQuestions: () => {
-      dispatch(RatingActions.load());
-    },
     save: (slug, answers) => {
       dispatch(RatingActions.save(slug, answers));
     },
   };
 };
 
-export default connect(
+export default withQuery(useGetRatingCriteriaQuery, {
+  mapResult: result => ({ questions: result.data || [] }),
+})(connect(
   mapStateToProps,
   mapDispatchToProps
-)(RateSequence);
+)(RateSequence));

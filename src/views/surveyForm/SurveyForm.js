@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Page from 'components/layout/Page';
-import SurveyFormActions from 'actions/SurveyFormActions';
 import TeacherSurveyFormsActions from 'actions/TeacherSurveyFormsActions';
+import { useGetSurveyFormQuery } from 'data/curriculoApi';
+import withQuery from 'utils/withQuery';
 import styles from './SurveyForm.module.scss';
 import getContentBlocks from 'utils/getContentBlocks';
 import Slider from '@mui/material/Slider';
@@ -184,7 +185,6 @@ class SurveyForm extends Component {
   }
 
   componentDidMount() {
-    this.props.load(this.props.match.params.id);
     this.props.new(this.props.match.params.id);
   }
 
@@ -333,7 +333,6 @@ SurveyForm.propTypes = {
   contentBlocks: PropTypes.array,
   surveyFormAnswer: PropTypes.object,
   isLoading: PropTypes.bool.isRequired,
-  load: PropTypes.func.isRequired,
   new: PropTypes.func.isRequired,
   create: PropTypes.func.isRequired,
   alertError: PropTypes.func.isRequired,
@@ -341,18 +340,12 @@ SurveyForm.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    surveyForm: state.SurveyFormReducer.surveyForm,
-    contentBlocks: state.SurveyFormReducer.contentBlocks,
     surveyFormAnswer: state.TeacherSurveyFormsReducer.surveyFormAnswer,
-    isLoading: state.SurveyFormReducer.isLoading,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    load: id => {
-      dispatch(SurveyFormActions.load(id));
-    },
     new: surveyFormId => {
       dispatch(TeacherSurveyFormsActions.new(surveyFormId));
     },
@@ -365,7 +358,14 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(
+export default withQuery(useGetSurveyFormQuery, {
+  arg: props => props.match.params.id,
+  mapResult: ({ currentData, isFetching }) => ({
+    surveyForm: currentData ? currentData.survey_form : {},
+    contentBlocks: currentData ? currentData.survey_form_content_blocks : [],
+    isLoading: isFetching,
+  }),
+})(connect(
   mapStateToProps,
   mapDispatchToProps
-)(SurveyForm);
+)(SurveyForm));

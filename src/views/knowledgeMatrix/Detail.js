@@ -1,39 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router';
-import { connect } from 'react-redux';
 import { history } from 'utils/history';
-import BodyActions from 'actions/BodyActions';
 import FullModal from 'components/layout/FullModal';
-import KnowledgeMatrixActions from 'actions/KnowledgeMatrixActions';
+import { useGetKnowledgeMatricesQuery } from 'data/curriculoApi';
+import withQuery from 'utils/withQuery';
 import iconCloseBig from 'images/icons/closeBig.svg';
 import styles from './Detail.module.scss';
 
 class Detail extends Component {
-  state = { isLoaded: true };
-
   onClickedClose = () => {
     history.back();
   };
-
-  componentDidMount() {
-    if (this.props.data.length <= 0) {
-      this.props.load();
-      this.setState({ isLoaded: false });
-    } else {
-      this.setState({ isLoaded: true });
-    }
-  }
-
-  componentDidUpdate(prevProps) {
-    if (this.props.match.params.index !== prevProps.match.params.index) {
-      const index = parseInt(this.props.match.params.index, 10);
-      const data = this.props.data.filter(item => item.sequence === index)[0];
-      if (data) {
-        this.setState({ isLoaded: true });
-      }
-    }
-  }
 
   render() {
     const index = parseInt(this.props.match.params.index, 10);
@@ -78,25 +56,9 @@ class Detail extends Component {
 
 Detail.propTypes = {
   data: PropTypes.array.isRequired,
-  load: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => {
-  return {
-    data: state.KnowledgeMatrixReducer.items,
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    load: () => {
-      dispatch(BodyActions.showLoading());
-      dispatch(KnowledgeMatrixActions.load());
-    },
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Detail);
+export default withQuery(useGetKnowledgeMatricesQuery, {
+  mapResult: result => ({ data: result.data || [] }),
+  showLoading: true,
+})(Detail);

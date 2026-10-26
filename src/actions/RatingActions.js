@@ -3,17 +3,8 @@ import Api from 'data/Api';
 import getTeacherId from 'data/getTeacherId';
 
 const RatingActions = {
-  LOAD: 'RatingActions.LOAD',
-  LOADED: 'RatingActions.LOADED',
   SAVED: 'RatingActions.SAVED',
 
-  load(slug) {
-    return Api.simpleGet(
-      `/api/avaliacao_criterios`,
-      RatingActions.LOAD,
-      RatingActions.LOADED
-    );
-  },
   save(slug, answers) {
     return dispatch => {
       const ratings = [];

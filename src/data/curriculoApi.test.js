@@ -65,6 +65,15 @@ describe('curriculoApi', () => {
     expect(fetch).toHaveBeenCalledTimes(1);
   });
 
+  it('ordena os critérios de avaliação pela sequência', async () => {
+    mockFetch(200, [{ id: 'b', sequence: 2 }, { id: 'c', sequence: 3 }, { id: 'a', sequence: 1 }]);
+    const store = createStore();
+
+    const result = await store.dispatch(curriculoApi.endpoints.getRatingCriteria.initiate());
+
+    expect(result.data.map(item => item.id)).toEqual(['a', 'b', 'c']);
+  });
+
   it('mostra o alerta de erro, como as actions faziam', async () => {
     mockFetch(422, { error: 'não encontrado' });
     const store = createStore();
