@@ -1,26 +1,15 @@
 import HomeActions from 'actions/HomeActions';
 
 const initialState = {
-  items: [],
+  expandedId: null,
 };
 
 function HomeReducer(state = initialState, action) {
   switch (action.type) {
-    case HomeActions.LOADED:
-      return {
-        ...state,
-        items: action.data,
-      };
-
     case HomeActions.TOGGLE_PREVIEW:
       return {
         ...state,
-        items: state.items.map(item => {
-          return {
-            ...item,
-            isExpanded: !item.isExpanded && item.id === action.id,
-          };
-        }),
+        expandedId: state.expandedId === action.id ? null : action.id,
       };
 
     default:

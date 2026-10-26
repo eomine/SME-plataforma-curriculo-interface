@@ -7,7 +7,6 @@ import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
 import Search from '@mui/icons-material/Search';
 import { connect } from 'react-redux';
-import BodyActions from 'actions/BodyActions';
 import FiltersActions from 'actions/FiltersActions';
 import SequencesActions from 'actions/SequencesActions';
 import styles from './SearchField.module.scss';
@@ -65,7 +64,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     search: value => {
-      dispatch(BodyActions.showLoading());
       dispatch(SequencesActions.search());
     },
     setQuery: value => {

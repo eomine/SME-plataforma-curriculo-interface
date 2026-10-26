@@ -1,54 +1,28 @@
 import Api from 'data/Api';
-import AlertActions from './AlertActions';
 import getFiltersQueryString, {
   getSearchQueryString,
 } from 'data/getFiltersQueryString';
 
+// A lista de sequências vem do curriculoApi (getSequences); aqui fica só a
+// busca atual (a query string) e a prévia expandida.
 const SequencesActions = {
-  CLEAR: 'SequencesActions.CLEAR',
-  LOAD: 'SequencesActions.LOAD',
-  LOAD_MORE: 'SequencesActions.LOAD_MORE',
   LOAD_PERFORMED: 'SequencesActions.LOAD_PERFORMED',
-  LOADED: 'SequencesActions.LOADED',
-  LOADED_MORE: 'SequencesActions.LOADED_MORE',
   LOADED_PERFORMED: 'SequencesActions.LOADED_PERFORMED',
   SEARCH: 'SequencesActions.SEARCH',
   TOGGLE_PREVIEW: 'SequencesActions.TOGGLE_PREVIEW',
 
-  clearSearch() {
-    return { type: SequencesActions.CLEAR };
-  },
+  // Busca com os filtros e o texto do FiltersReducer no momento da chamada.
   search() {
     return (dispatch, getState) => {
-      const state = getState().FiltersReducer;
-      const { filters, filtersExtra, order, query } = state;
+      const { filters, filtersExtra, order, query } = getState().FiltersReducer;
       const activeFilters = filters.filter(item => item.isActive);
       const activeFiltersExtra = filtersExtra.filter(item => item.isActive);
       const queryString = getSearchQueryString(activeFilters, activeFiltersExtra, query, order);
-
-      dispatch({ type: SequencesActions.SEARCH });
-      return Api.get(dispatch, `/api/sequencias?${queryString}`)
-        .then(response =>
-          dispatch({ ...response, type: SequencesActions.LOADED })
-        )
-        .catch(error =>
-          dispatch(AlertActions.open(`Ocorreu um erro: ${error}`))
-        );
+      dispatch({ type: SequencesActions.SEARCH, query: queryString });
     };
   },
   load() {
-    return Api.simpleGet(
-      '/api/sequencias',
-      SequencesActions.LOAD,
-      SequencesActions.LOADED
-    );
-  },
-  loadMore(page) {
-    return Api.simpleGet(
-      page,
-      SequencesActions.LOAD_MORE,
-      SequencesActions.LOADED_MORE
-    );
+    return { type: SequencesActions.SEARCH, query: '' };
   },
   loadPerformed() {
     return Api.simpleGet(
@@ -58,12 +32,7 @@ const SequencesActions = {
     );
   },
   loadWithFilter(filter) {
-    const queryString = getFiltersQueryString([filter]);
-    return Api.simpleGet(
-      `/api/sequencias?${queryString}`,
-      SequencesActions.SEARCH,
-      SequencesActions.LOADED
-    );
+    return { type: SequencesActions.SEARCH, query: getFiltersQueryString([filter]) };
   },
   togglePreview(id) {
     return { type: SequencesActions.TOGGLE_PREVIEW, id };

@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import AlertReducer from 'reducers/AlertReducer';
-import { curriculoApi } from 'data/curriculoApi';
+import { curriculoApi, markSequenceSaved } from 'data/curriculoApi';
 
 // O history real precisa de window.
 vi.mock('utils/history', () => ({ history: { push: vi.fn() } }));
@@ -72,6 +72,43 @@ describe('curriculoApi', () => {
     const result = await store.dispatch(curriculoApi.endpoints.getRatingCriteria.initiate());
 
     expect(result.data.map(item => item.id)).toEqual(['a', 'b', 'c']);
+  });
+
+  it('pagina as sequências pela URL do header Link', async () => {
+    const fetch = vi.fn()
+      .mockResolvedValueOnce(new Response(JSON.stringify([{ id: 1 }]), {
+        headers: { link: '<https://x/api/sequencias?q=agua&page=2>; rel="next"', total: '2' },
+      }))
+      .mockResolvedValueOnce(new Response(JSON.stringify([{ id: 2 }])));
+    vi.stubGlobal('fetch', fetch);
+    const store = createStore();
+    const { getSequences } = curriculoApi.endpoints;
+
+    await store.dispatch(getSequences.initiate('q=agua'));
+    const result = await store.dispatch(getSequences.initiate('q=agua', { direction: 'forward' }));
+
+    expect(fetch.mock.calls[0][0]).toMatch(/\/api\/sequencias\?q=agua$/);
+    expect(fetch.mock.calls[1][0]).toBe('https://x/api/sequencias?q=agua&page=2');
+    expect(result.data.pages.map(page => page.items)).toEqual([[{ id: 1 }], [{ id: 2 }]]);
+    expect(result.data.pages[0].totalItems).toBe('2');
+    expect(result.hasNextPage).toBe(false);
+  });
+
+  it('marca a sequência salva em todas as buscas em cache', async () => {
+    vi.stubGlobal('fetch', vi.fn(() =>
+      Promise.resolve(new Response(JSON.stringify([{ id: 1 }, { id: 2, isSaved: false }])))
+    ));
+    const store = createStore();
+    const { getSequences } = curriculoApi.endpoints;
+    await store.dispatch(getSequences.initiate(''));
+    await store.dispatch(getSequences.initiate('q=agua'));
+
+    store.dispatch(markSequenceSaved(2));
+
+    for (const arg of ['', 'q=agua']) {
+      const { data } = getSequences.select(arg)(store.getState());
+      expect(data.pages[0].items).toEqual([{ id: 1 }, { id: 2, isSaved: true }]);
+    }
   });
 
   it('mostra o alerta de erro, como as actions faziam', async () => {
