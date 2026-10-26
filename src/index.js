@@ -17,7 +17,7 @@ import {
   useNavigationType,
 } from 'react-router';
 import { applyMiddleware, createStore } from 'redux';
-import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
+import { ThemeProvider as MuiThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 import Activity from 'views/activity/Activity';
 import Alert from 'components/Alert';
 import RouteModals from 'components/RouteModals';
@@ -159,13 +159,15 @@ function ModalSwitch() {
 createRoot(document.getElementById('root')).render(
   <Provider store={store}>
     <HistoryRouter history={history}>
-      <MuiThemeProvider theme={theme}>
-        <ModalSwitch />
-        <AppLoading />
-        <Snackbar />
-        <Alert />
-        <Confirm />
-      </MuiThemeProvider>
+      <StyledEngineProvider injectFirst>
+        <MuiThemeProvider theme={theme}>
+          <ModalSwitch />
+          <AppLoading />
+          <Snackbar />
+          <Alert />
+          <Confirm />
+        </MuiThemeProvider>
+      </StyledEngineProvider>
     </HistoryRouter>
   </Provider>
 );

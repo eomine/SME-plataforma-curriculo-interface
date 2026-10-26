@@ -6,7 +6,7 @@ import SurveyFormActions from 'actions/SurveyFormActions';
 import TeacherSurveyFormsActions from 'actions/TeacherSurveyFormsActions';
 import styles from './SurveyForm.module.scss';
 import getContentBlocks from 'utils/getContentBlocks';
-import Slider from '@material-ui/core/Slider';
+import Slider from '@mui/material/Slider';
 
 class SurveyForm extends Component {
 

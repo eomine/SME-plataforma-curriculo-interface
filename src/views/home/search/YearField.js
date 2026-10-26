@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Popover from '@material-ui/core/Popover';
+import Popover from '@mui/material/Popover';
 import { connect } from 'react-redux';
 import YearButton from 'views/sequences/objects/YearButton';
 import chevronDown from 'images/chevrons/down.svg';

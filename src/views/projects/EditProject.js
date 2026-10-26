@@ -3,17 +3,17 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Page from 'components/layout/Page';
 import styles from './CreateProject.module.scss';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
 import EditProjectActions from 'actions/EditProjectActions';
-import InputLabel from '@material-ui/core/InputLabel';
-import TextField from '@material-ui/core/TextField';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import Chip from '@material-ui/core/Chip';
+import InputLabel from '@mui/material/InputLabel';
+import TextField from '@mui/material/TextField';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import Chip from '@mui/material/Chip';
 import RichTextEditor from 'components/RichTextEditor';
-import Button from '@material-ui/core/Button';
-import Checkbox from '@material-ui/core/Checkbox';
+import Button from '@mui/material/Button';
+import Checkbox from '@mui/material/Checkbox';
 import BodyActions from 'actions/BodyActions';
 
 class EditProject extends Component {
@@ -511,6 +511,7 @@ class EditProject extends Component {
                         <div className="col-sm-12 col-md-12 col-lg-6 col-xl-6">
                           <InputLabel id="demo-simple-select-filled-label">Selecione os Componentes Curriculares</InputLabel>
                           <Select
+                            variant="standard"
                             className={styles.selectOptions}
                             labelId="demo-simple-select-filled-label"
                             id="demo-simple-select-filled"
@@ -551,6 +552,7 @@ class EditProject extends Component {
                         <div className="col-sm-12 col-md-12 col-lg-6 col-xl-6">
                           <InputLabel id="demo-simple-select-filled-label">Selecione a Matriz de Saberes</InputLabel>
                           <Select
+                            variant="standard"
                             className={styles.selectOptions}
                             labelId="demo-simple-select-filled-label"
                             id="demo-simple-select-filled"
@@ -591,6 +593,7 @@ class EditProject extends Component {
                         <div className="col-sm-12 col-md-12 col-lg-6 col-xl-6">
                           <InputLabel id="demo-simple-select-filled-label">Selecione as opções do Protagonismo Estudantil</InputLabel>
                           <Select
+                            variant="standard"
                             className={styles.selectOptions}
                             labelId="demo-simple-select-filled-label"
                             id="demo-simple-select-filled"
@@ -631,6 +634,7 @@ class EditProject extends Component {
                         <div className="col-sm-12 col-md-12 col-lg-6 col-xl-6">
                           <InputLabel id="demo-simple-select-filled-label">Selecione os Segmentos</InputLabel>
                           <Select
+                            variant="standard"
                             className={styles.selectOptions}
                             labelId="demo-simple-select-filled-label"
                             id="demo-simple-select-filled"
@@ -688,6 +692,7 @@ class EditProject extends Component {
                                     return null;
                                   })}
                                   <Select
+                                    variant="standard"
                                     style={{marginTop: '2%'}}
                                     className={styles.selectOptions}
                                     labelId="demo-simple-select-filled-label"
@@ -741,6 +746,7 @@ class EditProject extends Component {
                                   return null;
                                 })}
                                 <Select
+                                  variant="standard"
                                   style={{marginTop: '2%'}}
                                   className={styles.selectOptions}
                                   labelId="demo-simple-select-filled-label"
@@ -780,6 +786,7 @@ class EditProject extends Component {
                         <div className="col-sm-12 col-md-12 col-lg-6 col-xl-6">
                           <InputLabel id="demo-simple-select-filled-label">Selecione os Objetivos de Aprendizagem</InputLabel>
                           <Select
+                            variant="standard"
                             className={styles.selectOptions}
                             labelId="demo-simple-select-filled-label"
                             id="demo-simple-select-filled"
@@ -826,6 +833,7 @@ class EditProject extends Component {
                         <div className={`${styles.projectInformations} col-sm-12 col-md-12 col-lg-6 col-xl-6`}>
                           <InputLabel id="demo-simple-select-filled-label">Diretoria Regional de Educação</InputLabel>
                           <Select
+                            variant="standard"
                             className={styles.selectOptions}
                             labelId="demo-simple-select-filled-label"
                             id="demo-simple-select-filled"
@@ -852,6 +860,7 @@ class EditProject extends Component {
                         <div className={`${styles.projectInformations} col-sm-12 col-md-12 col-lg-6 col-xl-6`}>
                           <InputLabel id="demo-simple-select-filled-label">Escola</InputLabel>
                           <Select
+                            variant="standard"
                             className={styles.selectOptions}
                             labelId="demo-simple-select-filled-label"
                             id="demo-simple-select-filled"
@@ -887,6 +896,7 @@ class EditProject extends Component {
                         <div className={`${styles.projectInformations} col-sm-12 col-md-12 col-lg-6 col-xl-6`}>
                           <InputLabel id="demo-simple-select-filled-label">Ano Letivo</InputLabel>
                           <Select
+                            variant="standard"
                             className={styles.selectOptions}
                             labelId="demo-simple-select-filled-label"
                             id="demo-simple-select-filled"
