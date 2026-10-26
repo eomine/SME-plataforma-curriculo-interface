@@ -15,3 +15,9 @@
     margin: 0 !important;
   }
 }
+
+.clamped {
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+  overflow: hidden;
+}

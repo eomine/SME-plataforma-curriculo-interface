@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Collapse from '@material-ui/core/Collapse';
-import SwipeableViews from 'react-swipeable-views';
+import SwipeableViews from 'components/SwipeableViews';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 import { connect } from 'react-redux';
