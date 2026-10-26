@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import BodyActions from 'actions/BodyActions';
 import FiltersActions from 'actions/FiltersActions';
+import { skipToken } from '@reduxjs/toolkit/query/react';
+import { useGetSequencesInfiniteQuery } from 'data/curriculoApi';
+import withQuery from 'utils/withQuery';
 import SequencesActions from 'actions/SequencesActions';
 import Bar from './bar/Bar';
 import Filters from './filters/Filters';
@@ -17,7 +19,7 @@ class Sequences extends Component {
   state = { windowHeight: 1000 };
 
   onClickedLoadMore = () => {
-    this.props.loadMore(this.props.nextPage);
+    this.props.loadMore();
   };
 
   componentDidMount() {
@@ -106,7 +108,7 @@ class Sequences extends Component {
 Sequences.propTypes = {
   data: PropTypes.array.isRequired,
   isSearching: PropTypes.bool.isRequired,
-  nextPage: PropTypes.string,
+  nextPage: PropTypes.bool,
   totalItems: PropTypes.number,
   search: PropTypes.func.isRequired,
   load: PropTypes.func.isRequired,
@@ -116,22 +118,16 @@ Sequences.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    data: state.SequencesReducer.items,
-    isSearching: state.SequencesReducer.isSearching,
-    nextPage: state.SequencesReducer.nextPage,
-    totalItems: state.SequencesReducer.totalItems,
+    query: state.SequencesReducer.query,
+    expandedId: state.SequencesReducer.expandedId,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     load: () => {
-      dispatch(BodyActions.showLoading());
       dispatch(FiltersActions.clearFilters());
       dispatch(SequencesActions.load());
-    },
-    loadMore: page => {
-      dispatch(SequencesActions.loadMore(page));
     },
     loadWithFilter: data => {
       dispatch(FiltersActions.clearFilters());
@@ -144,7 +140,26 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
+// A busca atual (query) vem do SequencesReducer; os resultados, do cache.
+const withSequences = withQuery(useGetSequencesInfiniteQuery, {
+  arg: props => (props.query === null ? skipToken : props.query),
+  mapResult: (result, props) => {
+    const pages = result.data ? result.data.pages : [];
+    return {
+      data: pages
+        .flatMap(page => page.items)
+        .map(item => ({ ...item, isExpanded: item.id === props.expandedId })),
+      isSearching: result.isFetching,
+      nextPage: result.hasNextPage,
+      totalItems: pages.length ? pages[0].totalItems : 0,
+      loadMore: result.fetchNextPage,
+    };
+  },
+  // Loading global a cada nova busca, mas não ao carregar mais.
+  showLoading: result => result.isFetching && !result.isFetchingNextPage,
+});
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Sequences);
+)(withSequences(Sequences));

@@ -4,6 +4,7 @@ import Api from 'data/Api';
 import CollectionsActions from './CollectionsActions';
 import SnackbarActions from './SnackbarActions';
 import getTeacherId from 'data/getTeacherId';
+import { markSequenceSaved } from 'data/curriculoApi';
 import { history } from 'utils/history';
 
 function doSaveSequence(dispatch, id, name, sequenceId) {
@@ -19,6 +20,7 @@ function doSaveSequence(dispatch, id, name, sequenceId) {
   )
     .then(response => {
       dispatch({ ...response, sequenceId, type: CollectionActions.SAVED_SEQUENCE });
+      dispatch(markSequenceSaved(sequenceId));
       dispatch(
         SnackbarActions.open(
           <span>

@@ -22,8 +22,6 @@ const initialState = {
 function SequenceReducer(state = initialState, action) {
   switch (action.type) {
     case SequenceActions.LOAD:
-    case SequencesActions.LOAD:
-    case SequencesActions.LOAD_MORE:
     case SequencesActions.SEARCH:
       return initialState;
 

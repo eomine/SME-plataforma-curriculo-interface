@@ -47,6 +47,21 @@ export const curriculoApi = createApi({
     getSurveyForm: build.query({
       query: id => `/api/survey_forms/${id}`,
     }),
+    // Lista paginada: o argumento é a query string da busca ('' = todas) e
+    // cada página seguinte vem da URL do header Link da anterior.
+    getSequences: build.infiniteQuery({
+      query: ({ queryArg, pageParam }) =>
+        pageParam || (queryArg ? `/api/sequencias?${queryArg}` : '/api/sequencias'),
+      transformResponse: (items, meta) => ({
+        items,
+        nextPage: meta.nextPage,
+        totalItems: meta.totalItems,
+      }),
+      infiniteQueryOptions: {
+        initialPageParam: null,
+        getNextPageParam: lastPage => lastPage.nextPage || undefined,
+      },
+    }),
     getSustainableDevGoals: build.query({
       query: () => '/api/ods',
     }),
@@ -64,7 +79,28 @@ export const {
   useGetMethodologiesQuery,
   useGetMethodologyQuery,
   useGetRatingCriteriaQuery,
+  useGetSequencesInfiniteQuery,
   useGetSurveyFormQuery,
   useGetSustainableDevGoalsQuery,
   useGetSustainableDevGoalQuery,
 } = curriculoApi;
+
+// Marca a sequência como salva em todas as buscas já em cache, como o
+// SequencesReducer fazia com o SAVED_SEQUENCE.
+export function markSequenceSaved(sequenceId) {
+  return (dispatch, getState) => {
+    curriculoApi.util.selectCachedArgsForQuery(getState(), 'getSequences').forEach(queryArg => {
+      dispatch(
+        curriculoApi.util.updateQueryData('getSequences', queryArg, draft => {
+          draft.pages.forEach(page => {
+            page.items.forEach(item => {
+              if (item.id === sequenceId) {
+                item.isSaved = true;
+              }
+            });
+          });
+        })
+      );
+    });
+  };
+}

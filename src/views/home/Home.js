@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router';
 import { connect } from 'react-redux';
-import BodyActions from 'actions/BodyActions';
-import HomeActions from 'actions/HomeActions';
 import GridItem from './GridItem';
 import Page from 'components/layout/Page';
 import Search from './search/Search';
+import { useGetSequencesInfiniteQuery } from 'data/curriculoApi';
+import withQuery from 'utils/withQuery';
 import iconActivities from 'images/illustrations/activities.svg';
 import iconCurriculum from 'images/illustrations/curriculum.svg';
 import iconKnowledgeMatrix from 'images/illustrations/knowledgeMatrix.svg';
@@ -17,7 +17,6 @@ import styles from './Home.module.scss';
 
 class Home extends Component {
   componentDidMount() {
-    this.props.load();
     document.body.classList.toggle('isHome', true);
   }
 
@@ -134,26 +133,22 @@ class Home extends Component {
 
 Home.propTypes = {
   sequences: PropTypes.array.isRequired,
-  load: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => {
-  const items = state.HomeReducer.items;
   return {
-    sequences: items.length < 4 ? items : items.slice(0, 4),
+    expandedId: state.HomeReducer.expandedId,
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    load: () => {
-      dispatch(BodyActions.showLoading());
-      dispatch(HomeActions.load());
-    },
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Home);
+// As 4 primeiras sequências da lista completa (o mesmo cache da página de
+// sequências).
+export default connect(mapStateToProps)(withQuery(useGetSequencesInfiniteQuery, {
+  arg: () => '',
+  mapResult: (result, props) => ({
+    sequences: (result.data ? result.data.pages[0].items : [])
+      .slice(0, 4)
+      .map(item => ({ ...item, isExpanded: item.id === props.expandedId })),
+  }),
+  showLoading: true,
+})(Home));
