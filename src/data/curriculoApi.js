@@ -20,17 +20,32 @@ export const curriculoApi = createApi({
   reducerPath: 'curriculoApi',
   baseQuery,
   endpoints: build => ({
+    getActivity: build.query({
+      query: ({ sequenceSlug, activitySlug }) =>
+        `/api/sequencias/${sequenceSlug}/atividades/${activitySlug}`,
+    }),
     getConsultations: build.query({
       query: () => '/api/public_consultations',
     }),
     getConsultation: build.query({
       query: id => `/api/public_consultations/${id}`,
     }),
+    getKnowledgeMatrices: build.query({
+      query: () => '/api/saberes',
+    }),
     getMethodologies: build.query({
       query: () => '/api/metodos/',
     }),
     getMethodology: build.query({
       query: slug => `/api/metodos/${slug}`,
+    }),
+    getRatingCriteria: build.query({
+      query: () => '/api/avaliacao_criterios',
+      transformResponse: criteria =>
+        [...criteria].sort((a, b) => (a.sequence < b.sequence ? -1 : a.sequence > b.sequence ? 1 : 0)),
+    }),
+    getSurveyForm: build.query({
+      query: id => `/api/survey_forms/${id}`,
     }),
     getSustainableDevGoals: build.query({
       query: () => '/api/ods',
@@ -42,10 +57,14 @@ export const curriculoApi = createApi({
 });
 
 export const {
+  useGetActivityQuery,
   useGetConsultationsQuery,
   useGetConsultationQuery,
+  useGetKnowledgeMatricesQuery,
   useGetMethodologiesQuery,
   useGetMethodologyQuery,
+  useGetRatingCriteriaQuery,
+  useGetSurveyFormQuery,
   useGetSustainableDevGoalsQuery,
   useGetSustainableDevGoalQuery,
 } = curriculoApi;
