@@ -1,31 +1,15 @@
-import chevronRight from 'images/chevrons/right.svg';
-import chevronLeft from 'images/chevrons/left.svg';
 import downloadIcon from 'images/icons/download.svg';
-import ItemsCarousel from 'react-items-carousel';
+import Carousel from 'components/Carousel';
 import styles from './BooksContent.module.scss';
 import { connect } from 'react-redux';
 import React, {Component} from 'react';
-import {isMobile} from 'react-device-detect';
-
-function checkDevice() {
-  return isMobile ? (true) : (false);
-}
-
-function totalCards() {
-  if(checkDevice()){
-    return 1;
-  }else {
-    return 5;
-  }
-}
 
 class BooksContent extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      isLoading: false,
-      activeItemIndex: 0
+      isLoading: false
     };
   }
 
@@ -34,31 +18,7 @@ class BooksContent extends Component {
     if(books.length) {
       return (
         <div>
-          <ItemsCarousel
-          infiniteLoop={!checkDevice()}
-          gutter={12}
-          activePosition={'center'}
-          chevronWidth={60}
-          disableSwipe={false}
-          alwaysShowChevrons={false}
-          numberOfCards={totalCards()}
-          slidesToScroll={1}
-          outsideChevron={true}
-          showSlither={false}
-          firstAndLastGutter={false}
-          activeItemIndex={this.state.activeItemIndex}
-          requestToChangeActive={value => this.setState({ activeItemIndex: value })}
-          rightChevron={
-            <button aria-label="Próximo">
-            <img alt="" src={chevronRight}/>
-            </button>
-          }
-          leftChevron={
-            <button aria-label="Anterior">
-            <img alt="" src={chevronLeft}/>
-            </button>
-          }
-          >
+          <Carousel>
           {books.map((book, index) => {
             return(
               <div className={styles.bookWraper} key={index.toString()}>
@@ -78,7 +38,7 @@ class BooksContent extends Component {
               </div>
             );
           })}
-          </ItemsCarousel>
+          </Carousel>
         </div>
       );
     } else {

@@ -48,3 +48,10 @@
   font-size: rem(15);
   margin-bottom: 0;
 }
+
+.clamped {
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  display: -webkit-box;
+  overflow: hidden;
+}

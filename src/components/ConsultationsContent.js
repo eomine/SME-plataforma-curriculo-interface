@@ -1,33 +1,17 @@
-import chevronRight from 'images/chevrons/right.svg';
-import chevronLeft from 'images/chevrons/left.svg';
-import ItemsCarousel from 'react-items-carousel';
+import Carousel from 'components/Carousel';
 import styles from './ConsultationsContent.module.scss';
 import { NavLink } from 'react-router-dom';
 import createModalLink from 'utils/createModalLink';
 import { connect } from 'react-redux';
 import React, {Component} from 'react';
-import {isMobile} from 'react-device-detect';
 import iconPlus from 'images/icons/plus1.svg';
-
-function checkDevice() {
-  return isMobile ? (true) : (false);
-}
-
-function totalCards() {
-  if(checkDevice()){
-    return 1;
-  }else {
-    return 5;
-  }
-}
 
 class ConsutationsContent extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      isLoading: false,
-      activeItemIndex: 0
+      isLoading: false
     };
   }
 
@@ -37,31 +21,7 @@ class ConsutationsContent extends Component {
     if(consultations.length) {
       return (
         <div>
-          <ItemsCarousel
-          infiniteLoop={!checkDevice()}
-          gutter={12}
-          activePosition={'center'}
-          chevronWidth={60}
-          disableSwipe={false}
-          alwaysShowChevrons={false}
-          numberOfCards={totalCards()}
-          slidesToScroll={1}
-          outsideChevron={true}
-          showSlither={false}
-          firstAndLastGutter={false}
-          activeItemIndex={this.state.activeItemIndex}
-          requestToChangeActive={value => this.setState({ activeItemIndex: value })}
-          rightChevron={
-            <button aria-label="Próximo">
-            <img alt="" src={chevronRight}/>
-            </button>
-          }
-          leftChevron={
-            <button aria-label="Anterior">
-            <img alt="" src={chevronLeft}/>
-            </button>
-          }
-          >
+          <Carousel>
           {consultations.map((consultation, index) => {
             let linkModal = createModalLink(`/consultas-publicas/${consultation.id}`);
             if (consultation.final_date > dateNow && consultation.initial_date < dateNow) {
@@ -82,7 +42,7 @@ class ConsutationsContent extends Component {
             }
             return null;
           })}
-          </ItemsCarousel>
+          </Carousel>
         </div>
       );
     } else {
