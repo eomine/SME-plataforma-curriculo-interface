@@ -2,7 +2,6 @@ import ActivityActions from 'actions/ActivityActions';
 import BodyActions from 'actions/BodyActions';
 import ChallengeActions from 'actions/ChallengeActions';
 import ChallengesActions from 'actions/ChallengesActions';
-import ConsultationsActions from 'actions/ConsultationsActions';
 import CollectionActions from 'actions/CollectionActions';
 import CollectionsActions from 'actions/CollectionsActions';
 import HomeActions from 'actions/HomeActions';
@@ -14,7 +13,6 @@ import CreateProjectActions from 'actions/CreateProjectActions';
 import EditProjectActions from 'actions/EditProjectActions';
 import ProjectsActions from 'actions/ProjectsActions';
 import ProjectActions from 'actions/ProjectActions';
-import SustainableDevGoalsActions from 'actions/SustainableDevGoalsActions';
 
 const initialState = {
   hasMobileMenu: false,
@@ -29,7 +27,6 @@ function BodyReducer(state = initialState, action) {
     case ChallengesActions.LOADED:
     case CollectionActions.LOADED_SEQUENCES:
     case CollectionsActions.LOADED:
-    case ConsultationsActions.LOADED:
     case HomeActions.LOADED:
     case KnowledgeMatrixActions.LOADED:
     case LearningObjectivesActions.LOADED:
@@ -39,7 +36,6 @@ function BodyReducer(state = initialState, action) {
     case ProjectActions.LOADED:
     case ProjectsActions.LOADED:
     case ProjectsActions.LOADED_MORE:
-    case SustainableDevGoalsActions.LOADED:
     case CreateProjectActions.LOADED:
     case EditProjectActions.LOADED:
       return {

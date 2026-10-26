@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { API_URL } from 'data/constants';
 import convertQuillToHtml from 'utils/convertQuillToHtml';
 import iconClip from 'images/icons/clip.svg';
@@ -47,10 +46,4 @@ Contents.propTypes = {
   data: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => {
-  return {
-    data: state.MethodologiesReducer.currItem,
-  };
-};
-
-export default connect(mapStateToProps)(Contents);
+export default Contents;

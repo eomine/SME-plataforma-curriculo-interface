@@ -6,7 +6,6 @@ import './index.scss';
 
 import React, { Fragment, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import thunk from 'redux-thunk';
 import { history } from 'utils/history';
 import { Provider } from 'react-redux';
 import {
@@ -16,7 +15,7 @@ import {
   useLocation,
   useNavigationType,
 } from 'react-router';
-import { applyMiddleware, createStore } from 'redux';
+import { configureStore } from '@reduxjs/toolkit';
 import { ThemeProvider as MuiThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 import Activity from 'views/activity/Activity';
 import Alert from 'components/Alert';
@@ -64,6 +63,7 @@ import Technologies from 'views/technologies/Technologies';
 import Redirect from 'views/redirect/Redirect';
 import moment from 'moment';
 import reducers from 'reducers';
+import { curriculoApi } from 'data/curriculoApi';
 import theme from 'utils/theme';
 
 moment.updateLocale('pt-br', {
@@ -72,7 +72,16 @@ moment.updateLocale('pt-br', {
   },
 });
 
-const store = createStore(reducers, applyMiddleware(thunk));
+// O configureStore já inclui o thunk e liga o Redux DevTools em desenvolvimento.
+const store = configureStore({
+  reducer: reducers,
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware({
+      // As actions antigas levam o Headers da resposta (data/Api), que nenhum
+      // reducer lê.
+      serializableCheck: { ignoredActionPaths: ['headers'] },
+    }).concat(curriculoApi.middleware),
+});
 
 // Rotas abertas em modal (veja RouteModals).
 const modalRoutes = [

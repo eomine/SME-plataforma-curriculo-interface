@@ -1,4 +1,5 @@
-import { combineReducers } from 'redux';
+import { combineReducers } from '@reduxjs/toolkit';
+import { curriculoApi } from 'data/curriculoApi';
 import ActivityReducer from './ActivityReducer';
 import AlertReducer from './AlertReducer';
 import BodyReducer from './BodyReducer';
@@ -9,13 +10,10 @@ import ChallengesReducer from './ChallengesReducer';
 import CollectionReducer from './CollectionReducer';
 import CollectionsReducer from './CollectionsReducer';
 import ConfirmReducer from './ConfirmReducer';
-import ConsultationsReducer from './ConsultationsReducer';
-import ConsultationReducer from './ConsultationReducer';
 import FiltersReducer from './FiltersReducer';
 import HomeReducer from './HomeReducer';
 import KnowledgeMatrixReducer from './KnowledgeMatrixReducer';
 import LearningObjectivesReducer from './LearningObjectivesReducer';
-import MethodologiesReducer from './MethodologiesReducer';
 import ProjectFiltersReducer from './ProjectFiltersReducer';
 import ProjectsReducer from './ProjectsReducer';
 import ProjectReducer from './ProjectReducer';
@@ -25,10 +23,10 @@ import SequenceReducer from './SequenceReducer';
 import SequencesReducer from './SequencesReducer';
 import SnackbarReducer from './SnackbarReducer';
 import SurveyFormReducer from './SurveyFormReducer';
-import SustainableDevGoalsReducer from './SustainableDevGoalsReducer';
 import TeacherSurveyFormsReducer from './TeacherSurveyFormsReducer';
 
 export default combineReducers({
+  [curriculoApi.reducerPath]: curriculoApi.reducer,
   ActivityReducer,
   AlertReducer,
   BodyReducer,
@@ -39,13 +37,10 @@ export default combineReducers({
   CollectionReducer,
   CollectionsReducer,
   ConfirmReducer,
-  ConsultationsReducer,
-  ConsultationReducer,
   FiltersReducer,
   HomeReducer,
   KnowledgeMatrixReducer,
   LearningObjectivesReducer,
-  MethodologiesReducer,
   ProfileReducer,
   ProjectFiltersReducer,
   ProjectsReducer,
@@ -56,5 +51,4 @@ export default combineReducers({
   SequencesReducer,
   SnackbarReducer,
   SurveyFormReducer,
-  SustainableDevGoalsReducer,
 });

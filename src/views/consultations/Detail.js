@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { history } from 'utils/history';
-import ConsultationActions from 'actions/ConsultationActions';
 import TeacherSurveyFormsActions from 'actions/TeacherSurveyFormsActions';
 import FullModal from 'components/layout/FullModal';
 import iconCloseBigWhite from 'images/icons/closeBigWhite.svg';
 import styles from './Detail.module.scss';
 import { API_URL } from 'data/constants';
+import { useGetConsultationQuery } from 'data/curriculoApi';
+import withQuery from 'utils/withQuery';
 
 class Detail extends Component {
   state = { surveyFormsStatus: [] };
@@ -17,7 +18,6 @@ class Detail extends Component {
   };
 
   componentDidMount() {
-    this.props.load(this.props.match.params.id);
     this.props.loadFinishedFormIds();
   }
 
@@ -90,29 +90,27 @@ class Detail extends Component {
 Detail.propTypes = {
   data: PropTypes.object,
   answersFinished: PropTypes.array,
-  load: PropTypes.func.isRequired,
   loadFinishedFormIds: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => {
   return {
-    data: state.ConsultationReducer.currItem,
     answersFinished: state.TeacherSurveyFormsReducer.answersFinished,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    load: id => {
-      dispatch(ConsultationActions.load(id));
-    },
     loadFinishedFormIds: () => {
       dispatch(TeacherSurveyFormsActions.loadFinishedFormIds());
     },
   };
 };
 
-export default connect(
+export default withQuery(useGetConsultationQuery, {
+  arg: props => props.match.params.id,
+  mapResult: result => ({ data: result.currentData || null }),
+})(connect(
   mapStateToProps,
   mapDispatchToProps
-)(Detail);
+)(Detail));
