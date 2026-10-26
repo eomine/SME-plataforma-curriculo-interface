@@ -38,7 +38,6 @@
         "react-redux": "^6.0.1",
         "react-router": "^4.2.0",
         "react-router-dom": "^4.2.2",
-        "react-router-ga": "^1.0.0",
         "react-router-modal": "^2.0.0-rc2",
         "react-scroll": "^1.7.10",
         "react-star-rating-component": "^1.4.1",
@@ -5145,15 +5144,6 @@
       },
       "peerDependencies": {
         "react": ">=15"
-      }
-    },
-    "node_modules/react-router-ga": {
-      "version": "1.1.0",
-      "resolved": "https://registry.npmjs.org/react-router-ga/-/react-router-ga-1.1.0.tgz",
-      "integrity": "sha512-CsSgF3kPMZWV2lgNjhLA4Cz8erXMAQnk2LUAnb2x8EI1sfNACvY59AcdFPwXDhyQV1iWY/iobwx/7jJPJ8PbBg==",
-      "peerDependencies": {
-        "react": "^16.2.0",
-        "react-router-dom": "^4.2.2"
       }
     },
     "node_modules/react-router-modal": {

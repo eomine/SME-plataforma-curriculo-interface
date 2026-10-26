@@ -7,7 +7,6 @@ import './index.scss';
 
 import React, { Component, Fragment } from 'react';
 import ReactDOM from 'react-dom';
-import Analytics from 'react-router-ga';
 import thunk from 'redux-thunk';
 import { history } from 'utils/history';
 import { ModalContainer, ModalRoute } from 'react-router-modal';
@@ -281,15 +280,13 @@ class ModalSwitch extends Component {
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
-      <Analytics id="UA-85250794-5">
-        <MuiThemeProvider theme={theme}>
-          <Route component={ModalSwitch} />
-          <AppLoading />
-          <Snackbar />
-          <Alert />
-          <Confirm />
-        </MuiThemeProvider>
-      </Analytics>
+      <MuiThemeProvider theme={theme}>
+        <Route component={ModalSwitch} />
+        <AppLoading />
+        <Snackbar />
+        <Alert />
+        <Confirm />
+      </MuiThemeProvider>
     </Router>
   </Provider>,
   document.getElementById('root')
