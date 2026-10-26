@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './ModuleSurveyQuestion.module.scss';
-import Rating from '@material-ui/lab/Rating';
-import StarIcon from '@material-ui/icons/Star';
+import Rating from '@mui/material/Rating';
+import StarIcon from '@mui/icons-material/Star';
 
 class ModuleSurveyQuestion extends React.PureComponent {
 

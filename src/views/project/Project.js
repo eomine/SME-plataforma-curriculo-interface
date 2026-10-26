@@ -10,9 +10,9 @@ import ProjectChars from './chars/ProjectChars';
 import styles from './Project.module.scss';
 import getTeacherId from 'data/getTeacherId';
 import RichTextEditor from 'components/RichTextEditor';
-import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
+import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
 import iconClose from 'images/icons/close.svg';
 import AlertActions from 'actions/AlertActions';
 

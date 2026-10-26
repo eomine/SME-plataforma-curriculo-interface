@@ -3,7 +3,7 @@ import Page from 'components/layout/Page';
 import iconKnowledgeMatrix from 'images/illustrations/knowledgeMatrix.svg';
 import iconLearningObjectives from 'images/illustrations/learningObjectives.svg';
 import iconSustainableDevGoals from 'images/illustrations/sustainableDevGoals.svg';
-import Collapse from '@material-ui/core/Collapse';
+import Collapse from '@mui/material/Collapse';
 import styles from './Medium.module.scss';
 import medium from './medium.jpg';
 import schoolsImage from './schools-image.jpg';
