@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router';
 import { connect } from 'react-redux';
 import { history } from 'utils/history';
 import BodyActions from 'actions/BodyActions';
@@ -27,12 +27,12 @@ class Collection extends Component {
   }
 
   onClickedClose = () => {
-    history.goBack();
+    history.back();
   };
 
   onClickedConfirm = () => {
     this.props.delete(this.props.match.params.id);
-    history.goBack();
+    history.back();
   };
 
   onClickedDelete = () => {
@@ -73,7 +73,7 @@ class Collection extends Component {
       <Page>
         <div className={styles.header}>
           <div className={styles.buttons}>
-            <NavLink to={link}>
+            <NavLink {...link}>
               <img src={iconEdit} alt="Editar" />
             </NavLink>
             <button onClick={this.onClickedDelete}>

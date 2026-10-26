@@ -47,7 +47,7 @@ class Login extends Component {
   };
 
   onClickedClose = () => {
-    history.goBack();
+    history.back();
   };
 
   onClickedShowPassword = e => {

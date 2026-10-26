@@ -10,7 +10,7 @@ class ModalHeader extends React.PureComponent {
     if (this.props.onBack) {
       this.props.onBack();
     } else {
-      history.goBack();
+      history.back();
     }
   };
 

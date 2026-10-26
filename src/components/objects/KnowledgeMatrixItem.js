@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router';
 import createModalLink from 'utils/createModalLink';
 import styles from './KnowledgeMatrixItem.module.scss';
 
@@ -18,7 +18,7 @@ class KnowledgeMatrixItem extends Component {
     );
 
     return this.props.isLink ? (
-      <NavLink to={link}>{contents}</NavLink>
+      <NavLink {...link}>{contents}</NavLink>
     ) : (
       contents
     );

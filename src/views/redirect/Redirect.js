@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import LoginActions from 'actions/LoginActions';
 
 class Redirect extends React.Component {
@@ -31,7 +30,7 @@ const mapDispatchToProps = dispatch => {
 };
 
 
-export default withRouter(connect(
+export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Redirect));
+)(Redirect);

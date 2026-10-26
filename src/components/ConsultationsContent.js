@@ -1,6 +1,6 @@
 import Carousel from 'components/Carousel';
 import styles from './ConsultationsContent.module.scss';
-import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router';
 import createModalLink from 'utils/createModalLink';
 import { connect } from 'react-redux';
 import React, {Component} from 'react';
@@ -31,7 +31,7 @@ class ConsutationsContent extends Component {
                     <img className={styles.consultationsImage} alt="" src={consultation["cover_image"]}></img>
                     <p className={styles.name}>{consultation["title"]}</p>
                     <hr className={styles.carouselDivider}/>
-                    <NavLink to={linkModal}>
+                    <NavLink {...linkModal}>
                       <div className={styles.modalButton}>
                         <img alt="" src={iconPlus}></img>
                       </div>

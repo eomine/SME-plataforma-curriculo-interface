@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router';
 import { connect } from 'react-redux';
 import CollectionsActions from 'actions/CollectionsActions';
 import Collection from './Collection';
@@ -39,7 +39,7 @@ class SaveProject extends Component {
     link.state.projectId = data.id;
 
     const btnCreate = (
-      <NavLink className={styles.btn} to={link}>
+      <NavLink className={styles.btn} {...link}>
         <img src={iconPlus} alt="Criar coleção" />
         Criar coleção
       </NavLink>

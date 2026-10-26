@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Moment from 'react-moment';
 import 'moment/locale/pt-br';
 import 'moment-timezone/builds/moment-timezone-with-data-1970-2030';
-import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router';
 import Avatar from 'components/objects/Avatar';
 import iconClip from 'images/icons/clip.svg';
 import styles from './Result.module.scss';

@@ -10,7 +10,7 @@ class Collection extends React.PureComponent {
   onClicked = () => {
     const { id, name, sequenceId } = this.props;
     this.props.saveSequence(id, name, sequenceId);
-    history.goBack();
+    history.back();
   };
 
   render() {
