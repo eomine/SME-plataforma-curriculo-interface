@@ -39,6 +39,20 @@ export const curriculoApi = createApi({
     getMethodology: build.query({
       query: slug => `/api/metodos/${slug}`,
     }),
+    // Lista paginada de projetos, como a de sequências.
+    getProjects: build.infiniteQuery({
+      query: ({ queryArg, pageParam }) =>
+        pageParam || (queryArg ? `/api/projects?${queryArg}` : '/api/projects'),
+      transformResponse: (items, meta) => ({
+        items,
+        nextPage: meta.nextPage,
+        totalItems: meta.totalItems,
+      }),
+      infiniteQueryOptions: {
+        initialPageParam: null,
+        getNextPageParam: lastPage => lastPage.nextPage || undefined,
+      },
+    }),
     getRatingCriteria: build.query({
       query: () => '/api/avaliacao_criterios',
       transformResponse: criteria =>
@@ -78,6 +92,7 @@ export const {
   useGetKnowledgeMatricesQuery,
   useGetMethodologiesQuery,
   useGetMethodologyQuery,
+  useGetProjectsInfiniteQuery,
   useGetRatingCriteriaQuery,
   useGetSequencesInfiniteQuery,
   useGetSurveyFormQuery,
@@ -85,16 +100,16 @@ export const {
   useGetSustainableDevGoalQuery,
 } = curriculoApi;
 
-// Marca a sequência como salva em todas as buscas já em cache, como o
-// SequencesReducer fazia com o SAVED_SEQUENCE.
-export function markSequenceSaved(sequenceId) {
+// Marca o item como salvo em todas as buscas da lista já em cache, como os
+// reducers faziam com o SAVED_SEQUENCE e o SAVED_PROJECT.
+function markSaved(endpointName, id) {
   return (dispatch, getState) => {
-    curriculoApi.util.selectCachedArgsForQuery(getState(), 'getSequences').forEach(queryArg => {
+    curriculoApi.util.selectCachedArgsForQuery(getState(), endpointName).forEach(queryArg => {
       dispatch(
-        curriculoApi.util.updateQueryData('getSequences', queryArg, draft => {
+        curriculoApi.util.updateQueryData(endpointName, queryArg, draft => {
           draft.pages.forEach(page => {
             page.items.forEach(item => {
-              if (item.id === sequenceId) {
+              if (item.id === id) {
                 item.isSaved = true;
               }
             });
@@ -104,3 +119,6 @@ export function markSequenceSaved(sequenceId) {
     });
   };
 }
+
+export const markSequenceSaved = sequenceId => markSaved('getSequences', sequenceId);
+export const markProjectSaved = projectId => markSaved('getProjects', projectId);

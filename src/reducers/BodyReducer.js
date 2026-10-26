@@ -26,7 +26,6 @@ function BodyReducer(state = initialState, action) {
     case SequenceActions.LOADED:
     case ProjectActions.LOADED:
     case ProjectsActions.LOADED:
-    case ProjectsActions.LOADED_MORE:
     case CreateProjectActions.LOADED:
     case EditProjectActions.LOADED:
       return {
