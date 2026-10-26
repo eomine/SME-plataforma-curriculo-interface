@@ -15,7 +15,7 @@ import styles1 from 'views/sequence/save/SaveSequence.module.scss';
 
 class Rating extends Component {
   onClickedClose = () => {
-    history.goBack();
+    history.back();
   };
 
   componentDidMount() {

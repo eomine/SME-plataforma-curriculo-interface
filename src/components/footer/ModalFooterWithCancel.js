@@ -6,7 +6,7 @@ import { history } from 'utils/history';
 
 class ModalFooterWithCancel extends React.PureComponent {
   onClickedCancel = () => {
-    history.goBack();
+    history.back();
   };
 
   render() {

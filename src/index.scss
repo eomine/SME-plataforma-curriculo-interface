@@ -279,8 +279,18 @@ a:hover {
   }
 }
 
+// Modais das rotas (components/RouteModals).
+.modalOpen {
+  overflow: hidden;
+}
+
+.modalOverlay {
+  position: fixed;
+  z-index: 1000;
+}
+
 @include mq("tablet-portrait") {
-  .react-router-modal__wrapper {
+  .modalOverlay {
     align-items: center;
     display: flex;
     justify-content: center;
@@ -309,8 +319,10 @@ a:hover {
     opacity: 0;
   }
 
-  .backdrop {
+  // Fundo escuro atrás do modal.
+  .modalOverlay::before {
     background-color: black;
+    content: "";
     opacity: 0;
     position: absolute;
     top: 0;
@@ -319,12 +331,12 @@ a:hover {
     height: 100%;
   }
 
-  .backdropIn {
+  .modalOverlayIn::before {
     transition: opacity 0.3s ease-in-out;
     opacity: 0.5;
   }
 
-  .backdropOut {
+  .modalOverlayOut::before {
     transition: opacity 0.3s ease-in-out;
     opacity: 0;
   }

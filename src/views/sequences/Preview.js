@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Collapse from '@material-ui/core/Collapse';
-import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router';
 import KnowledgeMatrixItem from 'components/objects/KnowledgeMatrixItem';
 import LearningObjectiveItem from 'components/objects/LearningObjectiveItem';
 import SustainableDevGoalItem from 'components/objects/SustainableDevGoalItem';

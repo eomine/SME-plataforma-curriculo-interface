@@ -46,7 +46,7 @@ class EditCollection extends Component {
 
   onClickedSave = () => {
     this.props.edit(this.props.match.params.id, this.state.name);
-    history.goBack();
+    history.back();
   };
 
   render() {

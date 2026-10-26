@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router';
 import { API_URL } from 'data/constants';
 import createModalLink from 'utils/createModalLink';
 import styles from './SustainableDevGoalItem.module.scss';
@@ -18,7 +18,7 @@ class SustainableDevGoalItem extends Component {
       </div>
     );
 
-    return isLink ? <NavLink to={link}>{contents}</NavLink> : contents;
+    return isLink ? <NavLink {...link}>{contents}</NavLink> : contents;
   }
 }
 

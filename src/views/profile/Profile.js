@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router';
 import { connect } from 'react-redux';
 import { history } from 'utils/history';
 import Avatar from './Avatar';
@@ -60,10 +60,10 @@ class Profile extends Component {
               <Avatar size={size} />
               <div className={styles.name}>
                 <h2>{nickname}</h2>
-                <NavLink to={linkEdit}>Editar perfil</NavLink>
+                <NavLink {...linkEdit}>Editar perfil</NavLink>
               </div>
             </div>
-            <NavLink to={linkEdit}>
+            <NavLink {...linkEdit}>
               <img src={iconEdit} alt="Editar perfil" />
             </NavLink>
           </div>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Headroom from 'react-headroom';
-import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router';
 import { connect } from 'react-redux';
 import Avatar from 'views/profile/Avatar';
 import BodyActions from 'actions/BodyActions';

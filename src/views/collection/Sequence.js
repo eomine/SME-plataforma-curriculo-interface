@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router';
 import { connect } from 'react-redux';
 import { API_URL } from 'data/constants';
 import CollectionActions from 'actions/CollectionActions';
@@ -42,7 +42,7 @@ class Sequence extends React.PureComponent {
       const label = hasEvaluated ? 'Ver avaliação' : 'Avaliar';
       const route = hasEvaluated ? 'avaliacao' : 'avaliar';
       const link = createModalLink(`/sequencia/${slug}/${route}`);
-      const btn = <NavLink to={link}>{label}</NavLink>;
+      const btn = <NavLink {...link}>{label}</NavLink>;
 
       bar = (
         <div className={styles.bar}>

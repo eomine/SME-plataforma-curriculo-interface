@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Headroom from 'react-headroom';
-import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router';
 import { history } from 'utils/history';
 import { API_URL } from 'data/constants';
 import isLogged from 'data/isLogged';

@@ -95,7 +95,7 @@ const ChallengeActions = {
       };
       return Api.post(dispatch, `/api/desafios/${slug}/resultados`, data)
         .then(response => {
-          history.goBack();
+          history.back();
           dispatch({ ...response, type: ChallengeActions.SENT_RESULT });
           dispatch(SnackbarActions.open('Desafio salvo'));
           dispatch(ChallengeActions.loadResults(slug));

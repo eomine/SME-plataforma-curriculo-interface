@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router';
 import Sequence from './Sequence';
 import styles from 'views/profile/collections/CollectionList.module.scss';
 

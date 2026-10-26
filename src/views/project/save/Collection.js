@@ -9,7 +9,7 @@ class Collection extends React.PureComponent {
   onClicked = () => {
     const { id, name, projectId } = this.props;
     this.props.saveProject(id, name, projectId);
-    history.goBack();
+    history.back();
   };
 
   render() {

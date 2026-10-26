@@ -13,7 +13,7 @@ class Detail extends Component {
   state = { surveyFormsStatus: [] };
 
   onClickedClose = () => {
-    history.goBack();
+    history.back();
   };
 
   componentDidMount() {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router';
 import { connect } from 'react-redux';
 import { history } from 'utils/history';
 import { API_URL } from 'data/constants';

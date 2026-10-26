@@ -34,7 +34,7 @@ class CreateCollection extends Component {
       history.go(-2);
     } else {
       this.props.create(this.state.name);
-      history.goBack();
+      history.back();
     }
   };
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router';
 import { connect } from 'react-redux';
 import BigPreview from 'components/objects/BigPreview';
 import CollectionsActions from 'actions/CollectionsActions';
@@ -41,7 +41,7 @@ class SaveSequence extends Component {
     link.state.sequenceId = data.id;
 
     const btnCreate = (
-      <NavLink className={styles.btn} to={link}>
+      <NavLink className={styles.btn} {...link}>
         <img src={iconPlus} alt="Criar coleção" />
         Criar coleção
       </NavLink>

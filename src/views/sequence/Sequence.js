@@ -36,7 +36,7 @@ class Sequence extends Component {
     const link = createModalLink(
       `/sequencia/${this.props.match.params.slug}/avaliar`
     );
-    history.push(link);
+    history.push(link.to, link.state);
   };
 
   componentDidMount() {
