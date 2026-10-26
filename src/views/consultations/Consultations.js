@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import ConsultationsActions from 'actions/ConsultationsActions';
-import BodyActions from 'actions/BodyActions';
+import { useGetConsultationsQuery } from 'data/curriculoApi';
+import withQuery from 'utils/withQuery';
 import ConsultationsContent from 'components/ConsultationsContent';
 import Page from 'components/layout/Page';
 import styles from './Consultations.module.scss';
@@ -18,7 +17,6 @@ class Consultations extends Component {
     this.setState({
       windowHeight: window.innerHeight,
     });
-    this.props.load();
   }
 
   render() {
@@ -57,29 +55,9 @@ class Consultations extends Component {
 
 Consultations.propTypes = {
   data: PropTypes.array.isRequired,
-  isLoading: PropTypes.bool.isRequired,
-  totalItems: PropTypes.number,
-  load: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => {
-  return {
-    data: state.ConsultationsReducer.items,
-    isLoading: state.ConsultationsReducer.isLoading,
-    totalItems: state.ConsultationsReducer.totalItems,
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    load: () => {
-      dispatch(BodyActions.showLoading());
-      dispatch(ConsultationsActions.load());
-    },
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Consultations);
+export default withQuery(useGetConsultationsQuery, {
+  mapResult: result => ({ data: result.data || [] }),
+  showLoading: true,
+})(Consultations);

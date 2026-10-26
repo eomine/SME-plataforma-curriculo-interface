@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import Step from './Step';
 
 class ProjectContents extends Component {
@@ -23,10 +22,4 @@ ProjectContents.propTypes = {
   data: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => {
-  return {
-    data: state.MethodologiesReducer.currItem,
-  };
-};
-
-export default connect(mapStateToProps)(ProjectContents);
+export default ProjectContents;

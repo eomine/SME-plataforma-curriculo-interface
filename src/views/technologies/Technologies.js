@@ -4,10 +4,11 @@ import { Element, scroller } from 'react-scroll';
 import { connect } from 'react-redux';
 import Challenge from './Challenge';
 import ChallengesActions from 'actions/ChallengesActions';
-import MethodologiesActions from 'actions/MethodologiesActions';
 import Methodology from './Methodology';
 import Page from 'components/layout/Page';
 import isLogged from 'data/isLogged';
+import { useGetMethodologiesQuery } from 'data/curriculoApi';
+import withQuery from 'utils/withQuery';
 import iconLiteracy from './images/literacy.png';
 import iconProgramming from './images/programming.png';
 import iconTechnologies from './images/technologies.png';
@@ -33,7 +34,6 @@ class Technologies extends Component {
 
   componentDidMount() {
     this.props.loadOngoing();
-    this.props.loadMethodologies();
   }
 
   render() {
@@ -143,7 +143,6 @@ Technologies.propTypes = {
 const mapStateToProps = state => {
   return {
     challenges: state.ChallengesReducer.items,
-    methodologies: state.MethodologiesReducer.items,
   };
 };
 
@@ -158,13 +157,12 @@ const mapDispatchToProps = dispatch => {
     loadFinished: () => {
       dispatch(ChallengesActions.loadFinished());
     },
-    loadMethodologies: () => {
-      dispatch(MethodologiesActions.load());
-    },
   };
 };
 
-export default connect(
+export default withQuery(useGetMethodologiesQuery, {
+  mapResult: result => ({ methodologies: result.data || [] }),
+})(connect(
   mapStateToProps,
   mapDispatchToProps
-)(Technologies);
+)(Technologies));
