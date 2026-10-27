@@ -1,19 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { NavLink } from 'react-router';
 import ActivityChars from './chars/ActivityChars';
 import ActivityCharsMobile from './chars/ActivityCharsMobile';
 import Cover from 'views/sequence/Cover';
 import Page from 'components/layout/Page';
-import SequenceActions from 'actions/SequenceActions';
 import SequencePreview from './SequencePreview';
 import Title from 'views/sequence/Title';
 import Tooltips from 'components/Tooltips';
 import getContentBlocks from 'utils/getContentBlocks';
-import isLogged from 'data/isLogged';
 import { useGetActivityQuery } from 'data/curriculoApi';
 import withQuery from 'utils/withQuery';
+import { withSequenceCollections } from 'data/itemQueries';
 import arrowLeft from 'images/arrows/left.svg';
 import arrowRight from 'images/arrows/right.svg';
 import styles from 'views/sequence/Sequence.module.scss';
@@ -31,21 +29,11 @@ class Activity extends Component {
   };
 
   componentDidMount() {
-    this.props.loadCollections(this.props.match.params.slug1);
-
     if (this.props.location.pathname.match(/imprimir/)) {
       window.print();
     }
 
     window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
-  }
-
-  componentDidUpdate(prevProps) {
-    const params = this.props.match.params;
-    const prevParams = prevProps.match.params;
-    if (params.slug2 !== prevParams.slug2) {
-      this.props.loadCollections(params.slug1);
-    }
   }
 
   render() {
@@ -131,30 +119,10 @@ class Activity extends Component {
 Activity.propTypes = {
   data: PropTypes.object,
   isSaved: PropTypes.bool,
-  loadCollections: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = state => {
-  return {
-    isSaved: state.SequenceReducer.isSaved,
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    loadCollections: sequenceSlug => {
-      if (isLogged()) {
-        dispatch(SequenceActions.loadCollections(sequenceSlug));
-      }
-    },
-  };
 };
 
 export default withQuery(useGetActivityQuery, {
   arg: props => ({ sequenceSlug: props.match.params.slug1, activitySlug: props.match.params.slug2 }),
   mapResult: result => ({ data: result.currentData || null }),
   showLoading: true,
-})(connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Activity));
+})(withSequenceCollections(props => props.match.params.slug1)(Activity));

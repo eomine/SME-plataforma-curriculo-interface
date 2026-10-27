@@ -10,7 +10,7 @@ import Question from './Question';
 import RatingActions from 'actions/RatingActions';
 import { useGetRatingCriteriaQuery } from 'data/curriculoApi';
 import withQuery from 'utils/withQuery';
-import SequenceActions from 'actions/SequenceActions';
+import { withSequence } from 'data/itemQueries';
 import SequencePreview from 'views/activity/SequencePreview';
 import styles from './RateSequence.module.scss';
 import styles1 from 'views/sequence/save/SaveSequence.module.scss';
@@ -43,17 +43,6 @@ class RateSequence extends Component {
     this.props.save(this.props.match.params.slug, this.state.answers);
     // }
   };
-
-  componentDidMount() {
-    if (!this.props.data) {
-      this.props.load(this.props.match.params.slug);
-    }
-
-    // this.setState({
-    //   ...this.state,
-    //   numPages: Math.ceil(this.props.questions.length / PER_PAGE),
-    // });
-  }
 
   render() {
     if (this.props.data == null) {
@@ -104,21 +93,11 @@ class RateSequence extends Component {
 RateSequence.propTypes = {
   data: PropTypes.object,
   questions: PropTypes.array.isRequired,
-  load: PropTypes.func.isRequired,
   save: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = state => {
-  return {
-    data: state.SequenceReducer.currItem,
-  };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    load: slug => {
-      dispatch(SequenceActions.load(slug));
-    },
     save: (slug, answers) => {
       dispatch(RatingActions.save(slug, answers));
     },
@@ -127,7 +106,7 @@ const mapDispatchToProps = dispatch => {
 
 export default withQuery(useGetRatingCriteriaQuery, {
   mapResult: result => ({ questions: result.data || [] }),
-})(connect(
-  mapStateToProps,
+})(withSequence()(connect(
+  null,
   mapDispatchToProps
-)(RateSequence));
+)(RateSequence)));

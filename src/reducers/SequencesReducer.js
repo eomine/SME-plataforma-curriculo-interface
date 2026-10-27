@@ -3,7 +3,6 @@ import SequencesActions from 'actions/SequencesActions';
 const initialState = {
   query: null,
   expandedId: null,
-  performed: [],
 };
 
 function SequencesReducer(state = initialState, action) {
@@ -19,12 +18,6 @@ function SequencesReducer(state = initialState, action) {
       return {
         ...state,
         expandedId: state.expandedId === action.id ? null : action.id,
-      };
-
-    case SequencesActions.LOADED_PERFORMED:
-      return {
-        ...state,
-        performed: action.data,
       };
 
     default:

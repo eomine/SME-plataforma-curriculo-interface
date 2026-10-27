@@ -1,47 +1,17 @@
-import ProjectActions from 'actions/ProjectActions';
 import CollectionActions from 'actions/CollectionActions';
 
+// Projetos salvos numa coleção nesta sessão: a página do projeto mostra
+// "Salvo" para eles (ela não carrega em quais coleções o projeto está).
 const initialState = {
-  currItem: {},
-  comments: [],
-  collections: [],
-  isSaved: false,
-  isSearching: false,
+  savedIds: [],
 };
 
 function ProjectReducer(state = initialState, action) {
   switch (action.type) {
-    case ProjectActions.LOAD:
-      return {
-        ...state,
-        isSearching: true,
-      };
-
-    case ProjectActions.LOADED:
-      return {
-        ...state,
-        currItem: action.data,
-        comments: action.data.comments,
-        isSearching: false,
-      };
-
-    case ProjectActions.LOAD_COLLECTIONS:
-      return {
-        ...state,
-        collections: [],
-      };
-
-    case ProjectActions.LOADED_COLLECTIONS:
-      return {
-        ...state,
-        collections: action.data,
-        isSaved: action.data.length > 0,
-      };
-
     case CollectionActions.SAVED_PROJECT:
       return {
         ...state,
-        isSaved: true,
+        savedIds: state.savedIds.concat(action.projectId),
       };
 
     default:

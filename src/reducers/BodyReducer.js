@@ -2,11 +2,9 @@ import BodyActions from 'actions/BodyActions';
 import ChallengeActions from 'actions/ChallengeActions';
 import ChallengesActions from 'actions/ChallengesActions';
 import LearningObjectivesActions from 'actions/LearningObjectivesActions';
-import SequenceActions from 'actions/SequenceActions';
 import CreateProjectActions from 'actions/CreateProjectActions';
 import EditProjectActions from 'actions/EditProjectActions';
 import ProjectsActions from 'actions/ProjectsActions';
-import ProjectActions from 'actions/ProjectActions';
 
 const initialState = {
   hasMobileMenu: false,
@@ -19,8 +17,6 @@ function BodyReducer(state = initialState, action) {
     case ChallengeActions.LOADED:
     case ChallengesActions.LOADED:
     case LearningObjectivesActions.LOADED:
-    case SequenceActions.LOADED:
-    case ProjectActions.LOADED:
     case ProjectsActions.LOADED:
     case CreateProjectActions.LOADED:
     case EditProjectActions.LOADED:

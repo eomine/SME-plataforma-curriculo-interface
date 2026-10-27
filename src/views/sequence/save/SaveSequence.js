@@ -1,30 +1,22 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router';
-import { connect } from 'react-redux';
 import { skipToken } from '@reduxjs/toolkit/query/react';
 import { useGetCollectionsQuery } from 'data/curriculoApi';
 import getTeacherId from 'data/getTeacherId';
 import withQuery from 'utils/withQuery';
+import { withSequence, withSequenceCollections } from 'data/itemQueries';
 import BigPreview from 'components/objects/BigPreview';
 import Collection from './Collection';
 import DesktopModal from 'components/layout/DesktopModal';
 import ModalHeader from 'components/header/ModalHeader';
 import ModalPage from 'components/layout/ModalPage';
-import SequenceActions from 'actions/SequenceActions';
 import SequencePreview from 'views/activity/SequencePreview';
 import createModalLink from 'utils/createModalLink';
 import iconPlus from 'images/icons/plus1.svg';
 import styles from './SaveSequence.module.scss';
 
 class SaveSequence extends Component {
-  componentDidMount() {
-    const slug = this.props.match.params.slug;
-    if (!this.props.data || this.props.data.slug !== slug) {
-      this.props.load(slug);
-    }
-  }
-
   render() {
     if (this.props.data == null) {
       return <span />;
@@ -86,24 +78,6 @@ class SaveSequence extends Component {
 SaveSequence.propTypes = {
   collections: PropTypes.array.isRequired,
   data: PropTypes.object,
-  load: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = state => {
-  return {
-    data: state.SequenceReducer.currItem,
-    inCollections: state.SequenceReducer.collections,
-    isSaved: state.SequenceReducer.isSaved,
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    load: slug => {
-      dispatch(SequenceActions.load(slug));
-      dispatch(SequenceActions.loadCollections(slug));
-    },
-  };
 };
 
 const withCollections = withQuery(useGetCollectionsQuery, {
@@ -111,7 +85,4 @@ const withCollections = withQuery(useGetCollectionsQuery, {
   mapResult: result => ({ collections: result.data || [] }),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withCollections(SaveSequence));
+export default withSequence()(withSequenceCollections()(withCollections(SaveSequence)));

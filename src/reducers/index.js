@@ -14,7 +14,6 @@ import ProjectFiltersReducer from './ProjectFiltersReducer';
 import ProjectsReducer from './ProjectsReducer';
 import ProjectReducer from './ProjectReducer';
 import ProfileReducer from './ProfileReducer';
-import SequenceReducer from './SequenceReducer';
 import SequencesReducer from './SequencesReducer';
 import SnackbarReducer from './SnackbarReducer';
 import TeacherSurveyFormsReducer from './TeacherSurveyFormsReducer';
@@ -36,7 +35,6 @@ export default combineReducers({
   ProjectsReducer,
   ProjectReducer,
   TeacherSurveyFormsReducer,
-  SequenceReducer,
   SequencesReducer,
   SnackbarReducer,
 });

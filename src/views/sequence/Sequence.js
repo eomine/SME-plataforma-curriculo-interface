@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { history } from 'utils/history';
 import ActivityItem from './ActivityItem';
 import ActivityPrintItem from 'views/activity/ActivityPrintItem';
-import BodyActions from 'actions/BodyActions';
 import Notification from 'components/objects/Notification';
 import Page from 'components/layout/Page';
 import ReadMore from 'components/ReadMore';
-import SequenceActions from 'actions/SequenceActions';
-import SequencesActions from 'actions/SequencesActions';
 import SequenceChars from './chars/SequenceChars';
 import SequenceCharsMobile from './chars/SequenceCharsMobile';
 import Cover from './Cover';
@@ -17,7 +13,7 @@ import Title from './Title';
 import Tooltips from 'components/Tooltips';
 import convertQuillToHtml from 'utils/convertQuillToHtml';
 import createModalLink from 'utils/createModalLink';
-import isLogged from 'data/isLogged';
+import { withPerformedSequences, withSequence, withSequenceCollections } from 'data/itemQueries';
 import styles from './Sequence.module.scss';
 
 class Sequence extends Component {
@@ -40,8 +36,6 @@ class Sequence extends Component {
   };
 
   componentDidMount() {
-    this.props.load(this.props.match.params.slug);
-
     if (this.props.location.pathname.match(/imprimir/)) {
       this.setState({
         ...this.state,
@@ -158,32 +152,10 @@ class Sequence extends Component {
 Sequence.propTypes = {
   data: PropTypes.object,
   isSaved: PropTypes.bool,
-  load: PropTypes.func.isRequired,
   performed: PropTypes.array,
 };
 
-const mapStateToProps = state => {
-  return {
-    data: state.SequenceReducer.currItem,
-    isSaved: state.SequenceReducer.isSaved,
-    performed: state.SequencesReducer.performed,
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    load: slug => {
-      dispatch(BodyActions.showLoading());
-      dispatch(SequenceActions.load(slug));
-      if (isLogged()) {
-        dispatch(SequenceActions.loadCollections(slug));
-        dispatch(SequencesActions.loadPerformed());
-      }
-    },
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Sequence);
+// Coleções e sequências realizadas só com professor logado.
+export default withSequence(undefined, { showLoading: true })(
+  withSequenceCollections()(withPerformedSequences(Sequence))
+);
