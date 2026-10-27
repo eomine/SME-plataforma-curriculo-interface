@@ -1,7 +1,5 @@
 import BodyActions from 'actions/BodyActions';
 import LearningObjectivesActions from 'actions/LearningObjectivesActions';
-import CreateProjectActions from 'actions/CreateProjectActions';
-import EditProjectActions from 'actions/EditProjectActions';
 import ProjectsActions from 'actions/ProjectsActions';
 
 const initialState = {
@@ -14,8 +12,6 @@ function BodyReducer(state = initialState, action) {
     case BodyActions.HIDE_LOADING:
     case LearningObjectivesActions.LOADED:
     case ProjectsActions.LOADED:
-    case CreateProjectActions.LOADED:
-    case EditProjectActions.LOADED:
       return {
         ...state,
         isLoading: false,
