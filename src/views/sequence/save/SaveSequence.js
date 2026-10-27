@@ -2,8 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router';
 import { connect } from 'react-redux';
+import { skipToken } from '@reduxjs/toolkit/query/react';
+import { useGetCollectionsQuery } from 'data/curriculoApi';
+import getTeacherId from 'data/getTeacherId';
+import withQuery from 'utils/withQuery';
 import BigPreview from 'components/objects/BigPreview';
-import CollectionsActions from 'actions/CollectionsActions';
 import Collection from './Collection';
 import DesktopModal from 'components/layout/DesktopModal';
 import ModalHeader from 'components/header/ModalHeader';
@@ -20,7 +23,6 @@ class SaveSequence extends Component {
     if (!this.props.data || this.props.data.slug !== slug) {
       this.props.load(slug);
     }
-    this.props.loadCollections();
   }
 
   render() {
@@ -85,12 +87,10 @@ SaveSequence.propTypes = {
   collections: PropTypes.array.isRequired,
   data: PropTypes.object,
   load: PropTypes.func.isRequired,
-  loadCollections: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => {
   return {
-    collections: state.CollectionsReducer.items,
     data: state.SequenceReducer.currItem,
     inCollections: state.SequenceReducer.collections,
     isSaved: state.SequenceReducer.isSaved,
@@ -103,13 +103,15 @@ const mapDispatchToProps = dispatch => {
       dispatch(SequenceActions.load(slug));
       dispatch(SequenceActions.loadCollections(slug));
     },
-    loadCollections: () => {
-      dispatch(CollectionsActions.load());
-    },
   };
 };
+
+const withCollections = withQuery(useGetCollectionsQuery, {
+  arg: () => getTeacherId() || skipToken,
+  mapResult: result => ({ collections: result.data || [] }),
+});
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(SaveSequence);
+)(withCollections(SaveSequence));

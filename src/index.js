@@ -77,9 +77,13 @@ const store = configureStore({
   reducer: reducers,
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
-      // As actions antigas levam o Headers da resposta (data/Api), que nenhum
-      // reducer lê.
-      serializableCheck: { ignoredActionPaths: ['headers'] },
+      // Não serializáveis de propósito: o Headers da resposta nas actions
+      // antigas (data/Api, nenhum reducer lê), a mensagem do snackbar (JSX) e o
+      // callback do diálogo de confirmação.
+      serializableCheck: {
+        ignoredActionPaths: ['headers', 'message', 'onConfirm'],
+        ignoredPaths: ['SnackbarReducer.message', 'ConfirmReducer.onConfirm'],
+      },
     }).concat(curriculoApi.middleware),
 });
 

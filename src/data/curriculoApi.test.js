@@ -124,6 +124,27 @@ describe('curriculoApi', () => {
     expect(getSequences.select('')(store.getState()).data.pages[0].items).toEqual([{ id: 2 }]);
   });
 
+  it('salvar numa coleção envia o FormData das actions e recarrega a coleção e a lista', async () => {
+    const fetch = vi.fn(() => Promise.resolve(new Response(JSON.stringify([]))));
+    vi.stubGlobal('fetch', fetch);
+    const store = createStore();
+    const { addToCollection, getCollections, getCollectionSequences } = curriculoApi.endpoints;
+    // Assinaturas ativas, como as de uma tela aberta.
+    store.dispatch(getCollections.initiate('1'));
+    store.dispatch(getCollectionSequences.initiate({ teacherId: '1', id: 7 }));
+    await vi.waitFor(() => expect(fetch).toHaveBeenCalledTimes(2));
+
+    await store.dispatch(addToCollection.initiate({ teacherId: '1', id: 7, kind: 'sequence', itemId: 42 })).unwrap();
+
+    const [url, options] = fetch.mock.calls[2];
+    expect(url).toMatch(/\/api\/professores\/1\/colecoes\/7\/sequencias$/);
+    expect(options.method).toBe('POST');
+    expect(options.body.get('collection_activity_sequence[activity_sequence_id]')).toBe('42');
+    await vi.waitFor(() => expect(fetch).toHaveBeenCalledTimes(5));
+    const refetched = fetch.mock.calls.slice(3).map(call => call[0].replace(/^.*\/api\//, ''));
+    expect(refetched.sort()).toEqual(['professores/1/colecoes', 'professores/1/colecoes/7/sequencias']);
+  });
+
   it('mostra o alerta de erro, como as actions faziam', async () => {
     mockFetch(422, { error: 'não encontrado' });
     const store = createStore();

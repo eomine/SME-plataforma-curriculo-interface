@@ -1,8 +1,6 @@
 import BodyActions from 'actions/BodyActions';
 import ChallengeActions from 'actions/ChallengeActions';
 import ChallengesActions from 'actions/ChallengesActions';
-import CollectionActions from 'actions/CollectionActions';
-import CollectionsActions from 'actions/CollectionsActions';
 import LearningObjectivesActions from 'actions/LearningObjectivesActions';
 import SequenceActions from 'actions/SequenceActions';
 import CreateProjectActions from 'actions/CreateProjectActions';
@@ -20,8 +18,6 @@ function BodyReducer(state = initialState, action) {
     case BodyActions.HIDE_LOADING:
     case ChallengeActions.LOADED:
     case ChallengesActions.LOADED:
-    case CollectionActions.LOADED_SEQUENCES:
-    case CollectionsActions.LOADED:
     case LearningObjectivesActions.LOADED:
     case SequenceActions.LOADED:
     case ProjectActions.LOADED:

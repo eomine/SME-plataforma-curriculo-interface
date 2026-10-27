@@ -1,5 +1,6 @@
 import Api from 'data/Api';
 import AlertActions from 'actions/AlertActions';
+import { curriculoApi } from 'data/curriculoApi';
 import { history } from 'utils/history';
 
 const LoginActions = {
@@ -56,6 +57,8 @@ const LoginActions = {
       localStorage.removeItem('blocked');
       localStorage.removeItem('teacherId');
       dispatch({ type: LoginActions.LOGGED_OUT });
+      // O cache do curriculoApi guarda dados do professor (coleções etc.).
+      dispatch(curriculoApi.util.resetApiState());
 
       if (history.location.pathname.match(/perfil|colecao/)) {
         history.push('/');
