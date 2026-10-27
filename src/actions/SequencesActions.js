@@ -1,4 +1,3 @@
-import Api from 'data/Api';
 import getFiltersQueryString, {
   getSearchQueryString,
 } from 'data/getFiltersQueryString';
@@ -6,8 +5,6 @@ import getFiltersQueryString, {
 // A lista de sequências vem do curriculoApi (getSequences); aqui fica só a
 // busca atual (a query string) e a prévia expandida.
 const SequencesActions = {
-  LOAD_PERFORMED: 'SequencesActions.LOAD_PERFORMED',
-  LOADED_PERFORMED: 'SequencesActions.LOADED_PERFORMED',
   SEARCH: 'SequencesActions.SEARCH',
   TOGGLE_PREVIEW: 'SequencesActions.TOGGLE_PREVIEW',
 
@@ -23,13 +20,6 @@ const SequencesActions = {
   },
   load() {
     return { type: SequencesActions.SEARCH, query: '' };
-  },
-  loadPerformed() {
-    return Api.simpleGet(
-      '/api/sequencias_realizadas',
-      SequencesActions.LOAD_PERFORMED,
-      SequencesActions.LOADED_PERFORMED
-    );
   },
   loadWithFilter(filter) {
     return { type: SequencesActions.SEARCH, query: getFiltersQueryString([filter]) };

@@ -145,6 +145,24 @@ describe('curriculoApi', () => {
     expect(refetched.sort()).toEqual(['professores/1/colecoes', 'professores/1/colecoes/7/sequencias']);
   });
 
+  it('grava o comentário em JSON e recarrega o projeto', async () => {
+    const fetch = vi.fn(() => Promise.resolve(new Response(JSON.stringify({ id: 1, comments: [] }))));
+    vi.stubGlobal('fetch', fetch);
+    const store = createStore();
+    const { createComment, getProject } = curriculoApi.endpoints;
+    store.dispatch(getProject.initiate('meu-projeto'));
+    await vi.waitFor(() => expect(fetch).toHaveBeenCalledTimes(1));
+
+    await store.dispatch(createComment.initiate({ comment: { body: '<p>Oi</p>', project_id: 1 }, slug: 'meu-projeto' })).unwrap();
+
+    const [url, options] = fetch.mock.calls[1];
+    expect(url).toMatch(/\/api\/comments$/);
+    expect(options.headers['Content-Type']).toBe('application/json');
+    expect(JSON.parse(options.body)).toEqual({ body: '<p>Oi</p>', project_id: 1 });
+    await vi.waitFor(() => expect(fetch).toHaveBeenCalledTimes(3));
+    expect(fetch.mock.calls[2][0]).toMatch(/\/api\/projects\/meu-projeto$/);
+  });
+
   it('mostra o alerta de erro, como as actions faziam', async () => {
     mockFetch(422, { error: 'não encontrado' });
     const store = createStore();

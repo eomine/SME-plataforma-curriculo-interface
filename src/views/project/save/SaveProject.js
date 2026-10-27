@@ -1,28 +1,20 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router';
-import { connect } from 'react-redux';
 import { skipToken } from '@reduxjs/toolkit/query/react';
 import { useGetCollectionsQuery } from 'data/curriculoApi';
 import getTeacherId from 'data/getTeacherId';
 import withQuery from 'utils/withQuery';
+import { withProject } from 'data/itemQueries';
 import Collection from './Collection';
 import DesktopModal from 'components/layout/DesktopModal';
 import ModalHeader from 'components/header/ModalHeader';
 import ModalPage from 'components/layout/ModalPage';
-import ProjectActions from 'actions/ProjectActions';
 import createModalLink from 'utils/createModalLink';
 import iconPlus from 'images/icons/plus1.svg';
 import styles from './SaveProject.module.scss';
 
 class SaveProject extends Component {
-  componentDidMount() {
-    const slug = this.props.match.params.slug;
-    if (!this.props.data || this.props.data.slug !== slug) {
-      this.props.load(slug);
-    }
-  }
-
   render() {
     if (this.props.data == null) {
       return <span />;
@@ -74,24 +66,6 @@ class SaveProject extends Component {
 SaveProject.propTypes = {
   collections: PropTypes.array.isRequired,
   data: PropTypes.object,
-  load: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = state => {
-  return {
-    data: state.ProjectReducer.currItem,
-    inCollections: state.ProjectReducer.collections,
-    isSaved: state.ProjectReducer.isSaved,
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    load: slug => {
-      dispatch(ProjectActions.load(slug));
-      dispatch(ProjectActions.loadCollections(slug));
-    },
-  };
 };
 
 const withCollections = withQuery(useGetCollectionsQuery, {
@@ -99,7 +73,4 @@ const withCollections = withQuery(useGetCollectionsQuery, {
   mapResult: result => ({ collections: result.data || [] }),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withCollections(SaveProject));
+export default withProject(withCollections(SaveProject));

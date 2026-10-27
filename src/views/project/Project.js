@@ -5,7 +5,7 @@ import Cover from './Cover';
 import Title from './Title';
 import Page from 'components/layout/Page';
 import ProjectActions from 'actions/ProjectActions';
-import BodyActions from 'actions/BodyActions';
+import { withProject } from 'data/itemQueries';
 import ProjectChars from './chars/ProjectChars';
 import styles from './Project.module.scss';
 import getTeacherId from 'data/getTeacherId';
@@ -74,8 +74,6 @@ class Project extends Component {
   }
 
   componentDidMount() {
-    this.props.load(this.props.match.params.slug);
-
     if (this.props.location.pathname.match(/imprimir/)) {
       this.setState({
         ...this.state,
@@ -262,33 +260,24 @@ Project.propTypes = {
   comments: PropTypes.array,
   isSaved: PropTypes.bool,
   isSearching: PropTypes.bool.isRequired,
-  load: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => {
+// "Salvo" só depois de salvar nesta sessão: a página não carrega em quais
+// coleções o projeto está (como antes).
+const mapStateToProps = (state, { data }) => {
   return {
-    data: state.ProjectReducer.currItem,
-    comments: state.ProjectReducer.comments,
-    isSaved: state.ProjectReducer.isSaved,
-    isSearching: state.ProjectReducer.isSearching,
+    comments: data.comments || [],
+    isSaved: state.ProjectReducer.savedIds.includes(data.id),
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    load: slug => {
-      dispatch(BodyActions.showLoading());
-      dispatch(ProjectActions.load(slug));
-    },
     createComment: (comment, slug) => {
-      dispatch(BodyActions.showLoading());
-      dispatch(ProjectActions.createComment(comment));
-      dispatch(ProjectActions.load(slug));
+      dispatch(ProjectActions.createComment(comment, slug));
     },
     deleteComment: (id, slug) => {
-      dispatch(BodyActions.showLoading());
-      dispatch(ProjectActions.deleteComment(id));
-      dispatch(ProjectActions.load(slug));
+      dispatch(ProjectActions.deleteComment(id, slug));
     },
     openAlert: message => {
       dispatch(AlertActions.open(message));
@@ -296,7 +285,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(
+export default withProject(connect(
   mapStateToProps,
   mapDispatchToProps
-)(Project);
+)(Project));

@@ -6,12 +6,12 @@ const requests = { GET: Api.get, POST: Api.post, PUT: Api.put, DELETE: Api.delet
 
 // Usa o data/Api das actions: mesmo token, mesmo tratamento do 401 e o mesmo
 // alerta de erro. A paginação (header Link) e o total vão no meta. O
-// argumento é a URL, ou { url, method, body } para as mutations (o body vai
-// como FormData, como nas actions).
+// argumento é a URL, ou { url, method, body, isJson } para as mutations (o body
+// vai como FormData, ou JSON com isJson, como nas actions).
 async function baseQuery(args, { dispatch }) {
-  const { url, method = 'GET', body } = typeof args === 'string' ? { url: args } : args;
+  const { url, method = 'GET', body, isJson } = typeof args === 'string' ? { url: args } : args;
   try {
-    const { data = null, nextPage, totalItems } = await requests[method](dispatch, url, body);
+    const { data = null, nextPage, totalItems } = await requests[method](dispatch, url, body, isJson);
     return { data, meta: { nextPage, totalItems } };
   } catch (error) {
     dispatch(AlertActions.open(`Ocorreu um erro: ${error}`));
@@ -23,9 +23,12 @@ async function baseQuery(args, { dispatch }) {
 // misturar dados de logins diferentes.
 const teacherUrl = (teacherId, path = '') => `/api/professores/${teacherId}${path}`;
 
+// Cada query gera um hook (useGetXQuery); componentes de classe usam
+// utils/withQuery. As mutations invalidam as tags das queries afetadas.
 export const curriculoApi = createApi({
   reducerPath: 'curriculoApi',
   baseQuery,
+  tagTypes: ['Collections', 'Collection', 'CollectionItems', 'ItemCollections', 'Project'],
   endpoints: build => ({
     getActivity: build.query({
       query: ({ sequenceSlug, activitySlug }) =>
@@ -66,7 +69,7 @@ export const curriculoApi = createApi({
     }),
     deleteCollection: build.mutation({
       query: ({ teacherId, id }) => ({ url: teacherUrl(teacherId, `/colecoes/${id}`), method: 'DELETE' }),
-      invalidatesTags: ['Collections'],
+      invalidatesTags: ['Collections', 'ItemCollections'],
     }),
     // Os contadores da lista de coleções também mudam.
     addToCollection: build.mutation({
@@ -77,14 +80,49 @@ export const curriculoApi = createApi({
           ? { 'collection_project[project_id]': itemId }
           : { 'collection_activity_sequence[activity_sequence_id]': itemId },
       }),
-      invalidatesTags: (result, error, { id, kind }) => ['Collections', { type: 'CollectionItems', id: `${kind}-${id}` }],
+      invalidatesTags: (result, error, { id, kind }) => [
+        'Collections',
+        'ItemCollections',
+        { type: 'CollectionItems', id: `${kind}-${id}` },
+      ],
     }),
     removeFromCollection: build.mutation({
       query: ({ teacherId, id, kind, itemId }) => ({
         url: teacherUrl(teacherId, `/colecoes/${id}/${kind === 'project' ? 'projetos' : 'sequencias'}/${itemId}`),
         method: 'DELETE',
       }),
-      invalidatesTags: (result, error, { id, kind }) => ['Collections', { type: 'CollectionItems', id: `${kind}-${id}` }],
+      invalidatesTags: (result, error, { id, kind }) => [
+        'Collections',
+        'ItemCollections',
+        { type: 'CollectionItems', id: `${kind}-${id}` },
+      ],
+    }),
+    // Sequência e projeto
+    getSequence: build.query({
+      query: slug => `/api/sequencias/${slug}`,
+    }),
+    getProject: build.query({
+      query: slug => `/api/projects/${slug}`,
+      providesTags: (result, error, slug) => [{ type: 'Project', id: slug }],
+    }),
+    // Coleções do professor em que a sequência está (o "Salvo" da página). O
+    // teacherId fica no argumento só para separar o cache por login.
+    getSequenceCollections: build.query({
+      query: ({ slug }) => `/api/sequencias/${slug}/colecoes`,
+      providesTags: ['ItemCollections'],
+    }),
+    // Sequências realizadas pelo professor logado (o argumento é o teacherId).
+    getPerformedSequences: build.query({
+      query: () => '/api/sequencias_realizadas',
+    }),
+    // Comentários de projeto; recarregam o projeto depois de gravados.
+    createComment: build.mutation({
+      query: ({ comment }) => ({ url: '/api/comments', method: 'POST', body: comment, isJson: true }),
+      invalidatesTags: (result, error, { slug }) => [{ type: 'Project', id: slug }],
+    }),
+    deleteComment: build.mutation({
+      query: ({ id }) => ({ url: `/api/comments/${id}`, method: 'DELETE', body: { id }, isJson: true }),
+      invalidatesTags: (result, error, { slug }) => [{ type: 'Project', id: slug }],
     }),
     getConsultations: build.query({
       query: () => '/api/public_consultations',
@@ -158,8 +196,12 @@ export const {
   useGetKnowledgeMatricesQuery,
   useGetMethodologiesQuery,
   useGetMethodologyQuery,
+  useGetPerformedSequencesQuery,
+  useGetProjectQuery,
   useGetProjectsInfiniteQuery,
   useGetRatingCriteriaQuery,
+  useGetSequenceCollectionsQuery,
+  useGetSequenceQuery,
   useGetSequencesInfiniteQuery,
   useGetSurveyFormQuery,
   useGetSustainableDevGoalsQuery,

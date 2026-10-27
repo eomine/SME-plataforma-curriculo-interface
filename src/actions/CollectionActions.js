@@ -26,7 +26,6 @@ function savedSnackbar(dispatch, name) {
 function doSaveSequence(dispatch, id, name, sequenceId) {
   return run(dispatch, endpoints.addToCollection, { id, kind: 'sequence', itemId: sequenceId })
     .then(() => {
-      dispatch({ sequenceId, type: CollectionActions.SAVED_SEQUENCE });
       dispatch(markSequenceSaved(sequenceId));
       savedSnackbar(dispatch, name);
     })
@@ -44,7 +43,6 @@ function doSaveProject(dispatch, id, name, projectId) {
 }
 
 const CollectionActions = {
-  SAVED_SEQUENCE: 'CollectionActions.SAVED_SEQUENCE',
   SAVED_PROJECT: 'CollectionActions.SAVED_PROJECT',
 
   removeSequence(id, sequenceId) {
