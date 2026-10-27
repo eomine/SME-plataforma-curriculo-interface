@@ -1,6 +1,4 @@
 import BodyActions from 'actions/BodyActions';
-import ChallengeActions from 'actions/ChallengeActions';
-import ChallengesActions from 'actions/ChallengesActions';
 import LearningObjectivesActions from 'actions/LearningObjectivesActions';
 import CreateProjectActions from 'actions/CreateProjectActions';
 import EditProjectActions from 'actions/EditProjectActions';
@@ -14,8 +12,6 @@ const initialState = {
 function BodyReducer(state = initialState, action) {
   switch (action.type) {
     case BodyActions.HIDE_LOADING:
-    case ChallengeActions.LOADED:
-    case ChallengesActions.LOADED:
     case LearningObjectivesActions.LOADED:
     case ProjectsActions.LOADED:
     case CreateProjectActions.LOADED:

@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { withChallenge } from 'data/challengeQueries';
 import { history } from 'utils/history';
 import BigPreview from 'components/objects/BigPreview';
-import ChallengeActions from 'actions/ChallengeActions';
 import ChallengePreview from 'views/result/send/ChallengePreview';
 import Classroom from './Classroom';
 import DesktopModal from 'components/layout/DesktopModal';
@@ -19,11 +18,6 @@ class MyResults extends Component {
     history.replace(`/desafio/${slug}/enviar`);
   };
 
-  componentDidMount() {
-    const slug = this.props.match.params.slug;
-    this.props.loadChallenge(slug);
-  }
-
   render() {
     const { challenge, classrooms } = this.props;
 
@@ -33,7 +27,7 @@ class MyResults extends Component {
 
     const items = classrooms.map((classroom, i) => {
       return (
-        <Classroom key={i} name={classroom.name} />
+        <Classroom key={i} name={classroom.name} challenge={challenge} />
       );
     });
 
@@ -80,21 +74,4 @@ MyResults.defaultProps = {
   ],
 };
 
-const mapStateToProps = state => {
-  return {
-    challenge: state.ChallengeReducer.currItem,
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    loadChallenge: slug => {
-      dispatch(ChallengeActions.load(slug));
-    },
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(MyResults);
+export default withChallenge()(MyResults);

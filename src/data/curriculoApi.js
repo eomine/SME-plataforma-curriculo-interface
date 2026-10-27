@@ -28,11 +28,60 @@ const teacherUrl = (teacherId, path = '') => `/api/professores/${teacherId}${pat
 export const curriculoApi = createApi({
   reducerPath: 'curriculoApi',
   baseQuery,
-  tagTypes: ['Collections', 'Collection', 'CollectionItems', 'ItemCollections', 'Project'],
+  tagTypes: ['Collections', 'Collection', 'CollectionItems', 'ItemCollections', 'Project', 'ChallengeResults'],
   endpoints: build => ({
     getActivity: build.query({
       query: ({ sequenceSlug, activitySlug }) =>
         `/api/sequencias/${sequenceSlug}/atividades/${activitySlug}`,
+    }),
+    // Coleções do professor
+    // Desafios
+    getOngoingChallenges: build.query({
+      query: () => '/api/desafios/andamento',
+    }),
+    getFinishedChallenges: build.query({
+      query: () => '/api/desafios/finalizados',
+    }),
+    getChallenge: build.query({
+      query: slug => `/api/desafios/${slug}`,
+    }),
+    // Resultados de um desafio, paginados pelo header Link.
+    getChallengeResults: build.infiniteQuery({
+      query: ({ queryArg, pageParam }) => pageParam || `/api/desafios/${queryArg}/resultados`,
+      transformResponse: (items, meta) => ({
+        items,
+        nextPage: meta.nextPage,
+        totalItems: meta.totalItems,
+      }),
+      infiniteQueryOptions: {
+        initialPageParam: null,
+        getNextPageParam: lastPage => lastPage.nextPage || undefined,
+      },
+      providesTags: (result, error, slug) => [{ type: 'ChallengeResults', id: slug }],
+    }),
+    getChallengeResult: build.query({
+      query: ({ slug, id }) => `/api/desafios/${slug}/resultados/${id}`,
+    }),
+    sendChallengeResult: build.mutation({
+      query: ({ slug, body }) => ({ url: `/api/desafios/${slug}/resultados`, method: 'POST', body }),
+      invalidatesTags: (result, error, { slug }) => [{ type: 'ChallengeResults', id: slug }],
+    }),
+    // Favoritos do professor. A API só tem o GET; o POST e o DELETE dão 404.
+    getFavoriteChallenges: build.query({
+      query: teacherId => teacherUrl(teacherId, '/favoritos'),
+    }),
+    saveFavoriteChallenge: build.mutation({
+      query: ({ teacherId, challengeId }) => ({
+        url: teacherUrl(teacherId, '/favoritos'),
+        method: 'POST',
+        body: { 'favourite[challenge]': challengeId },
+      }),
+    }),
+    deleteFavoriteChallenge: build.mutation({
+      query: ({ teacherId, challengeId }) => ({
+        url: teacherUrl(teacherId, `/favoritos/${challengeId}`),
+        method: 'DELETE',
+      }),
     }),
     // Coleções do professor
     getCollections: build.query({
@@ -187,15 +236,20 @@ export const curriculoApi = createApi({
 
 export const {
   useGetActivityQuery,
+  useGetChallengeQuery,
+  useGetChallengeResultQuery,
+  useGetChallengeResultsInfiniteQuery,
   useGetCollectionQuery,
   useGetCollectionProjectsQuery,
   useGetCollectionSequencesQuery,
   useGetCollectionsQuery,
   useGetConsultationsQuery,
   useGetConsultationQuery,
+  useGetFinishedChallengesQuery,
   useGetKnowledgeMatricesQuery,
   useGetMethodologiesQuery,
   useGetMethodologyQuery,
+  useGetOngoingChallengesQuery,
   useGetPerformedSequencesQuery,
   useGetProjectQuery,
   useGetProjectsInfiniteQuery,
