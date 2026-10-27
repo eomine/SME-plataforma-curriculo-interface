@@ -198,6 +198,10 @@ export const curriculoApi = createApi({
       providesTags: ['ItemCollections'],
     }),
     // Sequências realizadas pelo professor logado (o argumento é o teacherId).
+    // "Meus projetos" do perfil
+    getMyProjects: build.query({
+      query: teacherId => teacherUrl(teacherId, '/meus_projetos'),
+    }),
     getPerformedSequences: build.query({
       query: () => '/api/sequencias_realizadas',
     }),
@@ -302,6 +306,7 @@ export const {
   useGetFinishedChallengesQuery,
   useGetKnowledgeMatricesQuery,
   useGetMethodologiesQuery,
+  useGetMyProjectsQuery,
   useGetMethodologyQuery,
   useGetOngoingChallengesQuery,
   useGetPerformedSequencesQuery,

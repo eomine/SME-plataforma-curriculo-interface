@@ -1,11 +1,8 @@
 import { getSearchQueryString } from 'data/getProjectFiltersQueryString';
 
 // A lista de projetos vem do curriculoApi (getProjects); aqui fica a busca
-// atual (a query string) e a prévia expandida. LOAD e LOADED continuam para
-// os "meus projetos" do perfil (ProfileActions.loadMyProjects).
+// atual (a query string) e a prévia expandida.
 const ProjectsActions = {
-  LOAD: 'ProjectsActions.LOAD',
-  LOADED: 'ProjectsActions.LOADED',
   SEARCH: 'ProjectsActions.SEARCH',
   TOGGLE_PREVIEW: 'ProjectsActions.TOGGLE_PREVIEW',
 

@@ -1,14 +1,11 @@
 import Api from 'data/Api';
 import AlertActions from 'actions/AlertActions';
-import ProjectsActions from 'actions/ProjectsActions';
 
 const ProfileActions = {
   DELETE_PHOTO: 'ProfileActions.DELETE_PHOTO',
   DELETED_PHOTO: 'ProfileActions.DELETED_PHOTO',
   LOAD: 'ProfileActions.LOAD',
   LOADED: 'ProfileActions.LOADED',
-  LOAD_CLASSROOMS: 'ProfileActions.LOAD_CLASSROOMS',
-  LOADED_CLASSROOMS: 'ProfileActions.LOADED_CLASSROOMS',
   SAVE_NICKNAME: 'ProfileActions.SAVE_NICKNAME',
   SAVE_PHOTO: 'ProfileActions.SAVE_PHOTO',
   SAVED_NICKNAME: 'ProfileActions.SAVED_NICKNAME',
@@ -33,22 +30,6 @@ const ProfileActions = {
       '/api/perfil',
       ProfileActions.LOAD,
       ProfileActions.LOADED
-    );
-  },
-  loadClassrooms() {
-    const teacherId = localStorage.getItem('teacherId');
-    return Api.simpleGet(
-      `/api/professores/${teacherId}`,
-      ProfileActions.LOAD_CLASSROOMS,
-      ProfileActions.LOADED_CLASSROOMS
-    );
-  },
-  loadMyProjects() {
-    const teacherId = localStorage.getItem('teacherId');
-    return Api.simpleGet(
-      `/api/professores/${teacherId}/meus_projetos`,
-      ProjectsActions.LOAD,
-      ProjectsActions.LOADED
     );
   },
   saveNickname(id, nickname) {
