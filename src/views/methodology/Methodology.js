@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { API_URL } from 'data/constants';
 import { useGetMethodologiesQuery, useGetMethodologyQuery } from 'data/curriculoApi';
 import withQuery from 'utils/withQuery';
+import { withChallengeLists } from 'data/challengeQueries';
 import Challenge from 'views/technologies/Challenge';
-import ChallengesActions from 'actions/ChallengesActions';
 import Contents from './Contents';
 import OtherMethodology from './OtherMethodology';
 import Page from 'components/layout/Page';
@@ -29,10 +28,6 @@ class Methodology extends Component {
     if (prevProps.match.params.slug !== slug) {
       window.scrollTo(0, 0);
     }
-  }
-
-  componentDidMount() {
-    this.props.loadOngoing();
   }
 
   render() {
@@ -104,25 +99,7 @@ Methodology.propTypes = {
   data: PropTypes.object,
   methodologies: PropTypes.array.isRequired,
   challenges: PropTypes.array.isRequired,
-  loadOngoing: PropTypes.func.isRequired,
   loadFinished: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = state => {
-  return {
-    challenges: state.ChallengesReducer.items,
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    loadOngoing: () => {
-      dispatch(ChallengesActions.loadOngoing());
-    },
-    loadFinished: () => {
-      dispatch(ChallengesActions.loadFinished());
-    },
-  };
 };
 
 const withMethodologies = withQuery(useGetMethodologiesQuery, {
@@ -134,7 +111,4 @@ const withMethodology = withQuery(useGetMethodologyQuery, {
   mapResult: result => ({ data: result.currentData || null }),
 });
 
-export default withMethodologies(withMethodology(connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Methodology)));
+export default withMethodologies(withMethodology(withChallengeLists(Methodology)));

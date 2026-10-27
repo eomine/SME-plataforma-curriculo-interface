@@ -4,7 +4,6 @@ import AlertReducer from './AlertReducer';
 import BodyReducer from './BodyReducer';
 import CreateProjectReducer from './CreateProjectReducer';
 import EditProjectReducer from './EditProjectReducer';
-import ChallengeReducer from './ChallengeReducer';
 import ChallengesReducer from './ChallengesReducer';
 import ConfirmReducer from './ConfirmReducer';
 import FiltersReducer from './FiltersReducer';
@@ -24,7 +23,6 @@ export default combineReducers({
   BodyReducer,
   CreateProjectReducer,
   EditProjectReducer,
-  ChallengeReducer,
   ChallengesReducer,
   ConfirmReducer,
   FiltersReducer,

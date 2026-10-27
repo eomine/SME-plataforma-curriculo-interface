@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Element, scroller } from 'react-scroll';
-import { connect } from 'react-redux';
 import Challenge from './Challenge';
-import ChallengesActions from 'actions/ChallengesActions';
 import Methodology from './Methodology';
 import Page from 'components/layout/Page';
-import isLogged from 'data/isLogged';
 import { useGetMethodologiesQuery } from 'data/curriculoApi';
 import withQuery from 'utils/withQuery';
+import { withChallengeLists } from 'data/challengeQueries';
 import iconLiteracy from './images/literacy.png';
 import iconProgramming from './images/programming.png';
 import iconTechnologies from './images/technologies.png';
@@ -31,10 +29,6 @@ class Technologies extends Component {
     this.props.loadFinished();
     this.setState({ hasLoadedFinishedChallenges: true });
   };
-
-  componentDidMount() {
-    this.props.loadOngoing();
-  }
 
   render() {
     const { methodologies, challenges } = this.props;
@@ -140,29 +134,6 @@ Technologies.propTypes = {
   challenges: PropTypes.array.isRequired,
 };
 
-const mapStateToProps = state => {
-  return {
-    challenges: state.ChallengesReducer.items,
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    loadOngoing: () => {
-      dispatch(ChallengesActions.loadOngoing());
-      if (isLogged()) {
-      //   dispatch(ChallengesActions.loadSaved());
-      }
-    },
-    loadFinished: () => {
-      dispatch(ChallengesActions.loadFinished());
-    },
-  };
-};
-
 export default withQuery(useGetMethodologiesQuery, {
   mapResult: result => ({ methodologies: result.data || [] }),
-})(connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Technologies));
+})(withChallengeLists(Technologies));

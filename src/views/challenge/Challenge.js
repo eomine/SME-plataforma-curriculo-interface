@@ -4,11 +4,8 @@ import Collapse from '@mui/material/Collapse';
 import SwipeableViews from 'components/SwipeableViews';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
-import { connect } from 'react-redux';
 import { history } from 'utils/history';
-import BodyActions from 'actions/BodyActions';
 import Page from 'components/layout/Page';
-import ChallengeActions from 'actions/ChallengeActions';
 import ChallengeChars from './chars/ChallengeChars';
 import ChallengeCharsMobile from './chars/ChallengeCharsMobile';
 import Cover from './Cover';
@@ -19,6 +16,7 @@ import Tooltips from 'components/Tooltips';
 import getCategoryLabel from './getCategoryLabel';
 import getContentBlocks from 'utils/getContentBlocks';
 import isLogged from 'data/isLogged';
+import { withChallenge, withChallengeResults } from 'data/challengeQueries';
 import chevronDown from 'images/chevrons/down.svg';
 import chevronUp from 'images/chevrons/up.svg';
 import styles from './Challenge.module.scss';
@@ -46,7 +44,7 @@ class Challenge extends Component {
   };
 
   onClickedLoadMore = () => {
-    this.props.loadMore(this.props.nextPage);
+    this.props.loadMore();
   };
 
   onClickedMaterials = () => {
@@ -79,8 +77,6 @@ class Challenge extends Component {
   };
 
   componentDidMount() {
-    this.props.load(this.props.match.params.slug);
-
     if (this.props.location.pathname.match(/imprimir/)) {
       this.setState({
         ...this.state,
@@ -248,39 +244,9 @@ class Challenge extends Component {
 Challenge.propTypes = {
   data: PropTypes.object,
   results: PropTypes.array.isRequired,
-  nextPage: PropTypes.string,
+  nextPage: PropTypes.bool,
   totalItems: PropTypes.number,
   isLoading: PropTypes.bool,
 };
 
-const mapStateToProps = state => {
-  return {
-    data: state.ChallengeReducer.currItem,
-    results: state.ChallengeReducer.results,
-    nextPage: state.ChallengeReducer.nextPage,
-    totalItems: state.ChallengeReducer.totalItems,
-    isLoading: state.ChallengeReducer.isLoading,
-    saved: state.ChallengesReducer.saved,
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    load: slug => {
-      dispatch(BodyActions.showLoading());
-      dispatch(ChallengeActions.load(slug));
-      dispatch(ChallengeActions.loadResults(slug));
-      if (isLogged()) {
-        // dispatch(ChallengesActions.loadSaved());
-      }
-    },
-    loadMore: page => {
-      dispatch(ChallengeActions.loadMoreResults(page));
-    },
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Challenge);
+export default withChallenge('data', { showLoading: true })(withChallengeResults(Challenge));

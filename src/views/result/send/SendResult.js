@@ -4,11 +4,12 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import TextField from '@mui/material/TextField';
 import { connect } from 'react-redux';
+import ChallengeActions from 'actions/ChallengeActions';
+import { withChallenge } from 'data/challengeQueries';
 import { styled } from '@mui/material/styles';
 import AlertActions from 'actions/AlertActions';
 import Attachment from './Attachment';
 import BigPreview from 'components/objects/BigPreview';
-import ChallengeActions from 'actions/ChallengeActions';
 import ChallengePreview from './ChallengePreview';
 import ConfirmActions from 'actions/ConfirmActions';
 import DesktopModal from 'components/layout/DesktopModal';
@@ -140,13 +141,6 @@ class SendResult extends Component {
     );
   };
 
-  componentDidMount() {
-    const slug = this.props.match.params.slug;
-    if (!this.props.challenge || this.props.challenge.slug !== slug) {
-      this.props.load(slug);
-    }
-  }
-
   render() {
     if (this.props.challenge == null) {
       return <span />;
@@ -268,22 +262,12 @@ class SendResult extends Component {
 
 SendResult.propTypes = {
   challenge: PropTypes.object,
-  load: PropTypes.func.isRequired,
   openAlert: PropTypes.func.isRequired,
   openConfirm: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => {
-  return {
-    challenge: state.ChallengeReducer.currItem,
-  };
-};
-
 const mapDispatchToProps = dispatch => {
   return {
-    load: slug => {
-      dispatch(ChallengeActions.loadResults(slug));
-    },
     sendResult: (slug, classroom, description, videos, attachments) => {
       dispatch(ChallengeActions.sendResult(slug, classroom, description, videos, attachments));
     },
@@ -298,7 +282,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(
-  mapStateToProps,
+export default withChallenge()(connect(
+  null,
   mapDispatchToProps
-)(SendResult);
+)(SendResult));

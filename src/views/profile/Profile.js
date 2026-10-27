@@ -6,6 +6,7 @@ import { skipToken } from '@reduxjs/toolkit/query/react';
 import { useGetCollectionsQuery } from 'data/curriculoApi';
 import getTeacherId from 'data/getTeacherId';
 import withQuery from 'utils/withQuery';
+import { selectSavedChallenges } from 'data/challengeQueries';
 import { history } from 'utils/history';
 import Avatar from './Avatar';
 import BodyActions from 'actions/BodyActions';
@@ -98,7 +99,7 @@ Profile.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    challenges: state.ChallengesReducer.items.filter(item => item.isSaved),
+    challenges: selectSavedChallenges(state),
     projects: state.ProjectsReducer.items,
     data: state.ProfileReducer,
   };
