@@ -28,7 +28,7 @@ const teacherUrl = (teacherId, path = '') => `/api/professores/${teacherId}${pat
 export const curriculoApi = createApi({
   reducerPath: 'curriculoApi',
   baseQuery,
-  tagTypes: ['Collections', 'Collection', 'CollectionItems', 'ItemCollections', 'Project', 'ProjectList', 'ChallengeResults'],
+  tagTypes: ['Collections', 'Collection', 'CollectionItems', 'ItemCollections', 'Project', 'ProjectList', 'ChallengeResults', 'SurveyAnswers'],
   endpoints: build => ({
     getActivity: build.query({
       query: ({ sequenceSlug, activitySlug }) =>
@@ -248,6 +248,22 @@ export const curriculoApi = createApi({
     getSurveyForm: build.query({
       query: id => `/api/survey_forms/${id}`,
     }),
+    // A resposta do professor ao formulário: a já salva (rascunho ou
+    // finalizada) ou uma nova, com uma resposta vazia por questão. Sem tag: o
+    // formulário a busca de novo sempre que abre, e salvar sai da página.
+    getSurveyFormAnswer: build.query({
+      query: ({ teacherId, surveyFormId }) =>
+        `/api/survey_form_answers/new?teacher_id=${teacherId}&survey_form_id=${surveyFormId}`,
+    }),
+    // Ids dos formulários que o professor já finalizou
+    getFinishedSurveyForms: build.query({
+      query: teacherId => teacherUrl(teacherId, '/todas_respostas'),
+      providesTags: ['SurveyAnswers'],
+    }),
+    saveSurveyFormAnswer: build.mutation({
+      query: surveyFormAnswer => ({ url: '/api/survey_form_answers', method: 'POST', body: surveyFormAnswer, isJson: true }),
+      invalidatesTags: ['SurveyAnswers'],
+    }),
     // Lista paginada: o argumento é a query string da busca ('' = todas) e
     // cada página seguinte vem da URL do header Link da anterior.
     getSequences: build.infiniteQuery({
@@ -299,6 +315,8 @@ export const {
   useGetSequenceCollectionsQuery,
   useGetSequenceQuery,
   useGetSequencesInfiniteQuery,
+  useGetFinishedSurveyFormsQuery,
+  useGetSurveyFormAnswerQuery,
   useGetSurveyFormQuery,
   useGetSustainableDevGoalsQuery,
   useGetSustainableDevGoalQuery,

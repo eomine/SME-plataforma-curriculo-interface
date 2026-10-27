@@ -13,7 +13,6 @@ import ProjectReducer from './ProjectReducer';
 import ProfileReducer from './ProfileReducer';
 import SequencesReducer from './SequencesReducer';
 import SnackbarReducer from './SnackbarReducer';
-import TeacherSurveyFormsReducer from './TeacherSurveyFormsReducer';
 
 export default combineReducers({
   [curriculoApi.reducerPath]: curriculoApi.reducer,
@@ -28,7 +27,6 @@ export default combineReducers({
   ProjectFiltersReducer,
   ProjectsReducer,
   ProjectReducer,
-  TeacherSurveyFormsReducer,
   SequencesReducer,
   SnackbarReducer,
 });
