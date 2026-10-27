@@ -5,8 +5,9 @@ const SnackbarActions = {
   close() {
     return { type: SnackbarActions.CLOSE };
   },
-  open(message) {
-    return { message, type: SnackbarActions.OPEN };
+  // `highlight` aparece em negrito depois da mensagem.
+  open(message, highlight = null) {
+    return { message, highlight, type: SnackbarActions.OPEN };
   },
 };
 

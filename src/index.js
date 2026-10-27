@@ -78,12 +78,10 @@ const store = configureStore({
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
       // Não serializáveis de propósito: os argumentos e o meta das queries
-      // (padrão do RTK; FormData e arquivos nas mutations), o Headers da resposta nas actions
-      // antigas (data/Api, nenhum reducer lê), a mensagem do snackbar (JSX) e o
-      // callback do diálogo de confirmação.
+      // (padrão do RTK; FormData e arquivos nas mutations) e o Headers da
+      // resposta nas actions antigas (data/Api, nenhum reducer lê).
       serializableCheck: {
-        ignoredActionPaths: ['meta.arg', 'meta.baseQueryMeta', 'headers', 'message', 'onConfirm'],
-        ignoredPaths: ['SnackbarReducer.message', 'ConfirmReducer.onConfirm'],
+        ignoredActionPaths: ['meta.arg', 'meta.baseQueryMeta', 'headers'],
       },
     }).concat(curriculoApi.middleware),
 });

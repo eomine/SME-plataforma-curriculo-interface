@@ -6,7 +6,14 @@ import SnackbarActions from 'actions/SnackbarActions';
 
 class Snackbar extends Component {
   render() {
-    const { close, isOpened, message } = this.props;
+    const { close, highlight, isOpened, message } = this.props;
+    const content = highlight ? (
+      <span>
+        {message} <strong>{highlight}</strong>
+      </span>
+    ) : (
+      message
+    );
 
     return (
       <Snackbar1
@@ -17,7 +24,7 @@ class Snackbar extends Component {
         open={isOpened}
         autoHideDuration={6000}
         onClose={close}
-        message={message}
+        message={content}
       />
     );
   }
@@ -26,13 +33,15 @@ class Snackbar extends Component {
 Snackbar.propTypes = {
   close: PropTypes.func.isRequired,
   isOpened: PropTypes.bool,
-  message: PropTypes.any.isRequired,
+  highlight: PropTypes.string,
+  message: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => {
   return {
     isOpened: state.SnackbarReducer.isOpened,
     message: state.SnackbarReducer.message,
+    highlight: state.SnackbarReducer.highlight,
   };
 };
 

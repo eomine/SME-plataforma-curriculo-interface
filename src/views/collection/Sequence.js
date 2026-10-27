@@ -16,13 +16,14 @@ class Sequence extends React.PureComponent {
   };
 
   onClickedDelete = () => {
-    this.props.openConfirm(
-      'Excluir sequência?',
-      'Você não poderá reverter esta ação.',
-      'Excluir',
-      'Cancelar',
-      this.onClickedConfirm
-    );
+    this.props
+      .openConfirm(
+        'Excluir sequência?',
+        'Você não poderá reverter esta ação.',
+        'Excluir',
+        'Cancelar'
+      )
+      .then(confirmed => confirmed && this.onClickedConfirm());
   };
 
   render() {
@@ -111,11 +112,8 @@ Sequence.propTypes = {
 
 const mapDispatchToProps = dispatch => {
   return {
-    openConfirm: (title, message, labelYes, labelNo, onConfirm) => {
-      dispatch(
-        ConfirmActions.open(title, message, labelYes, labelNo, onConfirm)
-      );
-    },
+    openConfirm: (title, message, labelYes, labelNo) =>
+      dispatch(ConfirmActions.open(title, message, labelYes, labelNo)),
     removeSequence: (collectionId, sequenceId) => {
       dispatch(CollectionActions.removeSequence(collectionId, sequenceId));
     },

@@ -17,13 +17,14 @@ class Attachment extends React.PureComponent {
   };
 
   onClickedDelete = () => {
-    this.props.openConfirm(
-      'Excluir este arquivo?',
-      'Lorem ipsum dolor sit amet.',
-      'Excluir',
-      'Cancelar',
-      this.onClickedConfirm
-    );
+    this.props
+      .openConfirm(
+        'Excluir este arquivo?',
+        'Lorem ipsum dolor sit amet.',
+        'Excluir',
+        'Cancelar'
+      )
+      .then(confirmed => confirmed && this.onClickedConfirm());
   };
 
   loadImage = () => {
@@ -100,11 +101,8 @@ Attachment.propTypes = {
 
 const mapDispatchToProps = dispatch => {
   return {
-    openConfirm: (title, message, labelYes, labelNo, onConfirm) => {
-      dispatch(
-        ConfirmActions.open(title, message, labelYes, labelNo, onConfirm)
-      );
-    },
+    openConfirm: (title, message, labelYes, labelNo) =>
+      dispatch(ConfirmActions.open(title, message, labelYes, labelNo)),
   };
 };
 

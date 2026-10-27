@@ -16,13 +16,14 @@ class Challenge extends React.PureComponent {
   };
 
   onClickedDelete = () => {
-    this.props.openConfirm(
-      'Excluir este desafio?',
-      'Esta ação remove o desafio da sua lista mas não exclui os resultados previamente enviados por você.',
-      'Excluir',
-      'Cancelar',
-      this.onClickedConfirm
-    );
+    this.props
+      .openConfirm(
+        'Excluir este desafio?',
+        'Esta ação remove o desafio da sua lista mas não exclui os resultados previamente enviados por você.',
+        'Excluir',
+        'Cancelar'
+      )
+      .then(confirmed => confirmed && this.onClickedConfirm());
   };
 
   render() {
@@ -109,11 +110,8 @@ const mapDispatchToProps = dispatch => {
     delete: id => {
       dispatch(ChallengeActions.delete(id));
     },
-    openConfirm: (title, message, labelYes, labelNo, onConfirm) => {
-      dispatch(
-        ConfirmActions.open(title, message, labelYes, labelNo, onConfirm)
-      );
-    },
+    openConfirm: (title, message, labelYes, labelNo) =>
+      dispatch(ConfirmActions.open(title, message, labelYes, labelNo)),
   };
 };
 

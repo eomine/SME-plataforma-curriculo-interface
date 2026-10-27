@@ -38,13 +38,14 @@ class Collection extends Component {
   onClickedDelete = () => {
     const { name } = this.props.data;
 
-    this.props.openConfirm(
-      'Excluir essa coleção e todas as suas sequências de atividades?',
-      `Sua coleção ${name} e todas as suas sequências e projetos serão excluídos permanentemente.`,
-      'Excluir',
-      'Cancelar',
-      this.onClickedConfirm
-    );
+    this.props
+      .openConfirm(
+        'Excluir essa coleção e todas as suas sequências de atividades?',
+        `Sua coleção ${name} e todas as suas sequências e projetos serão excluídos permanentemente.`,
+        'Excluir',
+        'Cancelar'
+      )
+      .then(confirmed => confirmed && this.onClickedConfirm());
   };
 
   render() {
@@ -113,11 +114,8 @@ const mapDispatchToProps = dispatch => {
     delete: id => {
       dispatch(CollectionActions.delete(id));
     },
-    openConfirm: (title, message, labelYes, labelNo, onConfirm) => {
-      dispatch(
-        ConfirmActions.open(title, message, labelYes, labelNo, onConfirm)
-      );
-    },
+    openConfirm: (title, message, labelYes, labelNo) =>
+      dispatch(ConfirmActions.open(title, message, labelYes, labelNo)),
   };
 };
 

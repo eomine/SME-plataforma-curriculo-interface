@@ -5,7 +5,6 @@ const initialState = {
   labelNo: '',
   labelYes: '',
   message: '',
-  onConfirm: null,
   title: '',
 };
 
@@ -21,7 +20,6 @@ function ConfirmReducer(state = initialState, action) {
         labelNo: action.labelNo,
         labelYes: action.labelYes,
         message: action.message,
-        onConfirm: action.onConfirm,
         title: action.title,
       };
 
