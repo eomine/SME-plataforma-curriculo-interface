@@ -2,11 +2,16 @@ import { createApi } from '@reduxjs/toolkit/query/react';
 import AlertActions from 'actions/AlertActions';
 import Api from 'data/Api';
 
-// Usa o Api.get das actions: mesmo token, mesmo tratamento do 401 e o mesmo
-// alerta de erro. A paginação (header Link) e o total vão no meta.
-async function baseQuery(url, { dispatch }) {
+const requests = { GET: Api.get, POST: Api.post, PUT: Api.put, DELETE: Api.delete };
+
+// Usa o data/Api das actions: mesmo token, mesmo tratamento do 401 e o mesmo
+// alerta de erro. A paginação (header Link) e o total vão no meta. O
+// argumento é a URL, ou { url, method, body } para as mutations (o body vai
+// como FormData, como nas actions).
+async function baseQuery(args, { dispatch }) {
+  const { url, method = 'GET', body } = typeof args === 'string' ? { url: args } : args;
   try {
-    const { data = null, nextPage, totalItems } = await Api.get(dispatch, url);
+    const { data = null, nextPage, totalItems } = await requests[method](dispatch, url, body);
     return { data, meta: { nextPage, totalItems } };
   } catch (error) {
     dispatch(AlertActions.open(`Ocorreu um erro: ${error}`));
@@ -14,8 +19,10 @@ async function baseQuery(url, { dispatch }) {
   }
 }
 
-// Dados que só são carregados e exibidos. Cada endpoint gera um hook
-// (useGetXQuery); componentes de classe usam utils/withQuery.
+// O id do professor entra no argumento das queries dele, para o cache não
+// misturar dados de logins diferentes.
+const teacherUrl = (teacherId, path = '') => `/api/professores/${teacherId}${path}`;
+
 export const curriculoApi = createApi({
   reducerPath: 'curriculoApi',
   baseQuery,
@@ -23,6 +30,61 @@ export const curriculoApi = createApi({
     getActivity: build.query({
       query: ({ sequenceSlug, activitySlug }) =>
         `/api/sequencias/${sequenceSlug}/atividades/${activitySlug}`,
+    }),
+    // Coleções do professor
+    getCollections: build.query({
+      query: teacherId => teacherUrl(teacherId, '/colecoes'),
+      providesTags: ['Collections'],
+    }),
+    getCollection: build.query({
+      query: ({ teacherId, id }) => teacherUrl(teacherId, `/colecoes/${id}`),
+      providesTags: (result, error, { id }) => [{ type: 'Collection', id }],
+    }),
+    getCollectionSequences: build.query({
+      query: ({ teacherId, id }) => teacherUrl(teacherId, `/colecoes/${id}/sequencias`),
+      providesTags: (result, error, { id }) => [{ type: 'CollectionItems', id: `sequence-${id}` }],
+    }),
+    getCollectionProjects: build.query({
+      query: ({ teacherId, id }) => teacherUrl(teacherId, `/colecoes/${id}/projetos`),
+      providesTags: (result, error, { id }) => [{ type: 'CollectionItems', id: `project-${id}` }],
+    }),
+    createCollection: build.mutation({
+      query: ({ teacherId, name }) => ({
+        url: teacherUrl(teacherId, '/colecoes'),
+        method: 'POST',
+        body: { 'collection[name]': name },
+      }),
+      invalidatesTags: ['Collections'],
+    }),
+    editCollection: build.mutation({
+      query: ({ teacherId, id, name }) => ({
+        url: teacherUrl(teacherId, `/colecoes/${id}`),
+        method: 'PUT',
+        body: { 'collection[name]': name },
+      }),
+      invalidatesTags: (result, error, { id }) => ['Collections', { type: 'Collection', id }],
+    }),
+    deleteCollection: build.mutation({
+      query: ({ teacherId, id }) => ({ url: teacherUrl(teacherId, `/colecoes/${id}`), method: 'DELETE' }),
+      invalidatesTags: ['Collections'],
+    }),
+    // Os contadores da lista de coleções também mudam.
+    addToCollection: build.mutation({
+      query: ({ teacherId, id, kind, itemId }) => ({
+        url: teacherUrl(teacherId, `/colecoes/${id}/${kind === 'project' ? 'projetos' : 'sequencias'}`),
+        method: 'POST',
+        body: kind === 'project'
+          ? { 'collection_project[project_id]': itemId }
+          : { 'collection_activity_sequence[activity_sequence_id]': itemId },
+      }),
+      invalidatesTags: (result, error, { id, kind }) => ['Collections', { type: 'CollectionItems', id: `${kind}-${id}` }],
+    }),
+    removeFromCollection: build.mutation({
+      query: ({ teacherId, id, kind, itemId }) => ({
+        url: teacherUrl(teacherId, `/colecoes/${id}/${kind === 'project' ? 'projetos' : 'sequencias'}/${itemId}`),
+        method: 'DELETE',
+      }),
+      invalidatesTags: (result, error, { id, kind }) => ['Collections', { type: 'CollectionItems', id: `${kind}-${id}` }],
     }),
     getConsultations: build.query({
       query: () => '/api/public_consultations',
@@ -87,6 +149,10 @@ export const curriculoApi = createApi({
 
 export const {
   useGetActivityQuery,
+  useGetCollectionQuery,
+  useGetCollectionProjectsQuery,
+  useGetCollectionSequencesQuery,
+  useGetCollectionsQuery,
   useGetConsultationsQuery,
   useGetConsultationQuery,
   useGetKnowledgeMatricesQuery,

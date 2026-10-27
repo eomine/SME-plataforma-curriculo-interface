@@ -3,10 +3,17 @@ import PropTypes from 'prop-types';
 import { NavLink } from 'react-router';
 import { connect } from 'react-redux';
 import { history } from 'utils/history';
-import BodyActions from 'actions/BodyActions';
 import ClassroomYear from 'components/objects/ClassroomYear';
 import CollectionActions from 'actions/CollectionActions';
 import ConfirmActions from 'actions/ConfirmActions';
+import { skipToken } from '@reduxjs/toolkit/query/react';
+import {
+  useGetCollectionProjectsQuery,
+  useGetCollectionQuery,
+  useGetCollectionSequencesQuery,
+} from 'data/curriculoApi';
+import getTeacherId from 'data/getTeacherId';
+import withQuery from 'utils/withQuery';
 import EmptySequenceList from './EmptySequenceList';
 import EmptyProjectList from './EmptyProjectList';
 import Page from 'components/layout/Page';
@@ -19,13 +26,6 @@ import iconDelete from 'images/icons/delete1.svg';
 import styles from './Collection.module.scss';
 
 class Collection extends Component {
-  componentDidMount() {
-    const id = this.props.match.params.id;
-    this.props.load(id);
-    this.props.loadSequences(id);
-    this.props.loadProjects(id);
-  }
-
   onClickedClose = () => {
     history.back();
   };
@@ -99,7 +99,6 @@ Collection.propTypes = {
   classrooms: PropTypes.array.isRequired,
   data: PropTypes.object.isRequired,
   delete: PropTypes.func.isRequired,
-  load: PropTypes.func.isRequired,
   openConfirm: PropTypes.func.isRequired,
   sequences: PropTypes.array.isRequired,
   projects: PropTypes.array.isRequired,
@@ -109,28 +108,10 @@ Collection.defaultProps = {
   classrooms: [],
 };
 
-const mapStateToProps = state => {
-  return {
-    data: state.CollectionReducer.data,
-    sequences: state.CollectionReducer.sequences,
-    projects: state.CollectionReducer.projects,
-  };
-};
-
 const mapDispatchToProps = dispatch => {
   return {
     delete: id => {
       dispatch(CollectionActions.delete(id));
-    },
-    load: id => {
-      dispatch(BodyActions.showLoading());
-      dispatch(CollectionActions.load(id));
-    },
-    loadSequences: id => {
-      dispatch(CollectionActions.loadSequences(id));
-    },
-    loadProjects: id => {
-      dispatch(CollectionActions.loadProjects(id));
     },
     openConfirm: (title, message, labelYes, labelNo, onConfirm) => {
       dispatch(
@@ -140,7 +121,24 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(
-  mapStateToProps,
+const collectionArg = props =>
+  getTeacherId() ? { teacherId: getTeacherId(), id: props.match.params.id } : skipToken;
+
+const withCollection = withQuery(useGetCollectionQuery, {
+  arg: collectionArg,
+  mapResult: result => ({ data: result.currentData || {} }),
+});
+const withSequences = withQuery(useGetCollectionSequencesQuery, {
+  arg: collectionArg,
+  mapResult: result => ({ sequences: result.currentData || [] }),
+  showLoading: true,
+});
+const withProjects = withQuery(useGetCollectionProjectsQuery, {
+  arg: collectionArg,
+  mapResult: result => ({ projects: result.currentData || [] }),
+});
+
+export default withCollection(withSequences(withProjects(connect(
+  null,
   mapDispatchToProps
-)(Collection);
+)(Collection))));

@@ -2,12 +2,15 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router';
 import { connect } from 'react-redux';
+import { skipToken } from '@reduxjs/toolkit/query/react';
+import { useGetCollectionsQuery } from 'data/curriculoApi';
+import getTeacherId from 'data/getTeacherId';
+import withQuery from 'utils/withQuery';
 import { history } from 'utils/history';
 import Avatar from './Avatar';
 import BodyActions from 'actions/BodyActions';
 import MyProjectList from './projects/MyProjectList';
 import ChallengeList from './challenges/ChallengeList';
-import CollectionsActions from 'actions/CollectionsActions';
 import CollectionList from './collections/CollectionList';
 import EmptyList from './collections/EmptyList';
 import Page from 'components/layout/Page';
@@ -30,7 +33,6 @@ class Profile extends Component {
     if (!prevProps.data.id && this.props.data.id) {
       this.props.loadChallenges();
       this.props.loadClassrooms();
-      this.props.loadCollections();
       this.props.loadMyProjects();
     }
   }
@@ -91,14 +93,12 @@ Profile.propTypes = {
   load: PropTypes.func.isRequired,
   loadChallenges: PropTypes.func.isRequired,
   loadClassrooms: PropTypes.func.isRequired,
-  loadCollections: PropTypes.func.isRequired,
   loadMyProjects: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => {
   return {
     challenges: state.ChallengesReducer.items.filter(item => item.isSaved),
-    collections: state.CollectionsReducer.items,
     projects: state.ProjectsReducer.items,
     data: state.ProfileReducer,
   };
@@ -117,16 +117,19 @@ const mapDispatchToProps = dispatch => {
     loadClassrooms: () => {
       dispatch(ProfileActions.loadClassrooms());
     },
-    loadCollections: () => {
-      dispatch(CollectionsActions.load());
-    },
     loadMyProjects: () => {
       dispatch(ProfileActions.loadMyProjects());
     },
   };
 };
 
+// As coleções carregam depois do perfil, como antes (o teacherId vem dele).
+const withCollections = withQuery(useGetCollectionsQuery, {
+  arg: props => (props.data.id && getTeacherId() ? getTeacherId() : skipToken),
+  mapResult: result => ({ collections: result.data || [] }),
+});
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withWidth(Profile));
+)(withCollections(withWidth(Profile)));
