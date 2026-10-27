@@ -244,6 +244,12 @@ export const curriculoApi = createApi({
         getNextPageParam: lastPage => lastPage.nextPage || undefined,
       },
     }),
+    // Avaliação de uma sequência realizada. Recarrega as sequências das
+    // coleções, que mostram "Avaliar" ou "Ver avaliação".
+    saveSequenceRating: build.mutation({
+      query: ({ slug, rating }) => ({ url: `/api/sequencias/${slug}/avaliacao`, method: 'POST', body: rating, isJson: true }),
+      invalidatesTags: ['CollectionItems'],
+    }),
     getRatingCriteria: build.query({
       query: () => '/api/avaliacao_criterios',
       transformResponse: criteria =>
