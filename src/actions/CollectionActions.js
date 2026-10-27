@@ -1,4 +1,3 @@
-import React from 'react';
 import AlertActions from './AlertActions';
 import SnackbarActions from './SnackbarActions';
 import getTeacherId from 'data/getTeacherId';
@@ -14,13 +13,7 @@ const run = (dispatch, endpoint, args) =>
 const ignoreError = () => {};
 
 function savedSnackbar(dispatch, name) {
-  dispatch(
-    SnackbarActions.open(
-      <span>
-        Salvo em <strong>{name}</strong>
-      </span>
-    )
-  );
+  dispatch(SnackbarActions.open('Salvo em', name));
 }
 
 function doSaveSequence(dispatch, id, name, sequenceId) {

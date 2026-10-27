@@ -12,8 +12,11 @@ Modal.setAppElement('#root');
 
 class Confirm extends Component {
   onClickedYes = () => {
-    this.props.onConfirm();
-    this.props.close();
+    this.props.answer(true);
+  };
+
+  close = () => {
+    this.props.answer(false);
   };
 
   componentDidMount() {
@@ -29,7 +32,7 @@ class Confirm extends Component {
   }
 
   render() {
-    const { isOpened, close, labelYes, labelNo, message, title } = this.props;
+    const { isOpened, labelYes, labelNo, message, title } = this.props;
 
     return (
       <div id="confirm">
@@ -37,10 +40,10 @@ class Confirm extends Component {
           className={styles1.confirm}
           overlayClassName={styles.overlay}
           isOpen={isOpened}
-          onRequestClose={close}
+          onRequestClose={this.close}
           shouldCloseOnOverlayClick={true}
         >
-          <button className={styles.btnClose} onClick={close}>
+          <button className={styles.btnClose} onClick={this.close}>
             <img src={iconClose} alt="Fechar" />
           </button>
           <p>
@@ -50,7 +53,7 @@ class Confirm extends Component {
           <button className={styles1.btnYes} onClick={this.onClickedYes}>
             {labelYes}
           </button>
-          <button className={styles1.btnNo} onClick={close}>
+          <button className={styles1.btnNo} onClick={this.close}>
             {labelNo}
           </button>
         </Modal>
@@ -60,12 +63,11 @@ class Confirm extends Component {
 }
 
 Confirm.propTypes = {
-  close: PropTypes.func.isRequired,
+  answer: PropTypes.func.isRequired,
   isOpened: PropTypes.bool,
   labelNo: PropTypes.string.isRequired,
   labelYes: PropTypes.string.isRequired,
   message: PropTypes.string.isRequired,
-  onConfirm: PropTypes.func,
   title: PropTypes.string.isRequired,
 };
 
@@ -75,15 +77,14 @@ const mapStateToProps = state => {
     labelNo: state.ConfirmReducer.labelNo,
     labelYes: state.ConfirmReducer.labelYes,
     message: state.ConfirmReducer.message,
-    onConfirm: state.ConfirmReducer.onConfirm,
     title: state.ConfirmReducer.title,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    close: () => {
-      dispatch(ConfirmActions.close());
+    answer: confirmed => {
+      dispatch(ConfirmActions.answer(confirmed));
     },
   };
 };

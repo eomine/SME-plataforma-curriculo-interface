@@ -14,13 +14,14 @@ class Project extends React.PureComponent {
   };
 
   onClickedDelete = () => {
-    this.props.openConfirm(
-      'Excluir projeto?',
-      'Você não poderá reverter esta ação.',
-      'Excluir',
-      'Cancelar',
-      this.onClickedConfirm
-    );
+    this.props
+      .openConfirm(
+        'Excluir projeto?',
+        'Você não poderá reverter esta ação.',
+        'Excluir',
+        'Cancelar'
+      )
+      .then(confirmed => confirmed && this.onClickedConfirm());
   };
 
   render() {
@@ -86,11 +87,8 @@ Project.propTypes = {
 
 const mapDispatchToProps = dispatch => {
   return {
-    openConfirm: (title, message, labelYes, labelNo, onConfirm) => {
-      dispatch(
-        ConfirmActions.open(title, message, labelYes, labelNo, onConfirm)
-      );
-    },
+    openConfirm: (title, message, labelYes, labelNo) =>
+      dispatch(ConfirmActions.open(title, message, labelYes, labelNo)),
     removeProject: (collectionId, sequenceId) => {
       dispatch(CollectionActions.removeProject(collectionId, sequenceId));
     },

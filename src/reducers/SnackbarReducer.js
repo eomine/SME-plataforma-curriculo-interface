@@ -3,6 +3,7 @@ import SnackbarActions from 'actions/SnackbarActions';
 const initialState = {
   isOpened: false,
   message: '',
+  highlight: null,
 };
 
 function SnackbarReducer(state = initialState, action) {
@@ -15,6 +16,7 @@ function SnackbarReducer(state = initialState, action) {
         ...state,
         isOpened: true,
         message: action.message,
+        highlight: action.highlight,
       };
 
     default:

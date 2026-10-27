@@ -115,13 +115,14 @@ class SendResult extends Component {
 
   onClickedSend = () => {
     if (this.state.attachments.length <= 0) {
-      this.props.openConfirm(
-        'Deseja continuar sem anexo?',
-        'Ocorreu uma falha e não foi possível salvar todos os anexos.',
-        'Continuar sem anexo',
-        'Tentar novamente',
-        this.onClickedContinue
-      );
+      this.props
+        .openConfirm(
+          'Deseja continuar sem anexo?',
+          'Ocorreu uma falha e não foi possível salvar todos os anexos.',
+          'Continuar sem anexo',
+          'Tentar novamente'
+        )
+        .then(confirmed => confirmed && this.onClickedContinue());
     } else {
       this.onClickedContinue();
     }
@@ -274,11 +275,8 @@ const mapDispatchToProps = dispatch => {
     openAlert: message => {
       dispatch(AlertActions.open(message));
     },
-    openConfirm: (title, message, labelYes, labelNo, onConfirm) => {
-      dispatch(
-        ConfirmActions.open(title, message, labelYes, labelNo, onConfirm)
-      );
-    },
+    openConfirm: (title, message, labelYes, labelNo) =>
+      dispatch(ConfirmActions.open(title, message, labelYes, labelNo)),
   };
 };
 
