@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Page from 'components/layout/Page';
 import styles from './CreateProject.module.scss';
 import CreateProjectActions from 'actions/CreateProjectActions';
+import withProjectForm from 'data/projectFormQueries';
 import InputLabel from '@mui/material/InputLabel';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
@@ -15,7 +16,6 @@ import Home from 'views/home/Home';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
-import BodyActions from 'actions/BodyActions';
 
 
 class CreateProject extends Component {
@@ -444,10 +444,6 @@ class CreateProject extends Component {
       };
       reader.readAsDataURL(file);
     }
-  }
-
-  componentDidMount() {
-    this.props.load();
   }
 
   componentDidUpdate() {
@@ -1146,36 +1142,9 @@ CreateProject.propTypes = {
   create: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => {
-  return {
-    teacherId: state.CreateProjectReducer.teacherId,
-    blocked: state.CreateProjectReducer.blocked,
-    isLogged: state.CreateProjectReducer.isLogged,
-    curricularComponents: state.CreateProjectReducer.curricularComponents,
-    knowledgeMatrices: state.CreateProjectReducer.knowledgeMatrices,
-    studentProtagonisms: state.CreateProjectReducer.studentProtagonisms,
-    segments: state.CreateProjectReducer.segments,
-    stages: state.CreateProjectReducer.stages,
-    years: state.CreateProjectReducer.years,
-    learningObjectives: state.CreateProjectReducer.learningObjectives,
-    dres: state.CreateProjectReducer.dres,
-    schools: state.CreateProjectReducer.schools,
-    isLoading: state.CreateProjectReducer.isLoading,
-  };
-};
 
 const mapDispatchToProps = dispatch => {
   return {
-    load: () => {
-      dispatch(BodyActions.showLoading());
-      dispatch(CreateProjectActions.load());
-    },
-    getLearningObjectives: (curricularComponentIds, yearIds) => {
-      dispatch(CreateProjectActions.getLearningObjectives(curricularComponentIds, yearIds));
-    },
-    getSchools: (regionalEducationBoardId) => {
-      dispatch(CreateProjectActions.getSchools(regionalEducationBoardId));
-    },
     create: (project) => {
       dispatch(CreateProjectActions.create(project));
     },
@@ -1188,7 +1157,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(
-  mapStateToProps,
+export default withProjectForm(connect(
+  null,
   mapDispatchToProps
-)(CreateProject);
+)(CreateProject));

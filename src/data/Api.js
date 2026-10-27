@@ -67,7 +67,10 @@ function doRequest(method, url, data, isJson) {
   }
 
   if (data) {
-    if (isJson) {
+    if (data instanceof FormData) {
+      // Formulários que já montam o FormData (projeto)
+      options.body = data;
+    } else if (isJson) {
       options.headers = { ...options.headers, 'Content-Type': 'application/json' };
       options.body = JSON.stringify(data);
     } else {

@@ -2,8 +2,6 @@ import { combineReducers } from '@reduxjs/toolkit';
 import { curriculoApi } from 'data/curriculoApi';
 import AlertReducer from './AlertReducer';
 import BodyReducer from './BodyReducer';
-import CreateProjectReducer from './CreateProjectReducer';
-import EditProjectReducer from './EditProjectReducer';
 import ChallengesReducer from './ChallengesReducer';
 import ConfirmReducer from './ConfirmReducer';
 import FiltersReducer from './FiltersReducer';
@@ -21,8 +19,6 @@ export default combineReducers({
   [curriculoApi.reducerPath]: curriculoApi.reducer,
   AlertReducer,
   BodyReducer,
-  CreateProjectReducer,
-  EditProjectReducer,
   ChallengesReducer,
   ConfirmReducer,
   FiltersReducer,

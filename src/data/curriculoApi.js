@@ -28,7 +28,7 @@ const teacherUrl = (teacherId, path = '') => `/api/professores/${teacherId}${pat
 export const curriculoApi = createApi({
   reducerPath: 'curriculoApi',
   baseQuery,
-  tagTypes: ['Collections', 'Collection', 'CollectionItems', 'ItemCollections', 'Project', 'ChallengeResults'],
+  tagTypes: ['Collections', 'Collection', 'CollectionItems', 'ItemCollections', 'Project', 'ProjectList', 'ChallengeResults'],
   endpoints: build => ({
     getActivity: build.query({
       query: ({ sequenceSlug, activitySlug }) =>
@@ -154,6 +154,43 @@ export const curriculoApi = createApi({
       query: slug => `/api/projects/${slug}`,
       providesTags: (result, error, slug) => [{ type: 'Project', id: slug }],
     }),
+    // Formulário de projeto: o projeto a editar, opções, objetivos de
+    // aprendizagem e escolas. O projeto da edição é separado do getProject e
+    // sem tag: ao salvar, a invalidação do Project não refaz a busca na página
+    // de edição ainda aberta (o slug pode ter mudado com o título).
+    getProjectToEdit: build.query({
+      query: slug => `/api/projects/${slug}`,
+    }),
+    getProjectOptions: build.query({
+      query: () => '/api/project_select_options',
+      transformResponse: data => ({
+        curricularComponents: data.curricular_components.filter(cc => cc.name !== 'Trilhas de Aprendizagens'),
+        knowledgeMatrices: data.knowledge_matrices,
+        studentProtagonisms: data.student_protagonisms,
+        segments: data.segments,
+        stages: data.stages,
+        years: data.years,
+        dres: data.regional_education_boards,
+      }),
+    }),
+    // Mesma query string das actions antigas (começa com &).
+    getLearningObjectives: build.query({
+      query: ({ curricularComponentIds, yearIds }) =>
+        '/api/learning_objectives?' +
+        curricularComponentIds.map(id => `&curricular_component_ids[]=${id}`).join('') +
+        yearIds.map(id => `&year_ids[]=${id}`).join(''),
+    }),
+    getSchools: build.query({
+      query: regionalEducationBoardId => `/api/schools?regional_education_board_id=${regionalEducationBoardId}`,
+    }),
+    createProject: build.mutation({
+      query: project => ({ url: '/api/projects', method: 'POST', body: project }),
+      invalidatesTags: ['ProjectList'],
+    }),
+    updateProject: build.mutation({
+      query: ({ slug, project }) => ({ url: `/api/projects/${slug}`, method: 'PUT', body: project }),
+      invalidatesTags: (result, error, { slug }) => ['ProjectList', { type: 'Project', id: slug }],
+    }),
     // Coleções do professor em que a sequência está (o "Salvo" da página). O
     // teacherId fica no argumento só para separar o cache por login.
     getSequenceCollections: build.query({
@@ -190,6 +227,7 @@ export const curriculoApi = createApi({
     }),
     // Lista paginada de projetos, como a de sequências.
     getProjects: build.infiniteQuery({
+      providesTags: ['ProjectList'],
       query: ({ queryArg, pageParam }) =>
         pageParam || (queryArg ? `/api/projects?${queryArg}` : '/api/projects'),
       transformResponse: (items, meta) => ({
@@ -251,7 +289,11 @@ export const {
   useGetMethodologyQuery,
   useGetOngoingChallengesQuery,
   useGetPerformedSequencesQuery,
+  useGetLearningObjectivesQuery,
+  useGetProjectOptionsQuery,
   useGetProjectQuery,
+  useGetProjectToEditQuery,
+  useGetSchoolsQuery,
   useGetProjectsInfiniteQuery,
   useGetRatingCriteriaQuery,
   useGetSequenceCollectionsQuery,

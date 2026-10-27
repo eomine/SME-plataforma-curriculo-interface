@@ -6,6 +6,7 @@ import styles from './CreateProject.module.scss';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import EditProjectActions from 'actions/EditProjectActions';
+import withProjectForm from 'data/projectFormQueries';
 import InputLabel from '@mui/material/InputLabel';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
@@ -14,7 +15,6 @@ import Chip from '@mui/material/Chip';
 import RichTextEditor from 'components/RichTextEditor';
 import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
-import BodyActions from 'actions/BodyActions';
 
 class EditProject extends Component {
 
@@ -68,44 +68,48 @@ class EditProject extends Component {
     this.validationFields = this.validationFields.bind(this);
   }
 
+  // O projeto pode já estar em cache ao abrir a página.
   componentDidMount() {
-		this.props.load(this.props.match.params.slug);
-		this.props.loadOptions();
+    this.fillForm();
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.project !== prevProps.project) {
-      if (this.props.project !== null) {
-        let curricular_component_ids = this.props.project.curricular_components.map((cc) => cc.id)
-        let year_ids = this.props.project.years.map((year) => year.id)
-        var old_project = this.props.project && (
-          {
-            id: this.props.project.id,
-            teacher_id: this.props.project.teacher_id,
-            curricular_component_ids: curricular_component_ids,
-            knowledge_matrix_ids: this.props.project.knowledge_matrices.map((km) => km.id),
-            student_protagonism_ids: this.props.project.student_protagonisms.map((sp) => sp.id),
-            segment_ids: this.props.project.segments.map((segment) => segment.id),
-            stage_ids:  this.props.project.stages.map((stage) => stage.id),
-            year_ids: year_ids,
-            learning_objective_ids: this.props.project.learning_objectives.map((learning_objective) => learning_objective.id),
-            regional_education_board_id: this.props.project.regional_education_board_id,
-            school_id:  this.props.project.school_id,
-            development_year: this.props.project.development_year,
-            development_class: this.props.project.development_class,
-            owners: this.props.project.owners,
-            title: this.props.project.title,
-            summary: this.props.project.summary,
-            description: this.props.project.description,
-            project_links_attributes: this.props.project.links.map((link) => link.link),
-          }
-        )
-        this.setState({project: old_project});
-        this.setState({photo: this.props.project.cover_image});
-        this.setState({cover_image: this.props.project.cover_image});
-        this.props.getLearningObjectives(curricular_component_ids, year_ids)
-        this.props.getSchools(this.props.project.regional_education_board_id)
-      }
+      this.fillForm();
+    }
+  }
+
+  fillForm() {
+    if (this.props.project !== null) {
+      let curricular_component_ids = this.props.project.curricular_components.map((cc) => cc.id)
+      let year_ids = this.props.project.years.map((year) => year.id)
+      var old_project = this.props.project && (
+        {
+          id: this.props.project.id,
+          teacher_id: this.props.project.teacher_id,
+          curricular_component_ids: curricular_component_ids,
+          knowledge_matrix_ids: this.props.project.knowledge_matrices.map((km) => km.id),
+          student_protagonism_ids: this.props.project.student_protagonisms.map((sp) => sp.id),
+          segment_ids: this.props.project.segments.map((segment) => segment.id),
+          stage_ids:  this.props.project.stages.map((stage) => stage.id),
+          year_ids: year_ids,
+          learning_objective_ids: this.props.project.learning_objectives.map((learning_objective) => learning_objective.id),
+          regional_education_board_id: this.props.project.regional_education_board_id,
+          school_id:  this.props.project.school_id,
+          development_year: this.props.project.development_year,
+          development_class: this.props.project.development_class,
+          owners: this.props.project.owners,
+          title: this.props.project.title,
+          summary: this.props.project.summary,
+          description: this.props.project.description,
+          project_links_attributes: this.props.project.links.map((link) => link.link),
+        }
+      )
+      this.setState({project: old_project});
+      this.setState({photo: this.props.project.cover_image});
+      this.setState({cover_image: this.props.project.cover_image});
+      this.props.getLearningObjectives(curricular_component_ids, year_ids)
+      this.props.getSchools(this.props.project.regional_education_board_id)
     }
   }
 
@@ -1137,47 +1141,16 @@ EditProject.propTypes = {
 
 };
 
-const mapStateToProps = state => {
-  return {
-		teacherId: state.EditProjectReducer.teacherId,
-		blocked: state.EditProjectReducer.blocked,
-    project: state.EditProjectReducer.project,
-		curricularComponents: state.EditProjectReducer.curricularComponents,
-    knowledgeMatrices: state.EditProjectReducer.knowledgeMatrices,
-    studentProtagonisms: state.EditProjectReducer.studentProtagonisms,
-    segments: state.EditProjectReducer.segments,
-    stages: state.EditProjectReducer.stages,
-    years: state.EditProjectReducer.years,
-    learningObjectives: state.EditProjectReducer.learningObjectives,
-    dres: state.EditProjectReducer.dres,
-    schools: state.EditProjectReducer.schools,
-		isLogged: state.EditProjectReducer.isLogged,
-    isLoading: state.EditProjectReducer.isLoading,
-  };
-};
 
 const mapDispatchToProps = dispatch => {
   return {
-		load: (slug) => {
-      dispatch(BodyActions.showLoading());
-      dispatch(EditProjectActions.load(slug));
-		},
-		loadOptions: () => {
-      dispatch(EditProjectActions.loadOptions());
-    },
-    getLearningObjectives: (curricularComponentIds, yearIds) => {
-      dispatch(EditProjectActions.getLearningObjectives(curricularComponentIds, yearIds));
-    },
-    getSchools: (regionalEducationBoardId) => {
-      dispatch(EditProjectActions.getSchools(regionalEducationBoardId));
-    },
     update: (project, slug) => {
       dispatch(EditProjectActions.update(project, slug));
     },
   };
 };
 
-export default connect(
-  mapStateToProps,
+export default withProjectForm(connect(
+  null,
   mapDispatchToProps
-)(EditProject);
+)(EditProject), { edit: true });
