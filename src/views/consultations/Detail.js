@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { history } from 'utils/history';
-import TeacherSurveyFormsActions from 'actions/TeacherSurveyFormsActions';
 import FullModal from 'components/layout/FullModal';
 import iconCloseBigWhite from 'images/icons/closeBigWhite.svg';
 import styles from './Detail.module.scss';
 import { API_URL } from 'data/constants';
-import { useGetConsultationQuery } from 'data/curriculoApi';
+import { useGetConsultationQuery, useGetFinishedSurveyFormsQuery } from 'data/curriculoApi';
+import getTeacherId from 'data/getTeacherId';
 import withQuery from 'utils/withQuery';
 
 class Detail extends Component {
@@ -16,10 +15,6 @@ class Detail extends Component {
   onClickedClose = () => {
     history.back();
   };
-
-  componentDidMount() {
-    this.props.loadFinishedFormIds();
-  }
 
   render() {
     const data = this.props.data;
@@ -90,27 +85,15 @@ class Detail extends Component {
 Detail.propTypes = {
   data: PropTypes.object,
   answersFinished: PropTypes.array,
-  loadFinishedFormIds: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => {
-  return {
-    answersFinished: state.TeacherSurveyFormsReducer.answersFinished,
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    loadFinishedFormIds: () => {
-      dispatch(TeacherSurveyFormsActions.loadFinishedFormIds());
-    },
-  };
-};
 
 export default withQuery(useGetConsultationQuery, {
   arg: props => props.match.params.id,
   mapResult: result => ({ data: result.currentData || null }),
-})(connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Detail));
+})(withQuery(useGetFinishedSurveyFormsQuery, {
+  arg: () => getTeacherId(),
+  // Como antes, busca de novo sempre que o detalhe abre.
+  options: { refetchOnMountOrArgChange: true },
+  mapResult: result => ({ answersFinished: result.currentData || [] }),
+})(Detail));
