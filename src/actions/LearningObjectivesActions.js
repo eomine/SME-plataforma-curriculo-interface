@@ -1,6 +1,6 @@
 import Api from 'data/Api';
 import getFiltersQueryString from 'data/getFiltersQueryString';
-import { hideLoading } from 'reducers/bodySlice';
+import { withGlobalLoading } from 'reducers/bodySlice';
 import { openAlert } from 'reducers/messagesSlice';
 
 const LearningObjectivesActions = {
@@ -17,16 +17,16 @@ const LearningObjectivesActions = {
   TOGGLE_SEGMENTS: 'LearningObjectivesActions.TOGGLE_SEGMENTS',
   TOGGLE_STAGES: 'LearningObjectivesActions.TOGGLE_STAGES',
 
-  // A página mostra o loading global antes; ele some quando os filtros chegam.
+  // Com o loading global enquanto os filtros não chegam.
   load() {
     return dispatch => {
       dispatch({ type: LearningObjectivesActions.LOAD });
-      return Api.get(dispatch, '/api/filtros')
-        .then(response => {
-          dispatch({ ...response, type: LearningObjectivesActions.LOADED });
-          dispatch(hideLoading());
-        })
-        .catch(error => dispatch(openAlert(`Ocorreu um erro: ${error}`)));
+      return withGlobalLoading(
+        dispatch,
+        Api.get(dispatch, '/api/filtros')
+          .then(response => dispatch({ ...response, type: LearningObjectivesActions.LOADED }))
+          .catch(error => dispatch(openAlert(`Ocorreu um erro: ${error}`)))
+      );
     };
   },
   toggleSegments(filter) {

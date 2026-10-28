@@ -1,6 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { describe, expect, it } from 'vitest';
-import body, { hideLoading, hideMobileMenu, showLoading, showMobileMenu } from 'reducers/bodySlice';
+import body, {
+  hideMobileMenu,
+  loadingFinished,
+  loadingStarted,
+  selectIsLoading,
+  showMobileMenu,
+  withGlobalLoading,
+} from 'reducers/bodySlice';
 import home, { toggleHomePreview } from 'reducers/homeSlice';
 import project, { projectSaved } from 'reducers/projectSlice';
 import projects, { showAllProjects, toggleProjectPreview } from 'reducers/projectsSlice';
@@ -9,14 +16,30 @@ import sequences, { searchSequencesWithFilter, showAllSequences, toggleSequenceP
 const createStore = () => configureStore({ reducer: { body, home, project, projects, sequences } });
 
 describe('slices de UI', () => {
-  it('body: loading global e menu do celular', () => {
+  it('body: o loading global é um contador, e o menu do celular abre e fecha', () => {
     const store = createStore();
-    store.dispatch(showLoading());
+    store.dispatch(loadingStarted());
+    store.dispatch(loadingStarted());
+    store.dispatch(loadingFinished());
+    expect(selectIsLoading(store.getState())).toBe(true);
+    store.dispatch(loadingFinished());
+    store.dispatch(loadingFinished());
+    expect(store.getState().body.loadingCount).toBe(0);
+
     store.dispatch(showMobileMenu());
-    expect(store.getState().body).toEqual({ isLoading: true, hasMobileMenu: true });
-    store.dispatch(hideLoading());
+    expect(store.getState().body.hasMobileMenu).toBe(true);
     store.dispatch(hideMobileMenu());
-    expect(store.getState().body).toEqual({ isLoading: false, hasMobileMenu: false });
+    expect(store.getState().body.hasMobileMenu).toBe(false);
+  });
+
+  it('withGlobalLoading: some quando a Promise termina, mesmo com erro', async () => {
+    const store = createStore();
+    const ok = withGlobalLoading(store.dispatch, Promise.resolve());
+    const failed = withGlobalLoading(store.dispatch, Promise.reject(new Error('x'))).catch(() => {});
+    expect(store.getState().body.loadingCount).toBe(2);
+    await ok;
+    await failed;
+    expect(selectIsLoading(store.getState())).toBe(false);
   });
 
   it('prévia expandida: abre, troca e fecha', () => {
