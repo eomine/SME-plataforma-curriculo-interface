@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { clearAllBodyScrollLocks } from 'body-scroll-lock';
 import { openAlert } from 'reducers/messagesSlice';
-import FiltersActions from 'actions/FiltersActions';
+import { sequenceFiltersActions } from 'reducers/filtersSlice';
 import { searchSequences } from 'reducers/sequencesSlice';
 import Category from 'views/sequences/categories/Category';
 import CategoryPanel from 'views/sequences/categories/CategoryPanel';
@@ -159,28 +159,28 @@ Filters.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    filters: state.FiltersReducer.filters,
-    filtersExtra: state.FiltersReducer.filtersExtra,
-    isExpanded: state.FiltersReducer.isExpanded,
-    order: state.FiltersReducer.order,
-    query: state.FiltersReducer.query,
+    filters: state.sequenceFilters.filters,
+    filtersExtra: state.sequenceFilters.filtersExtra,
+    isExpanded: state.sequenceFilters.isExpanded,
+    order: state.sequenceFilters.order,
+    query: state.sequenceFilters.query,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     load: () => {
-      dispatch(FiltersActions.load());
+      dispatch(sequenceFiltersActions.load());
     },
     openAlert: message => {
       dispatch(openAlert(message));
     },
     search: () => {
-      dispatch(FiltersActions.search());
+      dispatch(sequenceFiltersActions.search());
       dispatch(searchSequences());
     },
     togglePanel: () => {
-      dispatch(FiltersActions.togglePanel());
+      dispatch(sequenceFiltersActions.togglePanel());
     },
   };
 };

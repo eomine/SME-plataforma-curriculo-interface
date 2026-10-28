@@ -23,10 +23,10 @@ const projectsSlice = createSlice({
 const { setProjectsQuery } = projectsSlice.actions;
 export const { toggleProjectPreview } = projectsSlice.actions;
 
-// Busca com os filtros e o texto do ProjectFiltersReducer no momento da chamada.
+// Busca com os filtros e o texto do slice projectFilters no momento da chamada.
 export function searchProjects() {
   return (dispatch, getState) => {
-    const { filters, filtersExtra, order, query } = getState().ProjectFiltersReducer;
+    const { filters, filtersExtra, order, query } = getState().projectFilters;
     const activeFilters = filters.filter(item => item.isActive);
     const activeFiltersExtra = filtersExtra.filter(item => item.isActive);
     dispatch(setProjectsQuery(getSearchQueryString(activeFilters, activeFiltersExtra, query, order)));

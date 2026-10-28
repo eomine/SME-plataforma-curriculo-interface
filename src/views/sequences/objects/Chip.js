@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import FiltersActions from 'actions/FiltersActions';
+import { sequenceFiltersActions } from 'reducers/filtersSlice';
 import iconCloseSmall from 'images/icons/closeSmall.svg';
 import iconCloseSmallWhite from 'images/icons/closeSmallWhite.svg';
 import styles from './Chip.module.scss';
@@ -46,7 +46,7 @@ Chip.propTypes = {
 const mapDispatchToProps = dispatch => {
   return {
     toggleFilter: data => {
-      dispatch(FiltersActions.toggleFilterAndSearch(data));
+      dispatch(sequenceFiltersActions.toggleFilterAndSearch(data));
     },
   };
 };

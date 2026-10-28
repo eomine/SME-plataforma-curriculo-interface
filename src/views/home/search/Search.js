@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { history } from 'utils/history';
 import { openAlert } from 'reducers/messagesSlice';
 import CurricularComponentField from './CurricularComponentField';
-import FiltersActions from 'actions/FiltersActions';
+import { sequenceFiltersActions } from 'reducers/filtersSlice';
 import SearchField from './SearchField';
 import SegmentField from './SegmentField';
 import StageField from './StageField';
@@ -75,16 +75,16 @@ Search.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    filters: state.FiltersReducer.filters,
-    filtersExtra: state.FiltersReducer.filters,
-    query: state.FiltersReducer.query,
+    filters: state.sequenceFilters.filters,
+    filtersExtra: state.sequenceFilters.filters,
+    query: state.sequenceFilters.query,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     load: () => {
-      dispatch(FiltersActions.load());
+      dispatch(sequenceFiltersActions.load());
     },
     openAlert: message => {
       dispatch(openAlert(message));

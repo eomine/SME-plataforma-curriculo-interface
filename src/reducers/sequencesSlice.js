@@ -23,10 +23,10 @@ const sequencesSlice = createSlice({
 const { setSequencesQuery } = sequencesSlice.actions;
 export const { toggleSequencePreview } = sequencesSlice.actions;
 
-// Busca com os filtros e o texto do FiltersReducer no momento da chamada.
+// Busca com os filtros e o texto do slice sequenceFilters no momento da chamada.
 export function searchSequences() {
   return (dispatch, getState) => {
-    const { filters, filtersExtra, order, query } = getState().FiltersReducer;
+    const { filters, filtersExtra, order, query } = getState().sequenceFilters;
     const activeFilters = filters.filter(item => item.isActive);
     const activeFiltersExtra = filtersExtra.filter(item => item.isActive);
     dispatch(setSequencesQuery(getSearchQueryString(activeFilters, activeFiltersExtra, query, order)));

@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
 import YearButton from 'components/objects/YearButton';
-import FiltersActions from 'actions/FiltersActions';
+import { sequenceFiltersActions } from 'reducers/filtersSlice';
 
 const mapDispatchToProps = dispatch => {
   return {
     toggleFilterAndSearch: data => {
-      dispatch(FiltersActions.toggleFilterAndSearch(data));
+      dispatch(sequenceFiltersActions.toggleFilterAndSearch(data));
     },
   };
 };

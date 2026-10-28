@@ -90,7 +90,7 @@ SegmentField.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    filters: state.FiltersReducer.filters,
+    filters: state.sequenceFilters.filters,
   };
 };
 

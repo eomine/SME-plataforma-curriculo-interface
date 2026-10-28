@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import FiltersActions from 'actions/FiltersActions';
+import { sequenceFiltersActions } from 'reducers/filtersSlice';
 import { skipToken } from '@reduxjs/toolkit/query/react';
 import { useGetSequencesInfiniteQuery } from 'data/curriculoApi';
 import withQuery from 'utils/withQuery';
@@ -126,12 +126,12 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     load: () => {
-      dispatch(FiltersActions.clearFilters());
+      dispatch(sequenceFiltersActions.clearFilters());
       dispatch(showAllSequences());
     },
     loadWithFilter: data => {
-      dispatch(FiltersActions.clearFilters());
-      dispatch(FiltersActions.cacheFilter(data));
+      dispatch(sequenceFiltersActions.clearFilters());
+      dispatch(sequenceFiltersActions.cacheFilter(data));
       dispatch(searchSequencesWithFilter(data));
     },
     search: () => {

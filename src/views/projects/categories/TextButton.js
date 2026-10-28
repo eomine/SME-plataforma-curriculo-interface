@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import ProjectFiltersActions from 'actions/ProjectFiltersActions';
+import { projectFiltersActions } from 'reducers/filtersSlice';
 import styles from './TextButton.module.scss';
 
 class TextButton extends Component {
@@ -36,7 +36,7 @@ TextButton.propTypes = {
 const mapDispatchToProps = dispatch => {
   return {
     toggleFilter: data => {
-      dispatch(ProjectFiltersActions.toggleFilter(data));
+      dispatch(projectFiltersActions.toggleFilter(data));
     },
   };
 };

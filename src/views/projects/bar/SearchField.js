@@ -7,7 +7,7 @@ import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
 import Search from '@mui/icons-material/Search';
 import { connect } from 'react-redux';
-import ProjectFiltersActions from 'actions/ProjectFiltersActions';
+import { projectFiltersActions } from 'reducers/filtersSlice';
 import { searchProjects } from 'reducers/projectsSlice';
 import styles from './SearchField.module.scss';
 
@@ -57,7 +57,7 @@ SearchField.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    query: state.ProjectFiltersReducer.query,
+    query: state.projectFilters.query,
   };
 };
 
@@ -68,7 +68,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(searchProjects());
     },
     setQuery: value => {
-      dispatch(ProjectFiltersActions.setQuery(value));
+      dispatch(projectFiltersActions.setQuery(value));
     },
   };
 };

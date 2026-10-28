@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Tooltip } from 'react-tooltip';
 import { connect } from 'react-redux';
-import ProjectFiltersActions from 'actions/ProjectFiltersActions';
+import { projectFiltersActions } from 'reducers/filtersSlice';
 import ImageButton from './ImageButton';
 import TextButton from './TextButton';
 import arrowLeft from 'images/arrows/left.svg';
@@ -134,21 +134,20 @@ CategoryPanel.propTypes = {
   items: PropTypes.array.isRequired,
   itemsExtra: PropTypes.array.isRequired,
   hideCategory: PropTypes.func.isRequired,
-  search: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => {
-  const currCategory = state.ProjectFiltersReducer.currCategory;
+  const currCategory = state.projectFilters.currCategory;
   return {
     currCategory,
-    isShowingCategory: state.ProjectFiltersReducer.isShowingCategory,
+    isShowingCategory: state.projectFilters.isShowingCategory,
     items: currCategory
-      ? state.ProjectFiltersReducer.filters.filter(
+      ? state.projectFilters.filters.filter(
           item => item.type === currCategory.slug
         )
       : [],
     itemsExtra: currCategory
-      ? state.ProjectFiltersReducer.filtersExtra.filter(
+      ? state.projectFilters.filtersExtra.filter(
           item => item.type === currCategory.slug
         )
       : [],
@@ -158,10 +157,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     hideCategory: () => {
-      dispatch(ProjectFiltersActions.hideCategory());
-    },
-    search: () => {
-      dispatch(ProjectFiltersActions.backToCategoryList());
+      dispatch(projectFiltersActions.hideCategory());
     },
   };
 };
