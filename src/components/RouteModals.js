@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { Suspense, useState } from 'react';
 import PropTypes from 'prop-types';
 import Modal from 'react-modal';
 import { matchRoutes, useLocation, useRoutes } from 'react-router';
 import { history } from 'utils/history';
+import PageLoading from 'components/loading/PageLoading';
 
 // Classes de entrada/saída (index.scss e FullModal.scss) e a duração da saída.
 const variants = {
@@ -53,7 +54,8 @@ export default function RouteModals({ routes }) {
       bodyOpenClassName="modalOpen"
       {...variants[last.variant]}
     >
-      {element || last.element}
+      {/* O código do modal carrega sob demanda (veja index.js). */}
+      <Suspense fallback={<PageLoading />}>{element || last.element}</Suspense>
     </Modal>
   );
 }

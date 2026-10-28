@@ -349,3 +349,26 @@ a:hover {
     padding-right: 0 !important;
   }
 }
+
+// Regras globais que estavam em CSS modules (views/projects/Projects e
+// views/modules/ModuleSurveyQuestion). Seletores de elemento não são isolados
+// pelo CSS module, então valiam para o site todo enquanto todo o CSS carregava
+// junto. Com as páginas carregando sob demanda, ficam aqui para continuar
+// valendo em todas as páginas.
+label {
+  font-size: 0.8rem;
+  text-align: justify;
+}
+
+img {
+  max-width: 100%;
+}
+
+textarea {
+  width: 50%;
+  height: 60px;
+}
+
+i {
+  font-size: 30px;
+}
