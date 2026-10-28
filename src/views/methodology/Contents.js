@@ -4,10 +4,11 @@ import { API_URL } from 'data/constants';
 import convertQuillToHtml from 'utils/convertQuillToHtml';
 import iconClip from 'images/icons/clip.svg';
 import styles from './Contents.module.scss';
+import typesetMath from 'utils/typesetMath';
 
 class Contents extends Component {
   componentDidMount() {
-    window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
+    typesetMath();
   }
 
   render() {

@@ -21,6 +21,7 @@ import chevronDown from 'images/chevrons/down.svg';
 import chevronUp from 'images/chevrons/up.svg';
 import styles from './Challenge.module.scss';
 import onKeyActivate from 'utils/onKeyActivate';
+import typesetMath from 'utils/typesetMath';
 
 class Challenge extends Component {
   state = {
@@ -84,7 +85,7 @@ class Challenge extends Component {
       });
     }
 
-    window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
+    typesetMath();
   }
 
   componentDidUpdate(prevProps) {

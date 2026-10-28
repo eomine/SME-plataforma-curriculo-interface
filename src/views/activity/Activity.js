@@ -16,6 +16,7 @@ import arrowLeft from 'images/arrows/left.svg';
 import arrowRight from 'images/arrows/right.svg';
 import styles from 'views/sequence/Sequence.module.scss';
 import styles1 from './Activity.module.scss';
+import typesetMath from 'utils/typesetMath';
 
 class Activity extends Component {
   state = {
@@ -33,7 +34,7 @@ class Activity extends Component {
       window.print();
     }
 
-    window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
+    typesetMath();
   }
 
   render() {
