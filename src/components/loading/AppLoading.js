@@ -24,7 +24,7 @@ AppLoading.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    isVisible: state.BodyReducer.isLoading,
+    isVisible: state.body.isLoading,
   };
 };
 

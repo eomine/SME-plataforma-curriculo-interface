@@ -1,5 +1,5 @@
 import { openSnackbar } from 'reducers/messagesSlice';
-import ChallengesActions from 'actions/ChallengesActions';
+import { loadSavedChallenges } from 'reducers/challengesSlice';
 import getTeacherId from 'data/getTeacherId';
 import { curriculoApi } from 'data/curriculoApi';
 import { history } from 'utils/history';
@@ -16,7 +16,7 @@ const ChallengeActions = {
         .unwrap()
         .then(() => {
           dispatch(openSnackbar('Desafio removido'));
-          dispatch(ChallengesActions.loadSaved());
+          dispatch(loadSavedChallenges());
         })
         .catch(ignoreError);
   },
@@ -26,7 +26,7 @@ const ChallengeActions = {
         .unwrap()
         .then(() => {
           dispatch(openSnackbar('Desafio salvo'));
-          dispatch(ChallengesActions.loadSaved());
+          dispatch(loadSavedChallenges());
         })
         .catch(ignoreError);
   },

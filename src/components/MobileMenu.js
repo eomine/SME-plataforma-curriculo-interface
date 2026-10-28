@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router';
 import { connect } from 'react-redux';
-import BodyActions from 'actions/BodyActions';
+import { hideMobileMenu } from 'reducers/bodySlice';
 import LoginActions from 'actions/LoginActions';
 import MobileModal from 'components/layout/MobileModal';
 import createModalLink from 'utils/createModalLink';
@@ -218,14 +218,14 @@ MobileMenu.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    hasMobileMenu: state.BodyReducer.hasMobileMenu,
+    hasMobileMenu: state.body.hasMobileMenu,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     hideMobileMenu: () => {
-      dispatch(BodyActions.hideMobileMenu());
+      dispatch(hideMobileMenu());
     },
     logout: () => {
       dispatch(LoginActions.logout());

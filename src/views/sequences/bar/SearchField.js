@@ -8,7 +8,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import Search from '@mui/icons-material/Search';
 import { connect } from 'react-redux';
 import FiltersActions from 'actions/FiltersActions';
-import SequencesActions from 'actions/SequencesActions';
+import { searchSequences } from 'reducers/sequencesSlice';
 import styles from './SearchField.module.scss';
 
 class SearchField extends Component {
@@ -64,7 +64,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     search: value => {
-      dispatch(SequencesActions.search());
+      dispatch(searchSequences());
     },
     setQuery: value => {
       dispatch(FiltersActions.setQuery(value));

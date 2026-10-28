@@ -137,7 +137,7 @@ Home.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    expandedId: state.HomeReducer.expandedId,
+    expandedId: state.home.expandedId,
   };
 };
 

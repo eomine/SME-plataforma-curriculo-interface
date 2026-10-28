@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { skipToken } from '@reduxjs/toolkit/query/react';
-import BodyActions from 'actions/BodyActions';
+import { showLoading, hideLoading } from 'reducers/bodySlice';
 import {
   useGetLearningObjectivesQuery,
   useGetProjectOptionsQuery,
@@ -52,8 +52,8 @@ export default function withProjectForm(Component, { edit = false } = {}) {
       if (!isLoading) {
         return undefined;
       }
-      dispatch(BodyActions.showLoading());
-      return () => dispatch(BodyActions.hideLoading());
+      dispatch(showLoading());
+      return () => dispatch(hideLoading());
     }, [dispatch, isLoading]);
 
     return (

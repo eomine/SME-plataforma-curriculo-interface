@@ -1,29 +1,29 @@
 import { combineReducers } from '@reduxjs/toolkit';
 import { curriculoApi } from 'data/curriculoApi';
-import BodyReducer from './BodyReducer';
-import ChallengesReducer from './ChallengesReducer';
+import body from './bodySlice';
+import challenges from './challengesSlice';
 import FiltersReducer from './FiltersReducer';
-import HomeReducer from './HomeReducer';
+import home from './homeSlice';
 import LearningObjectivesReducer from './LearningObjectivesReducer';
 import messages from './messagesSlice';
 import ProjectFiltersReducer from './ProjectFiltersReducer';
-import ProjectsReducer from './ProjectsReducer';
-import ProjectReducer from './ProjectReducer';
+import projects from './projectsSlice';
+import project from './projectSlice';
 import ProfileReducer from './ProfileReducer';
-import SequencesReducer from './SequencesReducer';
+import sequences from './sequencesSlice';
 
 export default combineReducers({
   [curriculoApi.reducerPath]: curriculoApi.reducer,
-  BodyReducer,
-  ChallengesReducer,
+  body,
+  challenges,
   FiltersReducer,
-  HomeReducer,
+  home,
   LearningObjectivesReducer,
   // Alerta, diálogo de confirmação e snackbar
   messages,
   ProfileReducer,
   ProjectFiltersReducer,
-  ProjectsReducer,
-  ProjectReducer,
-  SequencesReducer,
+  projects,
+  project,
+  sequences,
 });

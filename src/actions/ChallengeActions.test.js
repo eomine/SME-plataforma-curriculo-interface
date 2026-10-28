@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import messages from 'reducers/messagesSlice';
-import ChallengesReducer from 'reducers/ChallengesReducer';
+import challenges from 'reducers/challengesSlice';
 import ChallengeActions from 'actions/ChallengeActions';
 import { curriculoApi } from 'data/curriculoApi';
 
@@ -11,7 +11,7 @@ function createStore() {
   return configureStore({
     reducer: {
       messages,
-      ChallengesReducer,
+      challenges,
       [curriculoApi.reducerPath]: curriculoApi.reducer,
     },
     middleware: getDefaultMiddleware =>
@@ -35,7 +35,7 @@ describe('ChallengeActions', () => {
     const store = createStore();
 
     await store.dispatch(ChallengeActions.save(9));
-    await vi.waitFor(() => expect(store.getState().ChallengesReducer.saved).toEqual([3, 9]));
+    await vi.waitFor(() => expect(store.getState().challenges.saved).toEqual([3, 9]));
 
     expect(fetch.mock.calls[0][1].method).toBe('POST');
     expect(fetch.mock.calls[0][1].body.get('favourite[challenge]')).toBe('9');
@@ -50,7 +50,7 @@ describe('ChallengeActions', () => {
     await store.dispatch(ChallengeActions.save(9));
 
     expect(store.getState().messages.alert.message).toBe('Ocorreu um erro: Not Found');
-    expect(store.getState().ChallengesReducer.saved).toEqual([]);
+    expect(store.getState().challenges.saved).toEqual([]);
   });
 
   it('enviar resultado recarrega os resultados do desafio', async () => {

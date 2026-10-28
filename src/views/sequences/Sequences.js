@@ -5,7 +5,7 @@ import FiltersActions from 'actions/FiltersActions';
 import { skipToken } from '@reduxjs/toolkit/query/react';
 import { useGetSequencesInfiniteQuery } from 'data/curriculoApi';
 import withQuery from 'utils/withQuery';
-import SequencesActions from 'actions/SequencesActions';
+import { searchSequences, showAllSequences, searchSequencesWithFilter } from 'reducers/sequencesSlice';
 import Bar from './bar/Bar';
 import Filters from './filters/Filters';
 import GridItem from './GridItem';
@@ -118,8 +118,8 @@ Sequences.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    query: state.SequencesReducer.query,
-    expandedId: state.SequencesReducer.expandedId,
+    query: state.sequences.query,
+    expandedId: state.sequences.expandedId,
   };
 };
 
@@ -127,20 +127,20 @@ const mapDispatchToProps = dispatch => {
   return {
     load: () => {
       dispatch(FiltersActions.clearFilters());
-      dispatch(SequencesActions.load());
+      dispatch(showAllSequences());
     },
     loadWithFilter: data => {
       dispatch(FiltersActions.clearFilters());
       dispatch(FiltersActions.cacheFilter(data));
-      dispatch(SequencesActions.loadWithFilter(data));
+      dispatch(searchSequencesWithFilter(data));
     },
     search: () => {
-      dispatch(SequencesActions.search());
+      dispatch(searchSequences());
     },
   };
 };
 
-// A busca atual (query) vem do SequencesReducer; os resultados, do cache.
+// A busca atual (query) vem do slice sequences; os resultados, do cache.
 const withSequences = withQuery(useGetSequencesInfiniteQuery, {
   arg: props => (props.query === null ? skipToken : props.query),
   mapResult: (result, props) => {

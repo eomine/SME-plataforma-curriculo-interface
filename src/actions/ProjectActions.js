@@ -1,16 +1,16 @@
 import { openAlert } from 'reducers/messagesSlice';
-import BodyActions from './BodyActions';
+import { showLoading, hideLoading } from 'reducers/bodySlice';
 import { curriculoApi } from 'data/curriculoApi';
 
 // Comentários de projeto, pelas mutations do curriculoApi (que recarregam o
 // projeto quando terminam). Em caso de erro o baseQuery já mostra o alerta.
 function runComment(dispatch, endpoint, args, successMessage) {
-  dispatch(BodyActions.showLoading());
+  dispatch(showLoading());
   return dispatch(endpoint.initiate(args))
     .unwrap()
     .then(() => dispatch(openAlert(successMessage)))
     .catch(() => {})
-    .finally(() => dispatch(BodyActions.hideLoading()));
+    .finally(() => dispatch(hideLoading()));
 }
 
 const ProjectActions = {

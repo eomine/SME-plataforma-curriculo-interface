@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { clearAllBodyScrollLocks } from 'body-scroll-lock';
 import { openAlert } from 'reducers/messagesSlice';
 import ProjectFiltersActions from 'actions/ProjectFiltersActions';
-import ProjectsActions from 'actions/ProjectsActions';
+import { searchProjects } from 'reducers/projectsSlice';
 import Category from 'views/projects/categories/Category';
 import CategoryPanel from 'views/projects/categories/CategoryPanel';
 import RegionalEducationBoard from 'views/projects/objects/RegionalEducationBoard';
@@ -186,7 +186,7 @@ const mapDispatchToProps = dispatch => {
     },
     search: () => {
       dispatch(ProjectFiltersActions.search());
-      dispatch(ProjectsActions.search());
+      dispatch(searchProjects());
     },
     togglePanel: () => {
       dispatch(ProjectFiltersActions.togglePanel());

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import BodyActions from 'actions/BodyActions';
+// Com outros nomes: `showLoading` também é uma opção do withQuery.
+import { hideLoading as hideGlobalLoading, showLoading as showGlobalLoading } from 'reducers/bodySlice';
 
 // Liga um hook de query do RTK Query (data/curriculoApi) a um componente de
 // classe: chama o hook e passa o resultado como props, via `mapResult`.
@@ -19,8 +20,8 @@ export default function withQuery(useQuery, { arg = () => undefined, options, ma
         if (!isLoading) {
           return undefined;
         }
-        dispatch(BodyActions.showLoading());
-        return () => dispatch(BodyActions.hideLoading());
+        dispatch(showGlobalLoading());
+        return () => dispatch(hideGlobalLoading());
       }, [dispatch, isLoading]);
 
       return <Component {...props} {...mapResult(result, props)} />;
