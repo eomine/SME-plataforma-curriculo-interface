@@ -20,3 +20,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 ._*
+
+# e2e (Playwright)
+/e2e-report
+/e2e-results
+/e2e/visual/hars
+/e2e/visual/__screenshots__
