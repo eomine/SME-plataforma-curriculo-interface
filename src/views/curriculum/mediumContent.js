@@ -4,13 +4,13 @@
 export const schools = [
   {
     name: 'EMEFM Antônio Alves Veríssimo',
-    history: 'Criada em 1985 a partir da doação de um prédio construído e equipada para instalação de uma escola de Educação Infantil, como resultado de um acordo com a Prefeitura do Município de São Paulo, recebeu o nome do fundador da rede que havia ofertado o prédio. A Escola Municipal de Primeiro Grau Antônio Alves Veríssimo pa ssa a oferecer 2º Grau a partir de 1992, sendo, posteriormente, denominada EMEFM Antônio Alves Veríssimo. Oferece o Ensino Fundamental e o Ensino Médio Regular.',
+    history: 'Criada em 1985 a partir da doação de um prédio construído e equipada para instalação de uma escola de Educação Infantil, como resultado de um acordo com a Prefeitura do Município de São Paulo, recebeu o nome do fundador da rede que havia ofertado o prédio. A Escola Municipal de Primeiro Grau Antônio Alves Veríssimo passa a oferecer 2º Grau a partir de 1992, sendo, posteriormente, denominada EMEFM Antônio Alves Veríssimo. Oferece o Ensino Fundamental e o Ensino Médio Regular.',
     link: 'https://www.facebook.com/pages/EMEFM-Ant%C3%B4nio-Alves-Ver%C3%ADssimo/1596070194015226?ti=as',
     linkLabel: 'Antônio Alves Veríssimo',
   },
   {
     name: 'EMEFM Vereador Antônio Sampaio',
-    history: 'Inaugurada em julho de 1996 no terreno utilizado, anteriormente, pelo c Clube Desportivo Municipal de Santana - CDMS, a E.M.P.G. "Vereador Antônio Sampaio" teve sua nomenclatura alterada em setembro do mesmo ano para E.M.P.S.G. “Vereador Antônio Sampaio”, ao ser autorizada a oferecer o curso de Técnico em Processamento de Dados, descontinuado posteriormente. Atualmente, oferta o Ensino Fundamental e o Ensino Médio Regular.',
+    history: 'Inaugurada em julho de 1996 no terreno utilizado, anteriormente, pelo Clube Desportivo Municipal de Santana - CDMS, a E.M.P.G. "Vereador Antônio Sampaio" teve sua nomenclatura alterada em setembro do mesmo ano para E.M.P.S.G. “Vereador Antônio Sampaio”, ao ser autorizada a oferecer o curso de Técnico em Processamento de Dados, descontinuado posteriormente. Atualmente, oferta o Ensino Fundamental e o Ensino Médio Regular.',
     link: 'https://www.facebook.com/emefmVAS/?ti=as',
     linkLabel: 'Vereador Antônio Sampaio',
   },

@@ -17,8 +17,8 @@ function Section({ id, title, children }) {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <>
-      <button className={styles.collapseButton} onClick={() => setIsOpen(!isOpen)}>
-        { isOpen ? <img src={minus} alt="Expandir escolas" /> : <img src={iconPlus} alt="Minimizar escolas" />}
+      <button className={styles.collapseButton} aria-expanded={isOpen} onClick={() => setIsOpen(!isOpen)}>
+        <img src={isOpen ? minus : iconPlus} alt="" />
         <span id={id} className={styles.buttonText}>
           {title}
         </span>
@@ -54,7 +54,7 @@ function Medium() {
 								são denominadas de Escolas Municipais de Ensino Fundamental e Médio (EMEFM).
 								Também temos a Escola Municipal de Educação Bilíngue para Surdos, a
 								EMEBS Helen Keller que, desde 2019, também possui atendimento a esta etapa,
-								comtemplando estudantes da Educação Infantil, do Ensino Fundamental e do
+								contemplando estudantes da Educação Infantil, do Ensino Fundamental e do
 								Ensino Médio passando a ser a primeira escola pública a oferecer todas as etapas
 								da Educação Básica Bilíngue.
               </p>
@@ -79,11 +79,11 @@ function Medium() {
 									– DRE P/J; EMEFM Professor Derville Allegretti e EMEFM Vereador
 									Antônio Sampaio, ambas localizadas no bairro de Santana –
 									Diretoria Regional de Educação  Jaçanã/Tremembé – DRE J/T;
-									EMEFM Darcy Ri beiro, localizada no bairro de São Miguel
+									EMEFM Darcy Ribeiro, localizada no bairro de São Miguel
 									Paulista - Diretoria Regional de Educação  São Miguel – DRE MP;
 									EMEFM Oswaldo Aranha Bandeira de Mello, localizada na Cidade
 									Tiradentes - Diretoria Regional de Educação  Guaianases –
-									DRE G; EMEFM Professor Lin neu Prestes, localizada no bairro
+									DRE G; EMEFM Professor Linneu Prestes, localizada no bairro
 									de Santo Amaro - Diretoria Regional de Educação  Santo Amaro
 									– DRE SA; EMEFM Rubens Paiva, localizada no bairro Jardim Ângela -
 									Diretoria Regional de Educação  São Mateus – DRE SM e EMEBS
@@ -96,11 +96,11 @@ function Medium() {
 								<br></br><br></br>
 								<div>
 									<p className={styles.doubleLineHeight}>
-										As 8 (oito) Es colas Municipais de Ensino Fundamental e Médio
+										As 8 (oito) Escolas Municipais de Ensino Fundamental e Médio
 										(EMEFM), assim como a EMEBS Helen Keller, ultrapassam os
 										territórios nos quais estão inseridas, recebendo estudantes
 										dos diferentes bairros da capital paulista e de diversos
-										municípios na Grande São P aulo, como Guarulhos, Itaquaquecetuba,
+										municípios na Grande São Paulo, como Guarulhos, Itaquaquecetuba,
 										Santo André etc. Cada uma delas possui características ímpares,
 										projetos próprios e grande reconhecimento da comunidade atendida,
 										sendo procuradas pela qualidade de suas propostas pedagógicas.
