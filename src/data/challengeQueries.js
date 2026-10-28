@@ -21,7 +21,7 @@ export function withChallengeLists(Component) {
     const [showFinished, setShowFinished] = useState(false);
     const ongoing = useGetOngoingChallengesQuery();
     const finished = useGetFinishedChallengesQuery(showFinished ? undefined : skipToken);
-    const saved = useSelector(state => state.ChallengesReducer.saved);
+    const saved = useSelector(state => state.challenges.saved);
     const loadFinished = useCallback(() => setShowFinished(true), []);
     const challenges = useMemo(
       () => markSaved([...(ongoing.data || []), ...((showFinished && finished.data) || [])], saved),
@@ -38,7 +38,7 @@ export function withChallengeLists(Component) {
 // Desafios favoritos entre as listas já em cache, para o perfil (que não
 // carrega as listas; antes lia o que as páginas de desafios tinham carregado).
 export function selectSavedChallenges(state) {
-  const { saved } = state.ChallengesReducer;
+  const { saved } = state.challenges;
   const { getFinishedChallenges, getOngoingChallenges } = curriculoApi.endpoints;
   const items = [
     ...(getOngoingChallenges.select()(state).data || []),

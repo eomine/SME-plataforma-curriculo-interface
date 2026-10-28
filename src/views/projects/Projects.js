@@ -5,7 +5,7 @@ import ProjectFiltersActions from 'actions/ProjectFiltersActions';
 import { skipToken } from '@reduxjs/toolkit/query/react';
 import { useGetProjectsInfiniteQuery } from 'data/curriculoApi';
 import withQuery from 'utils/withQuery';
-import ProjectsActions from 'actions/ProjectsActions';
+import { showAllProjects } from 'reducers/projectsSlice';
 import Bar from './bar/Bar';
 import Filters from './filters/Filters';
 import GridItem from './GridItem';
@@ -108,8 +108,8 @@ Projects.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    query: state.ProjectsReducer.query,
-    expandedId: state.ProjectsReducer.expandedId,
+    query: state.projects.query,
+    expandedId: state.projects.expandedId,
   };
 };
 
@@ -117,12 +117,12 @@ const mapDispatchToProps = dispatch => {
   return {
     load: () => {
       dispatch(ProjectFiltersActions.clearFilters());
-      dispatch(ProjectsActions.load());
+      dispatch(showAllProjects());
     },
   };
 };
 
-// A busca atual (query) vem do ProjectsReducer; os resultados, do cache.
+// A busca atual (query) vem do slice projects; os resultados, do cache.
 const withProjects = withQuery(useGetProjectsInfiniteQuery, {
   arg: props => (props.query === null ? skipToken : props.query),
   mapResult: (result, props) => {

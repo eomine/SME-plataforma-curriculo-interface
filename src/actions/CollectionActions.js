@@ -1,4 +1,5 @@
 import { openAlert, openSnackbar } from 'reducers/messagesSlice';
+import { projectSaved } from 'reducers/projectSlice';
 import getTeacherId from 'data/getTeacherId';
 import { curriculoApi, markProjectSaved, markSequenceSaved } from 'data/curriculoApi';
 import { history } from 'utils/history';
@@ -27,7 +28,7 @@ function doSaveSequence(dispatch, id, name, sequenceId) {
 function doSaveProject(dispatch, id, name, projectId) {
   return run(dispatch, endpoints.addToCollection, { id, kind: 'project', itemId: projectId })
     .then(() => {
-      dispatch({ projectId, type: CollectionActions.SAVED_PROJECT });
+      dispatch(projectSaved(projectId));
       dispatch(markProjectSaved(projectId));
       savedSnackbar(dispatch, name);
     })
@@ -35,8 +36,6 @@ function doSaveProject(dispatch, id, name, projectId) {
 }
 
 const CollectionActions = {
-  SAVED_PROJECT: 'CollectionActions.SAVED_PROJECT',
-
   removeSequence(id, sequenceId) {
     return dispatch =>
       run(dispatch, endpoints.removeFromCollection, { id, kind: 'sequence', itemId: sequenceId }).catch(ignoreError);

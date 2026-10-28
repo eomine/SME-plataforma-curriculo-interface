@@ -8,7 +8,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import Search from '@mui/icons-material/Search';
 import { connect } from 'react-redux';
 import ProjectFiltersActions from 'actions/ProjectFiltersActions';
-import ProjectsActions from 'actions/ProjectsActions';
+import { searchProjects } from 'reducers/projectsSlice';
 import styles from './SearchField.module.scss';
 
 class SearchField extends Component {
@@ -64,8 +64,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     search: value => {
-    //   dispatch(BodyActions.showLoading());
-      dispatch(ProjectsActions.search());
+    //   dispatch(showLoading());
+      dispatch(searchProjects());
     },
     setQuery: value => {
       dispatch(ProjectFiltersActions.setQuery(value));

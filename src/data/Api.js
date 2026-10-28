@@ -1,5 +1,5 @@
 import { openAlert } from 'reducers/messagesSlice';
-import BodyActions from 'actions/BodyActions';
+import { hideLoading } from 'reducers/bodySlice';
 import { API_URL } from 'data/constants';
 import { history } from 'utils/history';
 
@@ -27,7 +27,7 @@ function getPromise(dispatch, func, method, url, data, isJson) {
             // Unauthorized
             localStorage.removeItem('accessToken');
             history.push('/');
-            dispatch(BodyActions.hideLoading());
+            dispatch(hideLoading());
           }
 
           if (text.length) {

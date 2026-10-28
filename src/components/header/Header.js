@@ -4,7 +4,7 @@ import Headroom from 'react-headroom';
 import { NavLink } from 'react-router';
 import { connect } from 'react-redux';
 import Avatar from 'views/profile/Avatar';
-import BodyActions from 'actions/BodyActions';
+import { showMobileMenu } from 'reducers/bodySlice';
 import Fade from '@mui/material/Fade';
 import CurriculoPopover from 'components/popovers/CurriculoPopover';
 import BooksPopover from 'components/popovers/BooksPopover';
@@ -171,7 +171,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(ProfileActions.load());
     },
     showMobileMenu: () => {
-      dispatch(BodyActions.showMobileMenu());
+      dispatch(showMobileMenu());
     },
   };
 };

@@ -267,7 +267,7 @@ Project.propTypes = {
 const mapStateToProps = (state, { data }) => {
   return {
     comments: data.comments || [],
-    isSaved: state.ProjectReducer.savedIds.includes(data.id),
+    isSaved: state.project.savedIds.includes(data.id),
   };
 };
 
