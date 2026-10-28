@@ -25,7 +25,7 @@ const noOptions = {
 // opções (curricularComponents, segments, dres etc.), os objetivos de
 // aprendizagem e as escolas, e as funções getLearningObjectives e getSchools,
 // que escolhem o que carregar (como as actions antigas, chamadas quando o
-// usuário muda a seleção). Com `edit`, passa também o projeto da URL.
+// usuário muda a seleção). Com `edit`, passa `edit` e o projeto da URL.
 // Os dados da sessão (isLogged, teacherId, blocked) vêm do localStorage.
 export default function withProjectForm(Component, { edit = false } = {}) {
   function WithProjectForm(props) {
@@ -60,6 +60,7 @@ export default function withProjectForm(Component, { edit = false } = {}) {
         isLogged={isLogged()}
         teacherId={getTeacherId()}
         blocked={getTeacherBlocked()}
+        edit={edit}
         {...(edit ? { project: project.currentData || null } : {})}
       />
     );
