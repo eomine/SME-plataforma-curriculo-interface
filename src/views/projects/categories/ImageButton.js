@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { API_URL } from 'data/constants';
-import ProjectFiltersActions from 'actions/ProjectFiltersActions';
+import { projectFiltersActions } from 'reducers/filtersSlice';
 import styles from './ImageButton.module.scss';
 
 class ImageButton extends Component {
@@ -31,7 +31,7 @@ ImageButton.propTypes = {
 const mapDispatchToProps = dispatch => {
   return {
     toggleFilter: data => {
-      dispatch(ProjectFiltersActions.toggleFilter(data));
+      dispatch(projectFiltersActions.toggleFilter(data));
     },
   };
 };

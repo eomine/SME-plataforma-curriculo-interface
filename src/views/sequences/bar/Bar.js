@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
 import Chip from 'views/sequences/objects/Chip';
-import FiltersActions from 'actions/FiltersActions';
+import { sequenceFiltersActions } from 'reducers/filtersSlice';
 import OrderButton from 'views/sequences/bar/OrderButton';
 import SearchField from 'views/sequences/bar/SearchField';
 import withWidth from 'components/hoc/withWidth';
@@ -62,8 +62,8 @@ Bar.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    filters: state.FiltersReducer.filters.filter(item => item.isActive),
-    filtersExtra: state.FiltersReducer.filtersExtra.filter(
+    filters: state.sequenceFilters.filters.filter(item => item.isActive),
+    filtersExtra: state.sequenceFilters.filtersExtra.filter(
       item => item.isActive
     ),
   };
@@ -72,7 +72,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     togglePanel: () => {
-      dispatch(FiltersActions.togglePanel());
+      dispatch(sequenceFiltersActions.togglePanel());
     },
   };
 };

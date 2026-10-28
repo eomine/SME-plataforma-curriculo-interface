@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { clearAllBodyScrollLocks } from 'body-scroll-lock';
 import { openAlert } from 'reducers/messagesSlice';
-import ProjectFiltersActions from 'actions/ProjectFiltersActions';
+import { projectFiltersActions } from 'reducers/filtersSlice';
 import { searchProjects } from 'reducers/projectsSlice';
 import Category from 'views/projects/categories/Category';
 import CategoryPanel from 'views/projects/categories/CategoryPanel';
@@ -168,28 +168,28 @@ Filters.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    filters: state.ProjectFiltersReducer.filters,
-    filtersExtra: state.ProjectFiltersReducer.filtersExtra,
-    isExpanded: state.ProjectFiltersReducer.isExpanded,
-    order: state.ProjectFiltersReducer.order,
-    query: state.ProjectFiltersReducer.query,
+    filters: state.projectFilters.filters,
+    filtersExtra: state.projectFilters.filtersExtra,
+    isExpanded: state.projectFilters.isExpanded,
+    order: state.projectFilters.order,
+    query: state.projectFilters.query,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     load: () => {
-      dispatch(ProjectFiltersActions.load());
+      dispatch(projectFiltersActions.load());
     },
     openAlert: message => {
       dispatch(openAlert(message));
     },
     search: () => {
-      dispatch(ProjectFiltersActions.search());
+      dispatch(projectFiltersActions.search());
       dispatch(searchProjects());
     },
     togglePanel: () => {
-      dispatch(ProjectFiltersActions.togglePanel());
+      dispatch(projectFiltersActions.togglePanel());
     },
   };
 };

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import FiltersActions from 'actions/FiltersActions';
+import { sequenceFiltersActions } from 'reducers/filtersSlice';
 import chevronRight from 'images/chevrons/right.svg';
 import styles from './Category.module.scss';
 
@@ -28,7 +28,7 @@ Category.propTypes = {
 const mapDispatchToProps = dispatch => {
   return {
     showCategory: data => {
-      dispatch(FiltersActions.showCategory(data));
+      dispatch(sequenceFiltersActions.showCategory(data));
     },
   };
 };

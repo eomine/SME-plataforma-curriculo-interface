@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import ProjectFiltersActions from 'actions/ProjectFiltersActions';
+import { projectFiltersActions } from 'reducers/filtersSlice';
 import { showAllProjects } from 'reducers/projectsSlice';
 import styles from 'views/sequences/ResultsNotFound.module.scss';
 
@@ -32,7 +32,7 @@ ResultsNotFound.propTypes = {
 const mapDispatchToProps = dispatch => {
   return {
     clearSearch: () => {
-      dispatch(ProjectFiltersActions.clearFilters());
+      dispatch(projectFiltersActions.clearFilters());
       dispatch(showAllProjects());
     },
   };

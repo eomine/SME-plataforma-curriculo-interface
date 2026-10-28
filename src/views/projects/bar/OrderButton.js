@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
 import { connect } from 'react-redux';
-import ProjectFiltersActions from 'actions/ProjectFiltersActions';
+import { projectFiltersActions } from 'reducers/filtersSlice';
 import styles from './OrderButton.module.scss';
 
 class OrderButton extends Component {
@@ -78,14 +78,14 @@ OrderButton.defaultProps = {
 
 const mapStateToProps = state => {
   return {
-    order: state.ProjectFiltersReducer.order,
+    order: state.projectFilters.order,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     setOrder: value => {
-      dispatch(ProjectFiltersActions.setOrder(value));
+      dispatch(projectFiltersActions.setOrder(value));
     },
   };
 };

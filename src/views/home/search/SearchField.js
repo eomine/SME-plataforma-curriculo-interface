@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import FiltersActions from 'actions/FiltersActions';
+import { sequenceFiltersActions } from 'reducers/filtersSlice';
 import styles from './Field.module.scss';
 
 class ThemeField extends Component {
@@ -36,7 +36,7 @@ ThemeField.propTypes = {
 const mapDispatchToProps = dispatch => {
   return {
     setQuery: query => {
-      dispatch(FiltersActions.setQuery(query));
+      dispatch(sequenceFiltersActions.setQuery(query));
     },
   };
 };

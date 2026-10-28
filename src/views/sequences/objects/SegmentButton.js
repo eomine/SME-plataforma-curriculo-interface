@@ -1,14 +1,14 @@
 import { connect } from 'react-redux';
 import SegmentButton from 'components/objects/SegmentButton';
-import FiltersActions from 'actions/FiltersActions';
+import { sequenceFiltersActions } from 'reducers/filtersSlice';
 
 const mapDispatchToProps = dispatch => {
   return {
     toggleSegments: data => {
-      dispatch(FiltersActions.toggleSegments(data))
+      dispatch(sequenceFiltersActions.toggleSegments(data))
     },
     getStages: data => {
-      dispatch(FiltersActions.getStages(data))
+      dispatch(sequenceFiltersActions.getStages(data))
     },
   };
 };

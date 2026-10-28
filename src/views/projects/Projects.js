@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import ProjectFiltersActions from 'actions/ProjectFiltersActions';
+import { projectFiltersActions } from 'reducers/filtersSlice';
 import { skipToken } from '@reduxjs/toolkit/query/react';
 import { useGetProjectsInfiniteQuery } from 'data/curriculoApi';
 import withQuery from 'utils/withQuery';
@@ -116,7 +116,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     load: () => {
-      dispatch(ProjectFiltersActions.clearFilters());
+      dispatch(projectFiltersActions.clearFilters());
       dispatch(showAllProjects());
     },
   };
