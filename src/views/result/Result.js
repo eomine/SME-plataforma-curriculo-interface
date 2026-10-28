@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Moment from 'react-moment';
-import 'moment/locale/pt-br';
 import 'moment-timezone/builds/moment-timezone-with-data-1970-2030';
 import { NavLink } from 'react-router';
 import { withChallengeResult } from 'data/challengeQueries';

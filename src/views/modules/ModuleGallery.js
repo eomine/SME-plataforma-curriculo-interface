@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ImageGallery from 'react-image-gallery';
+import 'react-image-gallery/styles/image-gallery.css';
 import styles from './ModuleGallery.module.scss';
 import { API_URL } from 'data/constants';
 
