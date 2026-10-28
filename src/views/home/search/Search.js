@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { history } from 'utils/history';
-import AlertActions from 'actions/AlertActions';
+import { openAlert } from 'reducers/messagesSlice';
 import CurricularComponentField from './CurricularComponentField';
 import FiltersActions from 'actions/FiltersActions';
 import SearchField from './SearchField';
@@ -87,7 +87,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(FiltersActions.load());
     },
     openAlert: message => {
-      dispatch(AlertActions.open(message));
+      dispatch(openAlert(message));
     },
   };
 };

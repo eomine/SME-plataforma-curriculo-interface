@@ -1,4 +1,4 @@
-import AlertActions from './AlertActions';
+import { openAlert } from 'reducers/messagesSlice';
 import { curriculoApi } from 'data/curriculoApi';
 import { history } from 'utils/history';
 
@@ -9,7 +9,7 @@ const CreateProjectActions = {
       dispatch(curriculoApi.endpoints.createProject.initiate(project))
         .unwrap()
         .then(() => {
-          dispatch(AlertActions.open(`Projeto salvo com sucesso.`));
+          dispatch(openAlert(`Projeto salvo com sucesso.`));
           history.push(`/perfil`);
         })
         // O erro já foi mostrado no alerta do curriculoApi.
@@ -17,13 +17,13 @@ const CreateProjectActions = {
   },
   unauthorizedUser() {
     return dispatch => {
-      dispatch(AlertActions.open(`Você precisa efetuar login para acessar essa página.`));
+      dispatch(openAlert(`Você precisa efetuar login para acessar essa página.`));
       history.push(`/`);
     };
   },
   blockedUser() {
     return dispatch => {
-      dispatch(AlertActions.open(`Você está bloquado e não pode criar projetos no momento. Entre em contato com a Secretaria Municipal de Educação.`));
+      dispatch(openAlert(`Você está bloquado e não pode criar projetos no momento. Entre em contato com a Secretaria Municipal de Educação.`));
       history.push(`/`);
     };
   },

@@ -1,5 +1,5 @@
 import Api from 'data/Api';
-import AlertActions from 'actions/AlertActions';
+import { openAlert } from 'reducers/messagesSlice';
 
 const ProfileActions = {
   DELETE_PHOTO: 'ProfileActions.DELETE_PHOTO',
@@ -18,10 +18,10 @@ const ProfileActions = {
           dispatch({ ...response, type: ProfileActions.DELETED_PHOTO })
         )
         .then(response =>
-          dispatch(AlertActions.open('Foto apagada com sucesso!'))
+          dispatch(openAlert('Foto apagada com sucesso!'))
         )
         .catch(error =>
-          dispatch(AlertActions.open(`Ocorreu um erro: ${error}`))
+          dispatch(openAlert(`Ocorreu um erro: ${error}`))
         );
     };
   },
@@ -41,10 +41,10 @@ const ProfileActions = {
           dispatch({ ...response, type: ProfileActions.SAVED_NICKNAME })
         )
         .then(response =>
-          dispatch(AlertActions.open('Perfil salvo com sucesso!'))
+          dispatch(openAlert('Perfil salvo com sucesso!'))
         )
         .catch(error =>
-          dispatch(AlertActions.open(`Ocorreu um erro: ${error}`))
+          dispatch(openAlert(`Ocorreu um erro: ${error}`))
         );
     };
   },
@@ -57,10 +57,10 @@ const ProfileActions = {
           dispatch({ ...response, type: ProfileActions.SAVED_PHOTO })
         )
         .then(response =>
-          dispatch(AlertActions.open('Foto salva com sucesso!'))
+          dispatch(openAlert('Foto salva com sucesso!'))
         )
         .catch(error =>
-          dispatch(AlertActions.open(`Ocorreu um erro: ${error}`))
+          dispatch(openAlert(`Ocorreu um erro: ${error}`))
         );
     };
   },

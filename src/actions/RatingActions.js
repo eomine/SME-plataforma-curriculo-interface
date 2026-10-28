@@ -1,4 +1,4 @@
-import AlertActions from './AlertActions';
+import { openAlert } from 'reducers/messagesSlice';
 import { curriculoApi } from 'data/curriculoApi';
 import getTeacherId from 'data/getTeacherId';
 
@@ -20,7 +20,7 @@ const RatingActions = {
 
       return dispatch(curriculoApi.endpoints.saveSequenceRating.initiate({ slug, rating }))
         .unwrap()
-        .then(() => dispatch(AlertActions.open('Avaliação salva com sucesso!')))
+        .then(() => dispatch(openAlert('Avaliação salva com sucesso!')))
         // O erro já foi mostrado no alerta do curriculoApi.
         .catch(() => {});
     };

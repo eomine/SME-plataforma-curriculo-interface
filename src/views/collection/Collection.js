@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { history } from 'utils/history';
 import ClassroomYear from 'components/objects/ClassroomYear';
 import CollectionActions from 'actions/CollectionActions';
-import ConfirmActions from 'actions/ConfirmActions';
+import { askConfirmation } from 'reducers/messagesSlice';
 import { skipToken } from '@reduxjs/toolkit/query/react';
 import {
   useGetCollectionProjectsQuery,
@@ -115,7 +115,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(CollectionActions.delete(id));
     },
     openConfirm: (title, message, labelYes, labelNo) =>
-      dispatch(ConfirmActions.open(title, message, labelYes, labelNo)),
+      dispatch(askConfirmation(title, message, labelYes, labelNo)),
   };
 };
 

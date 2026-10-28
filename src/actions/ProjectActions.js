@@ -1,4 +1,4 @@
-import AlertActions from './AlertActions';
+import { openAlert } from 'reducers/messagesSlice';
 import BodyActions from './BodyActions';
 import { curriculoApi } from 'data/curriculoApi';
 
@@ -8,7 +8,7 @@ function runComment(dispatch, endpoint, args, successMessage) {
   dispatch(BodyActions.showLoading());
   return dispatch(endpoint.initiate(args))
     .unwrap()
-    .then(() => dispatch(AlertActions.open(successMessage)))
+    .then(() => dispatch(openAlert(successMessage)))
     .catch(() => {})
     .finally(() => dispatch(BodyActions.hideLoading()));
 }

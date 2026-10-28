@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import AlertReducer from 'reducers/AlertReducer';
+import messages from 'reducers/messagesSlice';
 import TeacherSurveyFormsActions from 'actions/TeacherSurveyFormsActions';
 import { curriculoApi } from 'data/curriculoApi';
 import { history } from 'utils/history';
@@ -9,7 +9,7 @@ vi.mock('utils/history', () => ({ history: { push: vi.fn(), back: vi.fn() } }));
 
 function createStore() {
   return configureStore({
-    reducer: { AlertReducer, [curriculoApi.reducerPath]: curriculoApi.reducer },
+    reducer: { messages, [curriculoApi.reducerPath]: curriculoApi.reducer },
     middleware: getDefaultMiddleware =>
       getDefaultMiddleware({ serializableCheck: false }).concat(curriculoApi.middleware),
   });
@@ -38,7 +38,7 @@ describe('TeacherSurveyFormsActions', () => {
     expect(post[0]).toMatch(/\/api\/survey_form_answers$/);
     expect(JSON.parse(post[1].body)).toEqual(answer);
     expect(post[1].headers.Authorization).toBe('token');
-    expect(store.getState().AlertReducer.message).toBe('Resposta salva com sucesso.');
+    expect(store.getState().messages.alert.message).toBe('Resposta salva com sucesso.');
     expect(history.push).toHaveBeenCalledWith('/consultas-publicas');
     await vi.waitFor(() => expect(fetch).toHaveBeenCalledTimes(3));
     expect(fetch.mock.calls[2][0]).toMatch(/\/api\/professores\/1\/todas_respostas$/);

@@ -1,4 +1,4 @@
-import AlertActions from './AlertActions';
+import { openAlert } from 'reducers/messagesSlice';
 import { curriculoApi } from 'data/curriculoApi';
 import { history } from 'utils/history';
 
@@ -10,7 +10,7 @@ const TeacherSurveyFormsActions = {
       dispatch(curriculoApi.endpoints.saveSurveyFormAnswer.initiate(surveyFormAnswer))
         .unwrap()
         .then(() => {
-          dispatch(AlertActions.open(`Resposta salva com sucesso.`));
+          dispatch(openAlert(`Resposta salva com sucesso.`));
           history.push(`/consultas-publicas`);
         })
         // O erro já foi mostrado no alerta do curriculoApi.
@@ -18,7 +18,7 @@ const TeacherSurveyFormsActions = {
   },
   alertError(error) {
     return dispatch => {
-      return dispatch(AlertActions.open(`Ocorreu um erro: ${error}`))
+      return dispatch(openAlert(`Ocorreu um erro: ${error}`))
     };
   },
 };

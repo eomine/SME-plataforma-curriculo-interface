@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { NavLink } from 'react-router';
 import { connect } from 'react-redux';
 import CollectionActions from 'actions/CollectionActions';
-import ConfirmActions from 'actions/ConfirmActions';
+import { askConfirmation } from 'reducers/messagesSlice';
 import iconDelete from 'images/icons/delete.svg';
 import styles from './Project.module.scss';
 import logoPrefecture from 'views/project/images/prefecture.jpg';
@@ -88,7 +88,7 @@ Project.propTypes = {
 const mapDispatchToProps = dispatch => {
   return {
     openConfirm: (title, message, labelYes, labelNo) =>
-      dispatch(ConfirmActions.open(title, message, labelYes, labelNo)),
+      dispatch(askConfirmation(title, message, labelYes, labelNo)),
     removeProject: (collectionId, sequenceId) => {
       dispatch(CollectionActions.removeProject(collectionId, sequenceId));
     },

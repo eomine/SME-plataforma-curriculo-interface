@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import AlertReducer from 'reducers/AlertReducer';
+import messages from 'reducers/messagesSlice';
 import RatingActions from 'actions/RatingActions';
 import { curriculoApi } from 'data/curriculoApi';
 
@@ -8,7 +8,7 @@ vi.mock('utils/history', () => ({ history: { push: vi.fn(), back: vi.fn() } }));
 
 function createStore() {
   return configureStore({
-    reducer: { AlertReducer, [curriculoApi.reducerPath]: curriculoApi.reducer },
+    reducer: { messages, [curriculoApi.reducerPath]: curriculoApi.reducer },
     middleware: getDefaultMiddleware =>
       getDefaultMiddleware({ serializableCheck: false }).concat(curriculoApi.middleware),
   });
@@ -36,7 +36,7 @@ describe('RatingActions', () => {
     expect(JSON.parse(post[1].body)).toEqual({
       activity_sequence_rating: { teacher_id: '1', ratings: [{ rating_id: '2', score: 5 }, { rating_id: '3', score: 4 }] },
     });
-    expect(store.getState().AlertReducer.message).toBe('Avaliação salva com sucesso!');
+    expect(store.getState().messages.alert.message).toBe('Avaliação salva com sucesso!');
     await vi.waitFor(() => expect(fetch).toHaveBeenCalledTimes(3));
     expect(fetch.mock.calls[2][0]).toMatch(/\/colecoes\/4\/sequencias$/);
   });
@@ -47,6 +47,6 @@ describe('RatingActions', () => {
 
     await store.dispatch(RatingActions.save('minha-sequencia', {}));
 
-    expect(store.getState().AlertReducer.message).toMatch(/^Ocorreu um erro: /);
+    expect(store.getState().messages.alert.message).toMatch(/^Ocorreu um erro: /);
   });
 });

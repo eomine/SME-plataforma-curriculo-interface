@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import AlertReducer from 'reducers/AlertReducer';
+import messages from 'reducers/messagesSlice';
 import CreateProjectActions from 'actions/CreateProjectActions';
 import EditProjectActions from 'actions/EditProjectActions';
 import { curriculoApi } from 'data/curriculoApi';
@@ -10,7 +10,7 @@ vi.mock('utils/history', () => ({ history: { push: vi.fn(), back: vi.fn() } }));
 
 function createStore() {
   return configureStore({
-    reducer: { AlertReducer, [curriculoApi.reducerPath]: curriculoApi.reducer },
+    reducer: { messages, [curriculoApi.reducerPath]: curriculoApi.reducer },
     middleware: getDefaultMiddleware =>
       getDefaultMiddleware({ serializableCheck: false }).concat(curriculoApi.middleware),
   });
@@ -42,7 +42,7 @@ describe('formulários de projeto', () => {
     expect(fetch.mock.calls[0][0]).toMatch(/\/api\/projects$/);
     expect(fetch.mock.calls[0][1].method).toBe('POST');
     expect(fetch.mock.calls[0][1].body).toBe(form);
-    expect(store.getState().AlertReducer.message).toBe('Projeto salvo com sucesso.');
+    expect(store.getState().messages.alert.message).toBe('Projeto salvo com sucesso.');
     expect(history.push).toHaveBeenCalledWith('/perfil');
   });
 
@@ -59,7 +59,7 @@ describe('formulários de projeto', () => {
     expect(fetch).toHaveBeenCalledTimes(2);
     expect(fetch.mock.calls[1][0]).toMatch(/\/api\/projects\/antigo$/);
     expect(fetch.mock.calls[1][1].body.get('project[title]')).toBe('Novo título');
-    expect(store.getState().AlertReducer.message).toBe('Projeto atualizado com sucesso.');
+    expect(store.getState().messages.alert.message).toBe('Projeto atualizado com sucesso.');
     expect(history.push).toHaveBeenCalledWith('/perfil');
   });
 
@@ -69,7 +69,7 @@ describe('formulários de projeto', () => {
 
     await store.dispatch(CreateProjectActions.create(projectForm('Novo')));
 
-    expect(store.getState().AlertReducer.message).toMatch(/^Ocorreu um erro: /);
+    expect(store.getState().messages.alert.message).toMatch(/^Ocorreu um erro: /);
     expect(history.push).not.toHaveBeenCalled();
   });
 });

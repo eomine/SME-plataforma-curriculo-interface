@@ -1,5 +1,4 @@
-import AlertActions from './AlertActions';
-import SnackbarActions from './SnackbarActions';
+import { openAlert, openSnackbar } from 'reducers/messagesSlice';
 import getTeacherId from 'data/getTeacherId';
 import { curriculoApi, markProjectSaved, markSequenceSaved } from 'data/curriculoApi';
 import { history } from 'utils/history';
@@ -13,7 +12,7 @@ const run = (dispatch, endpoint, args) =>
 const ignoreError = () => {};
 
 function savedSnackbar(dispatch, name) {
-  dispatch(SnackbarActions.open('Salvo em', name));
+  dispatch(openSnackbar('Salvo em', name));
 }
 
 function doSaveSequence(dispatch, id, name, sequenceId) {
@@ -67,13 +66,13 @@ const CollectionActions = {
   delete(id) {
     return dispatch =>
       run(dispatch, endpoints.deleteCollection, { id })
-        .then(() => dispatch(AlertActions.open('Coleção excluída com sucesso!')))
+        .then(() => dispatch(openAlert('Coleção excluída com sucesso!')))
         .catch(ignoreError);
   },
   edit(id, name) {
     return dispatch =>
       run(dispatch, endpoints.editCollection, { id, name })
-        .then(() => dispatch(AlertActions.open('Coleção salva com sucesso!')))
+        .then(() => dispatch(openAlert('Coleção salva com sucesso!')))
         .catch(ignoreError);
   },
 };

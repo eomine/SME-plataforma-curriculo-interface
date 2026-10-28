@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import ConfirmActions from 'actions/ConfirmActions';
+import { askConfirmation } from 'reducers/messagesSlice';
 import formatFileSize from 'utils/formatFileSize';
 import iconClip from 'images/icons/clip.svg';
 import iconDelete from 'images/icons/delete.svg';
@@ -102,7 +102,7 @@ Attachment.propTypes = {
 const mapDispatchToProps = dispatch => {
   return {
     openConfirm: (title, message, labelYes, labelNo) =>
-      dispatch(ConfirmActions.open(title, message, labelYes, labelNo)),
+      dispatch(askConfirmation(title, message, labelYes, labelNo)),
   };
 };
 

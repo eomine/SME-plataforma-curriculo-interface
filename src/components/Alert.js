@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import { connect } from 'react-redux';
 import Modal from 'react-modal';
-import AlertActions from 'actions/AlertActions';
+import { closeAlert } from 'reducers/messagesSlice';
 import iconClose from 'images/icons/close.svg';
 import iconWarningBig from 'images/icons/warningBig.svg';
 import styles from './Alert.module.scss';
@@ -59,15 +59,15 @@ Alert.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    isOpened: state.AlertReducer.isOpened,
-    message: state.AlertReducer.message,
+    isOpened: state.messages.alert.isOpened,
+    message: state.messages.alert.message,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     close: () => {
-      dispatch(AlertActions.close());
+      dispatch(closeAlert());
     },
   };
 };

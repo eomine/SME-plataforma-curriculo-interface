@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { TimelineLite } from 'gsap/TweenMax';
 import { connect } from 'react-redux';
 import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
-import AlertActions from 'actions/AlertActions';
+import { openAlert } from 'reducers/messagesSlice';
 import BodyActions from 'actions/BodyActions';
 import Chip from 'components/objects/Chip';
 import CurricularComponent from './CurricularComponent';
@@ -306,7 +306,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(LearningObjectivesActions.hideResults());
     },
     openAlert: message => {
-      dispatch(AlertActions.open(message));
+      dispatch(openAlert(message));
     },
     search: filters => {
       dispatch(LearningObjectivesActions.search(filters));

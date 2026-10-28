@@ -4,7 +4,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import TextField from '@mui/material/TextField';
 import { connect } from 'react-redux';
 import { API_URL } from 'data/constants';
-import AlertActions from 'actions/AlertActions';
+import { openAlert } from 'reducers/messagesSlice';
 import DesktopModal from 'components/layout/DesktopModal';
 import ProfileActions from 'actions/ProfileActions';
 import ModalPage from 'components/layout/ModalPage';
@@ -236,7 +236,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(ProfileActions.load());
     },
     openAlert: message => {
-      dispatch(AlertActions.open(message));
+      dispatch(openAlert(message));
     },
     saveNickname: (id, nickname) => {
       dispatch(ProfileActions.saveNickname(id, nickname));
