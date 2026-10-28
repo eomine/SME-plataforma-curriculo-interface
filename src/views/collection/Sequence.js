@@ -4,7 +4,7 @@ import { NavLink } from 'react-router';
 import { connect } from 'react-redux';
 import { API_URL } from 'data/constants';
 import CollectionActions from 'actions/CollectionActions';
-import ConfirmActions from 'actions/ConfirmActions';
+import { askConfirmation } from 'reducers/messagesSlice';
 import createModalLink from 'utils/createModalLink';
 import iconCheck from 'images/icons/check.png';
 import iconDelete from 'images/icons/delete.svg';
@@ -113,7 +113,7 @@ Sequence.propTypes = {
 const mapDispatchToProps = dispatch => {
   return {
     openConfirm: (title, message, labelYes, labelNo) =>
-      dispatch(ConfirmActions.open(title, message, labelYes, labelNo)),
+      dispatch(askConfirmation(title, message, labelYes, labelNo)),
     removeSequence: (collectionId, sequenceId) => {
       dispatch(CollectionActions.removeSequence(collectionId, sequenceId));
     },

@@ -4,7 +4,7 @@ import { NavLink } from 'react-router';
 import { connect } from 'react-redux';
 import { API_URL } from 'data/constants';
 import ChallengeActions from 'actions/ChallengeActions';
-import ConfirmActions from 'actions/ConfirmActions';
+import { askConfirmation } from 'reducers/messagesSlice';
 import createModalLink from 'utils/createModalLink';
 import iconCheck from 'images/icons/check.png';
 import iconDelete from 'images/icons/delete.svg';
@@ -111,7 +111,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(ChallengeActions.delete(id));
     },
     openConfirm: (title, message, labelYes, labelNo) =>
-      dispatch(ConfirmActions.open(title, message, labelYes, labelNo)),
+      dispatch(askConfirmation(title, message, labelYes, labelNo)),
   };
 };
 

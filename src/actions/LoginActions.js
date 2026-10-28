@@ -1,5 +1,5 @@
 import Api from 'data/Api';
-import AlertActions from 'actions/AlertActions';
+import { openAlert } from 'reducers/messagesSlice';
 import { curriculoApi } from 'data/curriculoApi';
 import { history } from 'utils/history';
 
@@ -25,7 +25,7 @@ const LoginActions = {
           dispatch({ type: LoginActions.LOGGED_IN });
         })
         .catch(error =>
-          dispatch(AlertActions.open(`Ocorreu um erro: ${error}`))
+          dispatch(openAlert(`Ocorreu um erro: ${error}`))
         );
     };
   },
@@ -46,7 +46,7 @@ const LoginActions = {
           dispatch({ type: LoginActions.LOGGED_IN });
         })
         .catch(error =>
-          dispatch(AlertActions.open(`Ocorreu um erro: ${error}`))
+          dispatch(openAlert(`Ocorreu um erro: ${error}`))
         );
     };
   },

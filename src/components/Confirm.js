@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import { connect } from 'react-redux';
 import Modal from 'react-modal';
-import ConfirmActions from 'actions/ConfirmActions';
+import { answerConfirmation } from 'reducers/messagesSlice';
 import iconClose from 'images/icons/close.svg';
 import styles from './Alert.module.scss';
 import styles1 from './Confirm.module.scss';
@@ -73,18 +73,18 @@ Confirm.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    isOpened: state.ConfirmReducer.isOpened,
-    labelNo: state.ConfirmReducer.labelNo,
-    labelYes: state.ConfirmReducer.labelYes,
-    message: state.ConfirmReducer.message,
-    title: state.ConfirmReducer.title,
+    isOpened: state.messages.confirm.isOpened,
+    labelNo: state.messages.confirm.labelNo,
+    labelYes: state.messages.confirm.labelYes,
+    message: state.messages.confirm.message,
+    title: state.messages.confirm.title,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     answer: confirmed => {
-      dispatch(ConfirmActions.answer(confirmed));
+      dispatch(answerConfirmation(confirmed));
     },
   };
 };

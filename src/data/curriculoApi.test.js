@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import AlertReducer from 'reducers/AlertReducer';
+import messages from 'reducers/messagesSlice';
 import { curriculoApi, markProjectSaved, markSequenceSaved } from 'data/curriculoApi';
 
 // O history real precisa de window.
@@ -9,7 +9,7 @@ vi.mock('utils/history', () => ({ history: { push: vi.fn() } }));
 function createStore() {
   return configureStore({
     reducer: {
-      AlertReducer,
+      messages,
       [curriculoApi.reducerPath]: curriculoApi.reducer,
     },
     middleware: getDefaultMiddleware =>
@@ -170,7 +170,7 @@ describe('curriculoApi', () => {
     const result = await store.dispatch(curriculoApi.endpoints.getConsultation.initiate(9));
 
     expect(result.error).toBe('não encontrado');
-    expect(store.getState().AlertReducer).toEqual({
+    expect(store.getState().messages.alert).toEqual({
       isOpened: true,
       message: 'Ocorreu um erro: não encontrado',
     });

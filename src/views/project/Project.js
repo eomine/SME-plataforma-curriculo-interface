@@ -14,7 +14,7 @@ import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import iconClose from 'images/icons/close.svg';
-import AlertActions from 'actions/AlertActions';
+import { openAlert } from 'reducers/messagesSlice';
 
 class Project extends Component {
   state = {
@@ -280,7 +280,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(ProjectActions.deleteComment(id, slug));
     },
     openAlert: message => {
-      dispatch(AlertActions.open(message));
+      dispatch(openAlert(message));
     },
   };
 };

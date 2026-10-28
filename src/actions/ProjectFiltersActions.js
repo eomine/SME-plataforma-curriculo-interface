@@ -1,5 +1,5 @@
 import Api from 'data/Api';
-import AlertActions from './AlertActions';
+import { openAlert } from 'reducers/messagesSlice';
 import getFiltersQueryString from 'data/getFiltersQueryString';
 
 function isYearOrComponent(s) {
@@ -99,10 +99,7 @@ const ProjectFiltersActions = {
         filters.length <= 0 &&
         (category.slug === 'axes' || category.slug === 'learning_objectives')
       ) {
-        dispatch({
-          type: AlertActions.OPEN,
-          message: 'Selecione uma etapa ou componente curricular.',
-        });
+        dispatch(openAlert('Selecione uma etapa ou componente curricular.'));
       } else {
         dispatch({ type: ProjectFiltersActions.SHOW_CATEGORY, category });
       }

@@ -1,8 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import AlertReducer from 'reducers/AlertReducer';
+import messages from 'reducers/messagesSlice';
 import ChallengesReducer from 'reducers/ChallengesReducer';
-import SnackbarReducer from 'reducers/SnackbarReducer';
 import ChallengeActions from 'actions/ChallengeActions';
 import { curriculoApi } from 'data/curriculoApi';
 
@@ -11,9 +10,8 @@ vi.mock('utils/history', () => ({ history: { push: vi.fn(), back: vi.fn() } }));
 function createStore() {
   return configureStore({
     reducer: {
-      AlertReducer,
+      messages,
       ChallengesReducer,
-      SnackbarReducer,
       [curriculoApi.reducerPath]: curriculoApi.reducer,
     },
     middleware: getDefaultMiddleware =>
@@ -42,7 +40,7 @@ describe('ChallengeActions', () => {
     expect(fetch.mock.calls[0][1].method).toBe('POST');
     expect(fetch.mock.calls[0][1].body.get('favourite[challenge]')).toBe('9');
     expect(fetch.mock.calls[1][0]).toMatch(/\/api\/professores\/1\/favoritos$/);
-    expect(store.getState().SnackbarReducer.message).toBe('Desafio salvo');
+    expect(store.getState().messages.snackbar.message).toBe('Desafio salvo');
   });
 
   it('se salvar o favorito falha (a API dá 404), mostra o alerta e não marca nada', async () => {
@@ -51,7 +49,7 @@ describe('ChallengeActions', () => {
 
     await store.dispatch(ChallengeActions.save(9));
 
-    expect(store.getState().AlertReducer.message).toBe('Ocorreu um erro: Not Found');
+    expect(store.getState().messages.alert.message).toBe('Ocorreu um erro: Not Found');
     expect(store.getState().ChallengesReducer.saved).toEqual([]);
   });
 

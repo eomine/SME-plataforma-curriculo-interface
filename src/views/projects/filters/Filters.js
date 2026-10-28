@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { clearAllBodyScrollLocks } from 'body-scroll-lock';
-import AlertActions from 'actions/AlertActions';
+import { openAlert } from 'reducers/messagesSlice';
 import ProjectFiltersActions from 'actions/ProjectFiltersActions';
 import ProjectsActions from 'actions/ProjectsActions';
 import Category from 'views/projects/categories/Category';
@@ -182,7 +182,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(ProjectFiltersActions.load());
     },
     openAlert: message => {
-      dispatch(AlertActions.open(message));
+      dispatch(openAlert(message));
     },
     search: () => {
       dispatch(ProjectFiltersActions.search());

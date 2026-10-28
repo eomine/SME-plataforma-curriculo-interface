@@ -1,5 +1,5 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
-import AlertActions from 'actions/AlertActions';
+import { openAlert } from 'reducers/messagesSlice';
 import Api from 'data/Api';
 
 const requests = { GET: Api.get, POST: Api.post, PUT: Api.put, DELETE: Api.delete };
@@ -14,7 +14,7 @@ async function baseQuery(args, { dispatch }) {
     const { data = null, nextPage, totalItems } = await requests[method](dispatch, url, body, isJson);
     return { data, meta: { nextPage, totalItems } };
   } catch (error) {
-    dispatch(AlertActions.open(`Ocorreu um erro: ${error}`));
+    dispatch(openAlert(`Ocorreu um erro: ${error}`));
     return { error: String(error) };
   }
 }

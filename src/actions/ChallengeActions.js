@@ -1,4 +1,4 @@
-import SnackbarActions from 'actions/SnackbarActions';
+import { openSnackbar } from 'reducers/messagesSlice';
 import ChallengesActions from 'actions/ChallengesActions';
 import getTeacherId from 'data/getTeacherId';
 import { curriculoApi } from 'data/curriculoApi';
@@ -15,7 +15,7 @@ const ChallengeActions = {
       dispatch(endpoints.deleteFavoriteChallenge.initiate({ teacherId: getTeacherId(), challengeId: id }))
         .unwrap()
         .then(() => {
-          dispatch(SnackbarActions.open('Desafio removido'));
+          dispatch(openSnackbar('Desafio removido'));
           dispatch(ChallengesActions.loadSaved());
         })
         .catch(ignoreError);
@@ -25,7 +25,7 @@ const ChallengeActions = {
       dispatch(endpoints.saveFavoriteChallenge.initiate({ teacherId: getTeacherId(), challengeId: id }))
         .unwrap()
         .then(() => {
-          dispatch(SnackbarActions.open('Desafio salvo'));
+          dispatch(openSnackbar('Desafio salvo'));
           dispatch(ChallengesActions.loadSaved());
         })
         .catch(ignoreError);
@@ -44,7 +44,7 @@ const ChallengeActions = {
         .unwrap()
         .then(() => {
           history.back();
-          dispatch(SnackbarActions.open('Desafio salvo'));
+          dispatch(openSnackbar('Desafio salvo'));
         })
         .catch(ignoreError);
     };

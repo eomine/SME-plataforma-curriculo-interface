@@ -1,4 +1,4 @@
-import AlertActions from 'actions/AlertActions';
+import { openAlert } from 'reducers/messagesSlice';
 import { curriculoApi } from 'data/curriculoApi';
 import { history } from 'utils/history';
 
@@ -9,7 +9,7 @@ const EditProjectActions = {
       dispatch(curriculoApi.endpoints.updateProject.initiate({ slug, project }))
         .unwrap()
         .then(() => {
-          dispatch(AlertActions.open(`Projeto atualizado com sucesso.`));
+          dispatch(openAlert(`Projeto atualizado com sucesso.`));
           history.push(`/perfil`);
         })
         // O erro já foi mostrado no alerta do curriculoApi.

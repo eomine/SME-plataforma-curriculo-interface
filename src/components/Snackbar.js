@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Snackbar1 from '@mui/material/Snackbar';
 import { connect } from 'react-redux';
-import SnackbarActions from 'actions/SnackbarActions';
+import { closeSnackbar } from 'reducers/messagesSlice';
 
 class Snackbar extends Component {
   render() {
@@ -39,16 +39,16 @@ Snackbar.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    isOpened: state.SnackbarReducer.isOpened,
-    message: state.SnackbarReducer.message,
-    highlight: state.SnackbarReducer.highlight,
+    isOpened: state.messages.snackbar.isOpened,
+    message: state.messages.snackbar.message,
+    highlight: state.messages.snackbar.highlight,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     close: () => {
-      dispatch(SnackbarActions.close());
+      dispatch(closeSnackbar());
     },
   };
 };

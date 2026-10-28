@@ -7,11 +7,10 @@ import { connect } from 'react-redux';
 import ChallengeActions from 'actions/ChallengeActions';
 import { withChallenge } from 'data/challengeQueries';
 import { styled } from '@mui/material/styles';
-import AlertActions from 'actions/AlertActions';
+import { openAlert, askConfirmation } from 'reducers/messagesSlice';
 import Attachment from './Attachment';
 import BigPreview from 'components/objects/BigPreview';
 import ChallengePreview from './ChallengePreview';
-import ConfirmActions from 'actions/ConfirmActions';
 import DesktopModal from 'components/layout/DesktopModal';
 import ModalHeader from 'components/header/ModalHeader';
 import ModalPage from 'components/layout/ModalPage';
@@ -273,10 +272,10 @@ const mapDispatchToProps = dispatch => {
       dispatch(ChallengeActions.sendResult(slug, classroom, description, videos, attachments));
     },
     openAlert: message => {
-      dispatch(AlertActions.open(message));
+      dispatch(openAlert(message));
     },
     openConfirm: (title, message, labelYes, labelNo) =>
-      dispatch(ConfirmActions.open(title, message, labelYes, labelNo)),
+      dispatch(askConfirmation(title, message, labelYes, labelNo)),
   };
 };
 

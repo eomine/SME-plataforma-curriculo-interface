@@ -1,4 +1,4 @@
-import AlertActions from 'actions/AlertActions';
+import { openAlert } from 'reducers/messagesSlice';
 import BodyActions from 'actions/BodyActions';
 import { API_URL } from 'data/constants';
 import { history } from 'utils/history';
@@ -106,7 +106,7 @@ class Api {
       return Api.get(dispatch, url)
         .then(response => dispatch({ ...response, type: onSuccess }))
         .catch(error =>
-          dispatch(AlertActions.open(`Ocorreu um erro: ${error}`))
+          dispatch(openAlert(`Ocorreu um erro: ${error}`))
         );
     };
   }
