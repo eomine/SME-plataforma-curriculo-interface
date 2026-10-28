@@ -1,7 +1,11 @@
 # Testes de ponta a ponta
 
-Playwright (veja `playwright.config.mjs`):
+Playwright, em três projetos (veja `playwright.config.mjs`):
 
+- **smoke** (`e2e/smoke`): fluxos do site deslogado — filtros de sequências e
+  de projetos, busca da home, prévias, "nova busca", loading global e menu do
+  celular. Usam a API local de verdade (`docker compose up`, com `db:seed` e
+  `db:seed:dev_content`), e as asserções não dependem do conteúdo falso.
 - **desktop** e **mobile** (`e2e/visual`): capturas de página inteira de 20
   páginas, em 1280×900 e 375×812, comparadas com capturas de referência.
   Tocam respostas da API gravadas antes, então não precisam de API nem de
@@ -24,6 +28,17 @@ uma versão do código que sirva de referência.
    nginx do docker compose, com o servidor do Vite). Para testar o build de
    produção, sirva o `build/` com o `/api` apontando para a API local e use
    essa URL.
+
+## Testes de fumaça
+
+Não precisam de nada gravado, só da API local no ar:
+
+```sh
+npm run e2e:smoke
+```
+
+Eles usam atributos de acessibilidade (`role="button"`, `aria-label="Menu"`)
+que entraram com as regras do Oxlint; não rodam em builds anteriores a isso.
 
 ## Gerando as respostas e as capturas de referência
 

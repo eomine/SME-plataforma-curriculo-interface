@@ -49,6 +49,7 @@
     "lint": "oxlint --max-warnings=0 src",
     "test": "vitest run",
     "e2e": "playwright test",
+    "e2e:smoke": "playwright test --project=smoke",
     "e2e:visual": "playwright test --project=desktop --project=mobile",
     "prettier-js": "./node_modules/.bin/prettier --single-quote --trailing-comma es5 --write \"src/**/*.js\"",
     "prettier-css": "./node_modules/.bin/prettier --write \"src/**/*.scss\""
