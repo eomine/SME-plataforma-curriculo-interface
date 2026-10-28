@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import Page from 'components/layout/Page';
 import iconKnowledgeMatrix from 'images/illustrations/knowledgeMatrix.svg';
 import iconLearningObjectives from 'images/illustrations/learningObjectives.svg';
@@ -9,48 +10,33 @@ import medium from './medium.jpg';
 import schoolsImage from './schools-image.jpg';
 import iconPlus from 'images/icons/plus1.svg';
 import minus from 'images/icons/minus.svg';
+import { contributors, schools } from './mediumContent';
 
-class Medium extends Component {
+// Botão que abre e fecha o conteúdo logo abaixo.
+function Section({ id, title, children }) {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <>
+      <button className={styles.collapseButton} onClick={() => setIsOpen(!isOpen)}>
+        { isOpen ? <img src={minus} alt="Expandir escolas" /> : <img src={iconPlus} alt="Minimizar escolas" />}
+        <span id={id} className={styles.buttonText}>
+          {title}
+        </span>
+      </button>
+      <Collapse in={isOpen}>
+        {children}
+      </Collapse>
+    </>
+  );
+}
 
-	constructor(props) {
-		super(props);
+Section.propTypes = {
+  id: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  children: PropTypes.node,
+};
 
-		this.state = {
-			schools: false,
-			history: false,
-			curriculum: false,
-			law: false,
-			education: false
-		}
-
-		this.collapseTextSchools = this.collapseTextSchools.bind(this);
-		this.collapseTextHistory = this.collapseTextHistory.bind(this);
-		this.collapseTextCurriculum = this.collapseTextCurriculum.bind(this);
-		this.collapseTextLaw = this.collapseTextLaw.bind(this);
-    this.collapseTextEducation = this.collapseTextEducation.bind(this);
-	}
-
-	collapseTextSchools(){
-		this.setState({ schools: !this.state.schools });
-	}
-
-	collapseTextHistory(){
-		this.setState({ history: !this.state.history });
-	}
-
-	collapseTextCurriculum(){
-		this.setState({ curriculum: !this.state.curriculum });
- 	}
-
-	collapseTextLaw(){
-		this.setState({ law: !this.state.law });
-	}
-
-	collapseTextEducation(){
-		this.setState({ education: !this.state.education });
-	}
-
-  render() {
+function Medium() {
     return (
       <Page>
         <header className={styles.header}>
@@ -78,14 +64,7 @@ class Medium extends Component {
 								componente curricular de Língua Espanhola, além da Língua Inglesa.
               </p>
 
- 							<button className={styles.collapseButton} onClick={this.collapseTextSchools}>
-								{ this.state.schools ? <img src={minus} alt="Expandir escolas" /> : <img src={iconPlus} alt="Minimizar escolas" />}
-								<span id="schools" className={styles.buttonText}>
-									Conhecendo mais sobre as escolas
-								</span>
-							</button>
-
-							<Collapse in={this.state.schools}>
+							<Section id="schools" title="Conhecendo mais sobre as escolas">
 								<br></br><br></br>
 								<div>
 									<img className={styles.image} alt="" src={schoolsImage}></img>
@@ -111,15 +90,9 @@ class Medium extends Component {
 									Helen Keller, localizada no bairro da Aclimação – Diretoria
 									Regional de Educação  Ipiranga – DRE IP.
 								</p>
-							</Collapse>
+							</Section>
 
-							<button className={styles.collapseButton} onClick={this.collapseTextHistory}>
-								{ this.state.history ? <img src={minus} alt="Expandir escolas" /> : <img src={iconPlus} alt="Minimizar escolas" />}
-								<span id="history" className={styles.buttonText}>
-									Histórico das EMEFM e da EMEBS Helen Keller
-								</span>
-							</button>
-							<Collapse in={this.state.history}>
+							<Section id="history" title="Histórico das EMEFM e da EMEBS Helen Keller">
 								<br></br><br></br>
 								<div>
 									<p className={styles.doubleLineHeight}>
@@ -134,214 +107,24 @@ class Medium extends Component {
 									</p>
 								</div>
 								<br></br>
-								<div>
-									<p className={styles.doubleLineHeight}>
-										<i className={styles.credit}>EMEFM Antônio Alves Veríssimo </i>
-									</p>
-									<p className={styles.doubleLineHeight}>
-										Criada em 1985 a partir da doação de um prédio construído e
-										equipada para  instalação de uma escola de Educação Infantil,
-										como resultado de um acordo com a Prefeitura do Município de
-										São Paulo, recebeu o nome do fundador da rede que havia
-										ofertado o prédio. A Escola Municipal de Primeiro Grau
-										Antônio Alves Veríssimo pa ssa a oferecer 2º Grau a partir
-										de 1992, sendo, posteriormente, denominada EMEFM Antônio Alves
-										Veríssimo. Oferece o Ensino Fundamental e o Ensino Médio Regular.
-									</p>
-									<a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/pages/EMEFM-Ant%C3%B4nio-Alves-Ver%C3%ADssimo/1596070194015226?ti=as">
-										Antônio Alves Veríssimo
-									</a>
-								</div>
-								<br></br>
-								<br></br>
-								<div>
-									<p className={styles.doubleLineHeight}>
-										<i className={styles.credit}>
-											EMEFM Vereador Antônio Sampaio
-										</i>
-									</p>
-									<p className={styles.doubleLineHeight}>
-										Inaugurada em julho de 1996 no terreno utilizado, anteriormente,
-										pelo c Clube Desportivo Municipal de Santana - CDMS, a E.M.P.G.
-										"Vereador Antônio Sampaio" teve sua nomenclatura alterada em
-										setembro do mesmo ano para E.M.P.S.G. “Vereador Antônio Sampaio”,
-										ao ser autorizada a oferecer o curso de Técnico em Processamento
-										de Dados, descontinuado posteriormente. Atualmente, oferta o
-										Ensino Fundamental e o Ensino Médio Regular.
-									</p>
-									<a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/emefmVAS/?ti=as">
-										Vereador Antônio Sampaio
-									</a>
-								</div>
-								<br></br>
-								<br></br>
-								<div>
-									<p className={styles.doubleLineHeight}>
-										<i className={styles.credit}>
-											EMEFM Darcy Ribeiro
-										</i>
-									</p>
-									<p className={styles.doubleLineHeight}>
-										Anteriormente denominada E.M.P.S.G "São Miguel Paulista",
-										foi criada em outubro de 1996, ofertando o curso secundário
-										com habilitação específica para o Magistério. Teve seu nome
-										alterado no ano de 1997 para EMEFM Darcy Ribeiro. Posteriormente,
-										o curso de Magistério foi descontinuado, mantendo a oferta do
-										Ensino Fundamental e o Ensino Médio Regular.
-									</p>
-									<a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/pages/EMEFM-Darcy-Ribeiro/405753949612280?ti=as">
-										Darcy Ribeiro
-									</a>
-								</div>
-								<br></br>
-								<br></br>
-								<div>
-									<p className={styles.doubleLineHeight}>
-										<i className={styles.credit}>
-											EMEFM Professor Derville Allegretti
-										</i>
-									</p>
-									<p className={styles.doubleLineHeight}>
-										Fundada na Baixada do Glicério, em março de 1968, com a
-										denominação de Escola Técnica de Comércio Municipal, oferecia
-										os cursos de Taquigrafia, Vitrinismo e Guia de Turismo.
-										Transferida para o endereço atual, no bairro de Santana,
-										em 1970. Em 1973 recebe o nome de Centro Interescolar
-										Municipal de São Paulo e, em 1979, passa a se chamar
-										Escola Municipal de Primeiro e Segundo Graus Professor
-										Derville Allegretti. A partir de 1982 começa a ofertar também
-										o curso de Magistério e, em 1998, recebe o nome utilizado
-										atualmente. Mantém o curso Normal de Nível Médio (antigo Magistério),
-										além do Ensino Médio Regular e do Ensino Fundamental.
-									</p>
-									<a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/allegrettiderville">
-										Derville Allegretti
-									</a>
-								</div>
-								<br></br>
-								<br></br>
-								<div>
-									<p className={styles.doubleLineHeight}>
-										<i className={styles.credit}>
-											EMEFM Guiomar Cabral
-										</i>
-									</p>
-									<p className={styles.doubleLineHeight}>
-										A Escola Municipal de Primeiro e Segundo Graus de "Pirituba"
-										foi criada em julho de 1996. Iniciou o funcionamento dos cursos
-										profissionalizantes com habilitação plena nos cursos de
-										Processamento de Dados e Administração, em 1997. Recebe, em
-										seguida, o nome de E.M.P.S.G. Guiomar Cabral e, a partir de
-										2002, recebe o nome atual. Continua ofertando o Ensino Fundamental
-										e o Ensino Médio Regular.
-									</p>
-									<a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/EMEFMGUIOMARCABRAL/">
-										Guiomar Cabral
-									</a>
-								</div>
-								<br></br>
-								<br></br>
-								<div>
-									<p className={styles.doubleLineHeight}>
-										<i className={styles.credit}>
-											EMEFM Professor Linneu Prestes
-										</i>
-									</p>
-									<p className={styles.doubleLineHeight}>
-										Fundada em janeiro de 1960, recebeu o nome de Escolas Agrupadas
-										Municipais Professor Linneu Prestes. Em 1970 passa a ser
-										denominada Escola Municipal "Professor Linneu Prestes", e, em
-										1975, Escola Municipal de Primeiro Grau "Professor Linneu Prestes".
-										Passa a oferecer o Segundo Grau, a partir de 1981, e o curso com habilitação
-										para o Magistério em 1995. Oferece, atualmente, o Ensino Fundamental,
-										na modalidade regular e para a Educação de Jovens e Adultos - EJA e o
-										Ensino Médio Regular.
-									</p>
-									<a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/EMEFM-Professor-Linneu-Prestes-192377137452899/?ti=as">
-										Professor Linneu Prestes
-									</a>
-								</div>
-								<br></br>
-								<br></br>
-								<div>
-									<p className={styles.doubleLineHeight}>
-										<i className={styles.credit}>
-											EMEFM Oswaldo Aranha Bandeira de Melo
-										</i>
-									</p>
-									<p className={styles.doubleLineHeight}>
-										Inaugurada no ano de 1984 com o nome de E.M.P.G. "Oswaldo Aranha Bandeira de Melo",
-										foi instalada provisoriamente em um prédio adaptado no Centro
-										Comercial do Conjunto Habitacional Cidade Tiradentes. Em 1985 foi
-										transferida para o prédio atual. Passa a oferecer, no ano de 1996,
-										os cursos de Segundo Grau com habilitação em Magistério e em Contabilidade,
-										e a ser designada Escola Municipal de Primeiro e Segundo Graus Oswaldo
-										Aranha Bandeira de Mello, passando depois a ser conhecida pelo nome
-										atual. Oferece Ensino Fundamental e Ensino Médio Regular.
-									</p>
-									<a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/pages/Emefm-Oswaldo-Aranha-Bandeira-de-Mello/114308731972371?ti=as">
-										Oswaldo Aranha Bandeira de Melo
-									</a>
-								</div>
-								<br></br>
-								<br></br>
-								<div>
-									<p className={styles.doubleLineHeight}>
-										<i className={styles.credit}>
-											EMEFM Rubens Paiva
-										</i>
-									</p>
-									<p className={styles.doubleLineHeight}>
-										Fundada em 1995 sob o nome de E.M.P.G.Jardim Ângela, foi
-										autorizada em 1996 a oferecer o Curso de 2° Grau, além do
-										Curso de 2° Grau Profissionalizante em Processamento de Dados
-										e Administração, passando a ser denominada E.M.P.S.G. "Rubens Paiva".
-									</p>
-									<a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/escolarubenspaiva/?ti=as">
-										Rubens Paiva
-									</a>
-								</div>
-								<br></br>
-								<br></br>
-								<div>
-									<p className={styles.doubleLineHeight}>
-										<i className={styles.credit}>
-											EMEBS Helen Keller
-										</i>
-									</p>
-									<p className={styles.doubleLineHeight}>
-										Criado em 1951, o Núcleo Educacional para Crianças Surdas –
-										NECS, dedicava-se inicialmente a atividades de recreação.
-										A partir do ano de 1958, passa a ser denominado Instituto Municipal
-										de Educação de Surdos.  Em 1969 tem sua denominação alterada para Instituto
-										de Crianças Excepcionais "Helen Keller" e, a partir de 1979,
-										para Escola Municipal de Educação de Deficientes Auditivos
-										"Helen Keller", atendendo, desde então, a faixa etária dos 3
-										(três) aos 14 (catorze) anos, abrangendo assim, desde a Educação Infantil
-										até os anos finais do Ensino Fundamental. A partir de 2019,
-										foi autorizado o funcionamento do Ensino Médio Bilíngue,
-										em regime experimental, para posterior avaliação do
-										Conselho Municipal de Educação (Parecer CME nº 540/18 –
-											aprovado em 06/12/18 e publicado no D.O.C de 11/12/18, pág.12),
-											passando a ser a primeira escola pública a oferecer a Educação
-											Infantil, o Ensino Fundamental, a Educação de Jovens e Adultos
-											e o Ensino Médio Bilíngues.
-										</p>
-										<a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/emebshk/?ti=as">
-											Helen Keller
-										</a>
-								</div>
-								<br></br>
-								<br></br>
+								{schools.map(school => (
+									<React.Fragment key={school.name}>
+										<div>
+											<p className={styles.doubleLineHeight}>
+												<i className={styles.credit}>{school.name}</i>
+											</p>
+											<p className={styles.doubleLineHeight}>{school.history}</p>
+											<a target="_blank" rel="noopener noreferrer" href={school.link}>
+												{school.linkLabel}
+											</a>
+										</div>
+										<br></br>
+										<br></br>
+									</React.Fragment>
+								))}
 
-							</Collapse>
-							<button className={styles.collapseButton} onClick={this.collapseTextCurriculum}>
-								{ this.state.curriculum ? <img src={minus} alt="Expandir escolas" /> : <img src={iconPlus} alt="Minimizar escolas" />}
-								<span id="curriculum" className={styles.buttonText}>
-									O Currículo do Ensino Médio da Rede Municipal de Ensino de São Paulo
-								</span>
-							</button>
-							<Collapse in={this.state.curriculum}>
+							</Section>
+							<Section id="curriculum" title="O Currículo do Ensino Médio da Rede Municipal de Ensino de São Paulo">
 								<br></br><br></br>
 								<p className={styles.doubleLineHeight}>
 									A elaboração curricular do documento do Ensino Médio da Cidade
@@ -490,14 +273,8 @@ class Medium extends Component {
 									trajeto formativo a partir dos diversos Percursos de Estudo e
 									Formação das diferentes áreas.
 								</p>
-							</Collapse>
-							<button className={styles.collapseButton} onClick={this.collapseTextLaw}>
-								{ this.state.law ? <img src={minus} alt="Expandir escolas" /> : <img src={iconPlus} alt="Minimizar escolas" />}
-								<span id="law" className={styles.buttonText}>
-									Legislação sobre o Novo Ensino Médio
-								</span>
-							</button>
-							<Collapse in={this.state.law}>
+							</Section>
+							<Section id="law" title="Legislação sobre o Novo Ensino Médio">
 								<br></br><br></br>
 								<p className={styles.doubleLineHeight}>
 									A Lei nº13.415, de 16 de fevereiro de 2017 que, dentre outras
@@ -567,14 +344,8 @@ class Medium extends Component {
 									projeto de vida e com o seu desenvolvimento em todas as
 									dimensões (física, intelectual, social, emocional e cultural).
 								</p>
-							</Collapse>
-							<button className={styles.collapseButton} onClick={this.collapseTextEducation}>
-								{ this.state.education ? <img src={minus} alt="Expandir escolas" /> : <img src={iconPlus} alt="Minimizar escolas" />}
-								<span id="education" className={styles.buttonText}>
-									Percursos de Estudo e Formação
-								</span>
-							</button>
-							<Collapse in={this.state.education}>
+							</Section>
+							<Section id="education" title="Percursos de Estudo e Formação">
 								<br></br><br></br>
 								<p className={styles.doubleLineHeight}>
 									É sabido que os Itinerários Formativos propostos pela BNCC
@@ -639,42 +410,21 @@ class Medium extends Component {
 									</a>
 								</div>
 								<br></br><br></br>
-								<p className={styles.doubleLineHeight + " listTitle"}><b>Coordenação geral – Secretaria Municipal de Educação</b></p>
-								<div className={styles.contribuitorsList}>
-									<ul className={styles.educationList}>
-										<li>
-											<p className={styles.doubleLineHeight}><b>Wagner Barbosa de Lima Palanch</b> – Diretor do Núcleo Técnico de Currículo (NTC)</p>
-										</li>
-										<li>
-											<p className={styles.doubleLineHeight}><b>Claudio Maroja</b> – Diretor do Núcleo Técnico de Avaliação (NTA)</p>
-										</li>
-										<li>
-											<p className={styles.doubleLineHeight}><b>Carla da Silva Francisco</b> – Diretora da Divisão de Ensino Fundamental e Médio (DIEFEM)</p>
-										</li>
-									</ul>
-								</div>
-
-								<p className={styles.doubleLineHeight + " listTitle"}><b>Equipe Técnica – Secretaria Municipal de Educação</b></p>
-								<div className={styles.contribuitorsList}>
-									<ul className={styles.educationList}>
-										<li>
-											<p className={styles.doubleLineHeight}><b>Lisandra Paes</b> – Assistente Técnico do NTC</p>
-										</li>
-										<li>
-											<p className={styles.doubleLineHeight}><b>Clodoaldo Gomes Alencar Junior</b> – Assistente Técnico do NTC</p>
-										</li>
-										<li>
-											<p className={styles.doubleLineHeight}><b>Márcia Vivancos Mendonça da Silva</b> – Assistente Técnico da DIEFEM</p>
-										</li>
-										<li>
-											<p className={styles.doubleLineHeight}><b>Patrícia Ferreira da Silva</b> – Assistente Técnico do NTC</p>
-										</li>
-										<li>
-											<p className={styles.doubleLineHeight}><b>Viviane Aparecida Costa</b> – Assistente Técnico do NTC</p>
-										</li>
-									</ul>
-								</div>
-							</Collapse>
+								{contributors.map(group => (
+									<React.Fragment key={group.title}>
+										<p className={styles.doubleLineHeight + " listTitle"}><b>{group.title}</b></p>
+										<div className={styles.contribuitorsList}>
+											<ul className={styles.educationList}>
+												{group.people.map(person => (
+													<li key={person.name}>
+														<p className={styles.doubleLineHeight}><b>{person.name}</b> – {person.role}</p>
+													</li>
+												))}
+											</ul>
+										</div>
+									</React.Fragment>
+								))}
+							</Section>
             </div>
           </div>
         </header>
@@ -752,7 +502,6 @@ class Medium extends Component {
         </ul>
       </Page>
     );
-  }
 }
 
 export default Medium;
