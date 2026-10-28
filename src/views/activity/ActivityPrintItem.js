@@ -14,10 +14,11 @@ import convertQuillToHtml from 'utils/convertQuillToHtml';
 import { useGetActivityQuery } from 'data/curriculoApi';
 import withQuery from 'utils/withQuery';
 import styles from './ActivityPrintItem.module.scss';
+import typesetMath from 'utils/typesetMath';
 
 class ActivityPrintItem extends Component {
   componentDidMount() {
-    window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
+    typesetMath();
   }
 
   render() {
