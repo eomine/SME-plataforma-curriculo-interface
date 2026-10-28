@@ -64,7 +64,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     search: value => {
-    //   dispatch(showLoading());
       dispatch(searchProjects());
     },
     setQuery: value => {

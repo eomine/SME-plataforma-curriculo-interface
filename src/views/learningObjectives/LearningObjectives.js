@@ -4,7 +4,6 @@ import { TimelineLite } from 'gsap/TweenMax';
 import { connect } from 'react-redux';
 import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
 import { openAlert } from 'reducers/messagesSlice';
-import { showLoading } from 'reducers/bodySlice';
 import Chip from 'components/objects/Chip';
 import CurricularComponent from './CurricularComponent';
 import ExpandableLearningObjective from 'components/objects/ExpandableLearningObjective';
@@ -296,7 +295,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     load: () => {
-      dispatch(showLoading());
       dispatch(LearningObjectivesActions.load());
     },
     hideObjectives: () => {

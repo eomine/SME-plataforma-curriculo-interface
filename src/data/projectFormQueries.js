@@ -1,7 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useCallback, useState } from 'react';
 import { skipToken } from '@reduxjs/toolkit/query/react';
-import { showLoading, hideLoading } from 'reducers/bodySlice';
 import {
   useGetLearningObjectivesQuery,
   useGetProjectOptionsQuery,
@@ -11,6 +9,7 @@ import {
 import getTeacherBlocked from 'data/getTeacherBlocked';
 import getTeacherId from 'data/getTeacherId';
 import isLogged from 'data/isLogged';
+import useGlobalLoading from 'utils/useGlobalLoading';
 
 const noOptions = {
   curricularComponents: [],
@@ -30,7 +29,6 @@ const noOptions = {
 // Os dados da sessão (isLogged, teacherId, blocked) vêm do localStorage.
 export default function withProjectForm(Component, { edit = false } = {}) {
   function WithProjectForm(props) {
-    const dispatch = useDispatch();
     const [learningObjectivesArg, setLearningObjectivesArg] = useState(null);
     const [schoolsArg, setSchoolsArg] = useState(null);
 
@@ -48,13 +46,7 @@ export default function withProjectForm(Component, { edit = false } = {}) {
     const getSchools = useCallback(regionalEducationBoardId => setSchoolsArg(regionalEducationBoardId), []);
 
     const isLoading = options.isFetching || (edit && project.isFetching);
-    useEffect(() => {
-      if (!isLoading) {
-        return undefined;
-      }
-      dispatch(showLoading());
-      return () => dispatch(hideLoading());
-    }, [dispatch, isLoading]);
+    useGlobalLoading(isLoading);
 
     return (
       <Component

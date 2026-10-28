@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { selectIsLoading } from 'reducers/bodySlice';
 import Loading from './Loading';
 import styles from './AppLoading.module.scss';
 
@@ -24,7 +25,7 @@ AppLoading.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    isVisible: state.body.isLoading,
+    isVisible: selectIsLoading(state),
   };
 };
 
