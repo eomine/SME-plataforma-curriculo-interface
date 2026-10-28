@@ -57,13 +57,26 @@ export default defineConfig({
       // O aviso de tempo de plugins só aponta o Sass, que é lento por natureza.
       checks: { bundlerTimings: false },
       output: {
-        // O entrypoint.sh substitui API_URL em build/static/js/main*.js.
+        // O entrypoint.sh substitui API_URL em build/static/js/*.js.
         entryFileNames: 'static/js/main.[hash].js',
         chunkFileNames: 'static/js/[name].[hash].chunk.js',
         // Separa as dependências do código da aplicação, como fazia o webpack (splitChunks).
-        // Um único chunk: dividi-lo (maxSize) cria imports circulares entre chunks CommonJS.
+        // Um chunk vendor para o que é comum: dividi-lo por tamanho (maxSize) cria
+        // imports circulares entre chunks CommonJS. As bibliotecas grandes usadas só
+        // por algumas páginas (que carregam sob demanda) ficam em chunks próprios:
+        // ninguém no vendor as importa, então não há ciclo.
         codeSplitting: {
-          groups: [{ name: 'vendor', test: /node_modules/ }],
+          // Sem isso, cada grupo leva junto as dependências dos seus módulos (o
+          // React iria para o chunk do Swiper e todo mundo importaria de lá).
+          includeDependenciesRecursively: false,
+          groups: [
+            { name: 'quill', test: /node_modules\/(quill|react-quill-new|quill-delta-to-html|parchment|quill-delta)\//, priority: 2 },
+            { name: 'gsap', test: /node_modules\/gsap\//, priority: 2 },
+            { name: 'swiper', test: /node_modules\/(swiper|react-device-detect|ua-parser-js)\//, priority: 2 },
+            { name: 'image-gallery', test: /node_modules\/react-image-gallery\//, priority: 2 },
+            { name: 'moment-timezone', test: /node_modules\/(moment-timezone|react-moment)\//, priority: 2 },
+            { name: 'vendor', test: /node_modules/, priority: 1 },
+          ],
         },
         assetFileNames: ({ names }) =>
           names.some(name => name.endsWith('.css'))

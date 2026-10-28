@@ -10,5 +10,7 @@ set -xe
   : "${API_URL?Precisa de uma variavel de ambiente API_URL}"
 
 sed -i "s,SERVER_NAME,$SERVER_NAME,g" /etc/nginx/conf.d/default.conf
-sed -i "s,API_URL,$API_URL,g" /usr/share/nginx/html/static/js/main*.js
+# Em todos os chunks: com as páginas carregadas sob demanda, data/constants
+# não fica necessariamente no main.
+sed -i "s,API_URL,$API_URL,g" /usr/share/nginx/html/static/js/*.js
 exec "$@"
