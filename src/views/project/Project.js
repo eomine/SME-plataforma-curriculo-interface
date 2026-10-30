@@ -80,13 +80,22 @@ class Project extends Component {
         isPrint: true
       });
     }
+    // O projeto pode já estar em cache ao abrir a página.
+    this.alertIfOldProject();
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if(this.props.data !== prevProps.data) {
-      if(this.props.data.old_project && !this.props.data.updated_by_admin) {
-        this.props.openAlert('Alerta! Em breve esse projeto será ajustado.');
-      }
+  // Avisa uma vez por projeto mostrado, e não a cada recarga (ex.: depois de
+  // um comentário).
+  componentDidUpdate(prevProps) {
+    if (this.props.data.id !== prevProps.data.id) {
+      this.alertIfOldProject();
+    }
+  }
+
+  alertIfOldProject() {
+    const { data } = this.props;
+    if (data.old_project && !data.updated_by_admin) {
+      this.props.openAlert('Alerta! Em breve esse projeto será ajustado.');
     }
   }
 
