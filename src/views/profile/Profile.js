@@ -94,11 +94,12 @@ const withCollections = withQuery(useGetCollectionsQuery, {
   mapResult: result => ({ collections: result.data || [] }),
 });
 // Como antes, busca de novo sempre que o perfil abre, e o loading global fica
-// até os projetos chegarem (o perfil em si vem do Header).
+// até os projetos chegarem (o perfil em si vem do Header), ou até a busca
+// falhar (o erro aparece no alerta).
 const withMyProjects = withQuery(useGetMyProjectsQuery, {
   arg: teacherIdAfterProfile,
   options: { refetchOnMountOrArgChange: true },
-  showLoading: result => !result.currentData,
+  showLoading: result => !result.currentData && !result.isError,
   mapResult: result => ({ projects: result.data || [] }),
 });
 
