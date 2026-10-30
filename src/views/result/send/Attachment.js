@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import ConfirmActions from 'actions/ConfirmActions';
+import { askConfirmation } from 'reducers/messagesSlice';
 import formatFileSize from 'utils/formatFileSize';
 import iconClip from 'images/icons/clip.svg';
 import iconDelete from 'images/icons/delete.svg';
-import styles from './Attachment.scss';
+import styles from './Attachment.module.scss';
 
 class Attachment extends React.PureComponent {
   state = {
@@ -17,13 +17,14 @@ class Attachment extends React.PureComponent {
   };
 
   onClickedDelete = () => {
-    this.props.openConfirm(
-      'Excluir este arquivo?',
-      'Lorem ipsum dolor sit amet.',
-      'Excluir',
-      'Cancelar',
-      this.onClickedConfirm
-    );
+    this.props
+      .openConfirm(
+        'Excluir este arquivo?',
+        'Lorem ipsum dolor sit amet.',
+        'Excluir',
+        'Cancelar'
+      )
+      .then(confirmed => confirmed && this.onClickedConfirm());
   };
 
   loadImage = () => {
@@ -100,11 +101,8 @@ Attachment.propTypes = {
 
 const mapDispatchToProps = dispatch => {
   return {
-    openConfirm: (title, message, labelYes, labelNo, onConfirm) => {
-      dispatch(
-        ConfirmActions.open(title, message, labelYes, labelNo, onConfirm)
-      );
-    },
+    openConfirm: (title, message, labelYes, labelNo) =>
+      dispatch(askConfirmation(title, message, labelYes, labelNo)),
   };
 };
 

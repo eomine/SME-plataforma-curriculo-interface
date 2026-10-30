@@ -1,18 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Element, scroller } from 'react-scroll';
-import { connect } from 'react-redux';
 import Challenge from './Challenge';
-import ChallengesActions from 'actions/ChallengesActions';
-import MethodologiesActions from 'actions/MethodologiesActions';
 import Methodology from './Methodology';
 import Page from 'components/layout/Page';
-import isLogged from 'data/isLogged';
+import { useGetMethodologiesQuery } from 'data/curriculoApi';
+import withQuery from 'utils/withQuery';
+import { withChallengeLists } from 'data/challengeQueries';
 import iconLiteracy from './images/literacy.png';
 import iconProgramming from './images/programming.png';
 import iconTechnologies from './images/technologies.png';
 import iconTechnologies1 from './images/technologies.svg';
-import styles from './Technologies.scss';
+import styles from './Technologies.module.scss';
 
 class Technologies extends Component {
   state = {
@@ -30,11 +29,6 @@ class Technologies extends Component {
     this.props.loadFinished();
     this.setState({ hasLoadedFinishedChallenges: true });
   };
-
-  componentDidMount() {
-    this.props.loadOngoing();
-    this.props.loadMethodologies();
-  }
 
   render() {
     const { methodologies, challenges } = this.props;
@@ -140,31 +134,6 @@ Technologies.propTypes = {
   challenges: PropTypes.array.isRequired,
 };
 
-const mapStateToProps = state => {
-  return {
-    challenges: state.ChallengesReducer.items,
-    methodologies: state.MethodologiesReducer.items,
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    loadOngoing: () => {
-      dispatch(ChallengesActions.loadOngoing());
-      if (isLogged()) {
-      //   dispatch(ChallengesActions.loadSaved());
-      }
-    },
-    loadFinished: () => {
-      dispatch(ChallengesActions.loadFinished());
-    },
-    loadMethodologies: () => {
-      dispatch(MethodologiesActions.load());
-    },
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Technologies);
+export default withQuery(useGetMethodologiesQuery, {
+  mapResult: result => ({ methodologies: result.data || [] }),
+})(withChallengeLists(Technologies));

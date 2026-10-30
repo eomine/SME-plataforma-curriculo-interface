@@ -1,16 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { history } from 'index';
+import { history } from 'utils/history';
 import arrowLeft from 'images/arrows/left.svg';
 import iconClose from 'images/icons/closeBig.svg';
-import styles from './ModalHeader.scss';
+import styles from './ModalHeader.module.scss';
 
 class ModalHeader extends React.PureComponent {
   onClickedBack = () => {
     if (this.props.onBack) {
       this.props.onBack();
     } else {
-      history.goBack();
+      history.back();
     }
   };
 

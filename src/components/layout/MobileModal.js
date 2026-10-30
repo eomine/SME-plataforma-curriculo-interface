@@ -5,7 +5,7 @@ import {
   enableBodyScroll,
   clearAllBodyScrollLocks,
 } from 'body-scroll-lock';
-import styles from './MobileModal.scss';
+import styles from './MobileModal.module.scss';
 
 class MobileModal extends React.PureComponent {
   target = null;

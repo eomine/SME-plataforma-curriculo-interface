@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { history } from 'index';
+import { history } from 'utils/history';
 import iconEdit from 'images/icons/edit.svg';
-import styles from './Classroom.scss';
+import styles from './Classroom.module.scss';
 
 class Classroom extends React.PureComponent {
   onClickedEdit = () => {
@@ -31,10 +30,4 @@ Classroom.propTypes = {
   name: PropTypes.string.isRequired,
 };
 
-const mapStateToProps = state => {
-  return {
-    challenge: state.ChallengeReducer.currItem,
-  };
-};
-
-export default connect(mapStateToProps)(Classroom);
+export default Classroom;

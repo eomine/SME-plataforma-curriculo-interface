@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Moment from 'react-moment';
-import 'moment/locale/pt-br';
-import 'moment-timezone';
-import Truncate from 'react-truncate';
-import { NavLink } from 'react-router-dom';
+import 'moment-timezone/builds/moment-timezone-with-data-1970-2030';
+import { NavLink } from 'react-router';
 import Avatar from 'components/objects/Avatar';
 import iconClip from 'images/icons/clip.svg';
-import styles from './Result.scss';
+import styles from './Result.module.scss';
 
 class Result extends Component {
   render() {
@@ -42,9 +40,7 @@ class Result extends Component {
           </div>
           {icon}
         </div>
-        <p className={styles.text}>
-          <Truncate lines={3}>{data.description}</Truncate>
-        </p>
+        <p className={`${styles.text} ${styles.clamped}`}>{data.description}</p>
       </NavLink>
     );
   }

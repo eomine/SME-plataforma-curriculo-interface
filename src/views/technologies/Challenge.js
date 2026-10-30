@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router';
 import { connect } from 'react-redux';
-import { history } from 'index';
+import { history } from 'utils/history';
 import { API_URL } from 'data/constants';
 import ChallengeActions from 'actions/ChallengeActions';
 import isLogged from 'data/isLogged';
 import iconSave1 from 'images/icons/save.svg';
 import iconSaved from 'images/icons/saved.svg';
-import styles from './Challenge.scss';
+import styles from './Challenge.module.scss';
 
 class Challenge extends Component {
   onClickedSave = () => {

@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router';
 import LearningObjectiveItem from './LearningObjectiveItem';
 import chevronDown from 'images/chevrons/down.svg';
 import chevronRight from 'images/chevrons/right.svg';
 import chevronUp from 'images/chevrons/up.svg';
-import styles from './ExpandableLearningObjective.scss';
+import styles from './ExpandableLearningObjective.module.scss';
+import onKeyActivate from 'utils/onKeyActivate';
 
 class ExpandableLearningObjective extends Component {
   ref = React.createRef();
@@ -49,7 +50,7 @@ class ExpandableLearningObjective extends Component {
     ) : null;
 
     return (
-      <div className={classes.join(' ')} onClick={this.onClickedToggle}>
+      <div className={classes.join(' ')} role="button" tabIndex={0} onClick={this.onClickedToggle} onKeyDown={onKeyActivate(this.onClickedToggle)}>
         <LearningObjectiveItem data={this.props.data} />
         <div className={styles.description} style={style} ref={this.ref}>
           {this.props.data.description}

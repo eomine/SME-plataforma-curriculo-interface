@@ -1,40 +1,28 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router';
 import { connect } from 'react-redux';
-import { history } from 'index';
+import { skipToken } from '@reduxjs/toolkit/query/react';
+import { useGetCollectionsQuery, useGetMyProjectsQuery } from 'data/curriculoApi';
+import getTeacherId from 'data/getTeacherId';
+import withQuery from 'utils/withQuery';
+import { selectSavedChallenges } from 'data/challengeQueries';
+import { history } from 'utils/history';
 import Avatar from './Avatar';
-import BodyActions from 'actions/BodyActions';
-import ChallengesActions from 'actions/ChallengesActions';
 import MyProjectList from './projects/MyProjectList';
 import ChallengeList from './challenges/ChallengeList';
-import CollectionsActions from 'actions/CollectionsActions';
 import CollectionList from './collections/CollectionList';
 import EmptyList from './collections/EmptyList';
 import Page from 'components/layout/Page';
-import ProfileActions from 'actions/ProfileActions';
 import createModalLink from 'utils/createModalLink';
 import withWidth from 'components/hoc/withWidth';
 import iconEdit from 'images/icons/edit.svg';
-import styles from './Profile.scss';
+import styles from './Profile.module.scss';
 
 class Profile extends Component {
   onClickedChallenge = () => {
     history.push('/desafio/projeto-sinais-luminosos-na-aviacao');
   };
-
-  componentDidMount() {
-    this.props.load();
-  }
-
-  componentDidUpdate(prevProps) {
-    if (!prevProps.data.id && this.props.data.id) {
-      this.props.loadChallenges();
-      this.props.loadClassrooms();
-      this.props.loadCollections();
-      this.props.loadMyProjects();
-    }
-  }
 
   render() {
     const { data, challenges, collections, projects } = this.props;
@@ -61,10 +49,10 @@ class Profile extends Component {
               <Avatar size={size} />
               <div className={styles.name}>
                 <h2>{nickname}</h2>
-                <NavLink to={linkEdit}>Editar perfil</NavLink>
+                <NavLink {...linkEdit}>Editar perfil</NavLink>
               </div>
             </div>
-            <NavLink to={linkEdit}>
+            <NavLink {...linkEdit}>
               <img src={iconEdit} alt="Editar perfil" />
             </NavLink>
           </div>
@@ -89,45 +77,29 @@ Profile.propTypes = {
   collections: PropTypes.array.isRequired,
   projects: PropTypes.array.isRequired,
   data: PropTypes.object.isRequired,
-  load: PropTypes.func.isRequired,
-  loadChallenges: PropTypes.func.isRequired,
-  loadClassrooms: PropTypes.func.isRequired,
-  loadCollections: PropTypes.func.isRequired,
-  loadMyProjects: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => {
   return {
-    challenges: state.ChallengesReducer.items.filter(item => item.isSaved),
-    collections: state.CollectionsReducer.items,
-    projects: state.ProjectsReducer.items,
+    challenges: selectSavedChallenges(state),
     data: state.ProfileReducer,
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    load: () => {
-      dispatch(BodyActions.showLoading());
-      // no need to call ProfileActions.load()
-      // because it's already called by Header
-    },
-    loadChallenges: () => {
-      // dispatch(ChallengesActions.loadAll());
-    },
-    loadClassrooms: () => {
-      dispatch(ProfileActions.loadClassrooms());
-    },
-    loadCollections: () => {
-      dispatch(CollectionsActions.load());
-    },
-    loadMyProjects: () => {
-      dispatch(ProfileActions.loadMyProjects());
-    },
-  };
-};
+// As coleções e os meus projetos carregam depois do perfil, como antes (o
+// teacherId vem dele).
+const teacherIdAfterProfile = props => (props.data.id && getTeacherId() ? getTeacherId() : skipToken);
+const withCollections = withQuery(useGetCollectionsQuery, {
+  arg: teacherIdAfterProfile,
+  mapResult: result => ({ collections: result.data || [] }),
+});
+// Como antes, busca de novo sempre que o perfil abre, e o loading global fica
+// até os projetos chegarem (o perfil em si vem do Header).
+const withMyProjects = withQuery(useGetMyProjectsQuery, {
+  arg: teacherIdAfterProfile,
+  options: { refetchOnMountOrArgChange: true },
+  showLoading: result => !result.currentData,
+  mapResult: result => ({ projects: result.data || [] }),
+});
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withWidth(Profile));
+export default connect(mapStateToProps)(withCollections(withMyProjects(withWidth(Profile))));

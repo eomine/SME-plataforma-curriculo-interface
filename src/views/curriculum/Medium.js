@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { a } from 'react-router-dom';
 import Page from 'components/layout/Page';
 import iconKnowledgeMatrix from 'images/illustrations/knowledgeMatrix.svg';
 import iconLearningObjectives from 'images/illustrations/learningObjectives.svg';
 import iconSustainableDevGoals from 'images/illustrations/sustainableDevGoals.svg';
-import Collapse from '@material-ui/core/Collapse';
-import styles from './Medium.scss';
+import Collapse from '@mui/material/Collapse';
+import styles from './Medium.module.scss';
 import medium from './medium.jpg';
 import schoolsImage from './schools-image.jpg';
 import iconPlus from 'images/icons/plus1.svg';
@@ -56,7 +55,7 @@ class Medium extends Component {
       <Page>
         <header className={styles.header}>
           <div>
-						<img className={styles.image} src={medium}></img>
+						<img className={styles.image} alt="" src={medium}></img>
 					</div>
           <div className={styles.wrapperText + " row"}>
             <div className="col-md-8 offset-md-2">
@@ -89,7 +88,7 @@ class Medium extends Component {
 							<Collapse in={this.state.schools}>
 								<br></br><br></br>
 								<div>
-									<img className={styles.image} src={schoolsImage}></img>
+									<img className={styles.image} alt="" src={schoolsImage}></img>
 								</div>
 								<br></br><br></br>
 								<p className={styles.doubleLineHeight}>
@@ -149,7 +148,7 @@ class Medium extends Component {
 										de 1992, sendo, posteriormente, denominada EMEFM Antônio Alves
 										Veríssimo. Oferece o Ensino Fundamental e o Ensino Médio Regular.
 									</p>
-									<a target="_blank" href="https://www.facebook.com/pages/EMEFM-Ant%C3%B4nio-Alves-Ver%C3%ADssimo/1596070194015226?ti=as">
+									<a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/pages/EMEFM-Ant%C3%B4nio-Alves-Ver%C3%ADssimo/1596070194015226?ti=as">
 										Antônio Alves Veríssimo
 									</a>
 								</div>
@@ -170,7 +169,7 @@ class Medium extends Component {
 										de Dados, descontinuado posteriormente. Atualmente, oferta o
 										Ensino Fundamental e o Ensino Médio Regular.
 									</p>
-									<a target="_blank" href="https://www.facebook.com/emefmVAS/?ti=as">
+									<a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/emefmVAS/?ti=as">
 										Vereador Antônio Sampaio
 									</a>
 								</div>
@@ -190,7 +189,7 @@ class Medium extends Component {
 										o curso de Magistério foi descontinuado, mantendo a oferta do
 										Ensino Fundamental e o Ensino Médio Regular.
 									</p>
-									<a target="_blank" href="https://www.facebook.com/pages/EMEFM-Darcy-Ribeiro/405753949612280?ti=as">
+									<a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/pages/EMEFM-Darcy-Ribeiro/405753949612280?ti=as">
 										Darcy Ribeiro
 									</a>
 								</div>
@@ -215,7 +214,7 @@ class Medium extends Component {
 										atualmente. Mantém o curso Normal de Nível Médio (antigo Magistério),
 										além do Ensino Médio Regular e do Ensino Fundamental.
 									</p>
-									<a target="_blank" href="https://www.facebook.com/allegrettiderville">
+									<a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/allegrettiderville">
 										Derville Allegretti
 									</a>
 								</div>
@@ -236,7 +235,7 @@ class Medium extends Component {
 										2002, recebe o nome atual. Continua ofertando o Ensino Fundamental
 										e o Ensino Médio Regular.
 									</p>
-									<a target="_blank" href="https://www.facebook.com/EMEFMGUIOMARCABRAL/">
+									<a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/EMEFMGUIOMARCABRAL/">
 										Guiomar Cabral
 									</a>
 								</div>
@@ -258,7 +257,7 @@ class Medium extends Component {
 										na modalidade regular e para a Educação de Jovens e Adultos - EJA e o
 										Ensino Médio Regular.
 									</p>
-									<a target="_blank" href="https://www.facebook.com/EMEFM-Professor-Linneu-Prestes-192377137452899/?ti=as">
+									<a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/EMEFM-Professor-Linneu-Prestes-192377137452899/?ti=as">
 										Professor Linneu Prestes
 									</a>
 								</div>
@@ -280,7 +279,7 @@ class Medium extends Component {
 										Aranha Bandeira de Mello, passando depois a ser conhecida pelo nome
 										atual. Oferece Ensino Fundamental e Ensino Médio Regular.
 									</p>
-									<a target="_blank" href="https://www.facebook.com/pages/Emefm-Oswaldo-Aranha-Bandeira-de-Mello/114308731972371?ti=as">
+									<a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/pages/Emefm-Oswaldo-Aranha-Bandeira-de-Mello/114308731972371?ti=as">
 										Oswaldo Aranha Bandeira de Melo
 									</a>
 								</div>
@@ -298,7 +297,7 @@ class Medium extends Component {
 										Curso de 2° Grau Profissionalizante em Processamento de Dados
 										e Administração, passando a ser denominada E.M.P.S.G. "Rubens Paiva".
 									</p>
-									<a target="_blank" href="https://www.facebook.com/escolarubenspaiva/?ti=as">
+									<a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/escolarubenspaiva/?ti=as">
 										Rubens Paiva
 									</a>
 								</div>
@@ -328,7 +327,7 @@ class Medium extends Component {
 											Infantil, o Ensino Fundamental, a Educação de Jovens e Adultos
 											e o Ensino Médio Bilíngues.
 										</p>
-										<a target="_blank" href="https://www.facebook.com/emebshk/?ti=as">
+										<a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/emebshk/?ti=as">
 											Helen Keller
 										</a>
 								</div>
@@ -355,7 +354,7 @@ class Medium extends Component {
 								</p>
 								<br></br>
 								<div>
-									<a target="_blank" href="https://educacao.sme.prefeitura.sp.gov.br/curriculo-da-cidade/ ">
+									<a target="_blank" rel="noopener noreferrer" href="https://educacao.sme.prefeitura.sp.gov.br/curriculo-da-cidade/ ">
 										Curriculo da Cidade
 									</a>
 								</div>
@@ -635,7 +634,7 @@ class Medium extends Component {
 										a fronteira das séries e, por vezes, do próprio componente
 										curricular.
 									</p>
-									<a target="_blank" href={'https://educacao.sme.prefeitura.sp.gov.br/trilhas-de-aprendizagens/'}>
+									<a target="_blank" rel="noopener noreferrer" href={'https://educacao.sme.prefeitura.sp.gov.br/trilhas-de-aprendizagens/'}>
 										Trilhas de aprendizagem
 									</a>
 								</div>

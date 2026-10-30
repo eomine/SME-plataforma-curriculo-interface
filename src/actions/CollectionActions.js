@@ -1,242 +1,78 @@
-import React from 'react';
-import AlertActions from './AlertActions';
-import Api from 'data/Api';
-import CollectionsActions from './CollectionsActions';
-import SnackbarActions from './SnackbarActions';
+import { openAlert, openSnackbar } from 'reducers/messagesSlice';
+import { projectSaved } from 'reducers/projectSlice';
 import getTeacherId from 'data/getTeacherId';
-import { history } from 'index';
+import { curriculoApi, markProjectSaved, markSequenceSaved } from 'data/curriculoApi';
+import { history } from 'utils/history';
+
+// As coleções ficam no cache do curriculoApi; estas actions chamam as
+// mutations dele e cuidam do resto (snackbar, navegação, alertas). Em caso de
+// erro o baseQuery já mostra o alerta, então aqui o erro só interrompe o fluxo.
+const { endpoints } = curriculoApi;
+const run = (dispatch, endpoint, args) =>
+  dispatch(endpoint.initiate({ teacherId: getTeacherId(), ...args })).unwrap();
+const ignoreError = () => {};
+
+function savedSnackbar(dispatch, name) {
+  dispatch(openSnackbar('Salvo em', name));
+}
 
 function doSaveSequence(dispatch, id, name, sequenceId) {
-  dispatch({ type: CollectionActions.SAVE_SEQUENCE });
-  const data = {
-    'collection_activity_sequence[activity_sequence_id]': sequenceId,
-  };
-  const teacherId = getTeacherId();
-  return Api.post(
-    dispatch,
-    `/api/professores/${teacherId}/colecoes/${id}/sequencias`,
-    data
-  )
-    .then(response => {
-      dispatch({ ...response, sequenceId, type: CollectionActions.SAVED_SEQUENCE });
-      dispatch(
-        SnackbarActions.open(
-          <span>
-            Salvo em <strong>{name}</strong>
-          </span>
-        )
-      );
+  return run(dispatch, endpoints.addToCollection, { id, kind: 'sequence', itemId: sequenceId })
+    .then(() => {
+      dispatch(markSequenceSaved(sequenceId));
+      savedSnackbar(dispatch, name);
     })
-    .catch(error => dispatch(AlertActions.open(`Ocorreu um erro: ${error}`)));
+    .catch(ignoreError);
 }
 
 function doSaveProject(dispatch, id, name, projectId) {
-  dispatch({ type: CollectionActions.SAVE_PROJECT });
-  const data = {
-    'collection_project[project_id]': projectId,
-  };
-  const teacherId = getTeacherId();
-  return Api.post(
-    dispatch,
-    `/api/professores/${teacherId}/colecoes/${id}/projetos`,
-    data
-  )
-    .then(response => {
-      dispatch({ ...response, projectId, type: CollectionActions.SAVED_PROJECT });
-      dispatch(
-        SnackbarActions.open(
-          <span>
-            Salvo em <strong>{name}</strong>
-          </span>
-        )
-      );
+  return run(dispatch, endpoints.addToCollection, { id, kind: 'project', itemId: projectId })
+    .then(() => {
+      dispatch(projectSaved(projectId));
+      dispatch(markProjectSaved(projectId));
+      savedSnackbar(dispatch, name);
     })
-    .catch(error => dispatch(AlertActions.open(`Ocorreu um erro: ${error}`)));
+    .catch(ignoreError);
 }
 
 const CollectionActions = {
-  CREATE: 'CollectionActions.CREATE',
-  CREATED: 'CollectionActions.CREATED',
-  DELETE: 'CollectionActions.DELETE',
-  DELETED: 'CollectionActions.DELETED',
-  EDIT: 'CollectionActions.EDIT',
-  EDITED: 'CollectionActions.EDITED',
-  LOAD: 'CollectionActions.LOAD',
-  LOADED: 'CollectionActions.LOADED',
-  LOAD_SEQUENCES: 'CollectionActions.LOAD_SEQUENCES',
-  LOADED_SEQUENCES: 'CollectionActions.LOADED_SEQUENCES',
-  LOAD_PROJECTS: 'CollectionActions.LOAD_PROJECTS',
-  LOADED_PROJECTS: 'CollectionActions.LOADED_PROJECTS',
-  REMOVE_SEQUENCE: 'CollectionActions.REMOVE_SEQUENCE',
-  REMOVED_SEQUENCE: 'CollectionActions.REMOVED_SEQUENCE',
-  REMOVE_PROJECT: 'CollectionActions.REMOVE_PROJECT',
-  REMOVED_PROJECT: 'CollectionActions.REMOVED_PROJECT',
-  SAVE_SEQUENCE: 'CollectionActions.SAVE_SEQUENCE',
-  SAVED_SEQUENCE: 'CollectionActions.SAVED_SEQUENCE',
-  SAVE_PROJECT: 'CollectionActions.SAVE_PROJECT',
-  SAVED_PROJECT: 'CollectionActions.SAVED_PROJECT',
-
   removeSequence(id, sequenceId) {
-    return dispatch => {
-      dispatch({ type: CollectionActions.REMOVE_SEQUENCE });
-      const teacherId = getTeacherId();
-      return Api.delete(
-        dispatch,
-        `/api/professores/${teacherId}/colecoes/${id}/sequencias/${sequenceId}`
-      )
-        .then(response => {
-          dispatch({ ...response, type: CollectionActions.REMOVED_SEQUENCE });
-          dispatch(CollectionActions.loadSequences(id));
-        })
-        .catch(error =>
-          dispatch(AlertActions.open(`Ocorreu um erro: ${error}`))
-        );
-    };
+    return dispatch =>
+      run(dispatch, endpoints.removeFromCollection, { id, kind: 'sequence', itemId: sequenceId }).catch(ignoreError);
   },
   saveSequence(id, name, sequenceId) {
-    return dispatch => {
-      return doSaveSequence(dispatch, id, name, sequenceId);
-    };
+    return dispatch => doSaveSequence(dispatch, id, name, sequenceId);
   },
   removeProject(id, projectId) {
-    return dispatch => {
-      dispatch({ type: CollectionActions.REMOVE_PROJECT });
-      const teacherId = getTeacherId();
-      return Api.delete(
-        dispatch,
-        `/api/professores/${teacherId}/colecoes/${id}/projetos/${projectId}`
-      )
-        .then(response => {
-          dispatch({ ...response, type: CollectionActions.REMOVED_PROJECT });
-          dispatch(CollectionActions.loadProjects(id));
-        })
-        .catch(error =>
-          dispatch(AlertActions.open(`Ocorreu um erro: ${error}`))
-        );
-    };
+    return dispatch =>
+      run(dispatch, endpoints.removeFromCollection, { id, kind: 'project', itemId: projectId }).catch(ignoreError);
   },
   saveProject(id, name, projectId) {
-    return dispatch => {
-      return doSaveProject(dispatch, id, name, projectId);
-    };
+    return dispatch => doSaveProject(dispatch, id, name, projectId);
   },
   create(name) {
-    return dispatch => {
-      dispatch({ type: CollectionActions.CREATE });
-      const data = { 'collection[name]': name };
-      const teacherId = getTeacherId();
-      return Api.post(dispatch, `/api/professores/${teacherId}/colecoes`, data)
-        .then(response => {
-          dispatch({ ...response, type: CollectionActions.CREATED });
-          history.push(`/colecao/${response.data.id}`);
-        })
-        .catch(error =>
-          dispatch(AlertActions.open(`Ocorreu um erro: ${error}`))
-        );
-    };
+    return dispatch =>
+      run(dispatch, endpoints.createCollection, { name })
+        .then(data => history.push(`/colecao/${data.id}`))
+        .catch(ignoreError);
   },
   createAndSaveSequence(name, sequenceId) {
-    return dispatch => {
-      dispatch({ type: CollectionActions.CREATE });
-      const data = { 'collection[name]': name };
-      const teacherId = getTeacherId();
-      return Api.post(dispatch, `/api/professores/${teacherId}/colecoes`, data)
-        .then(response => {
-          console.warn(
-            'createAndSaveSequence',
-            name,
-            sequenceId,
-            response.data.id
-          );
-          return doSaveSequence(dispatch, response.data.id, name, sequenceId);
-        })
-        .catch(error =>
-          dispatch(AlertActions.open(`Ocorreu um erro: ${error}`))
-        );
-    };
+    return dispatch =>
+      run(dispatch, endpoints.createCollection, { name })
+        .then(data => doSaveSequence(dispatch, data.id, name, sequenceId))
+        .catch(ignoreError);
   },
   delete(id) {
-    return dispatch => {
-      dispatch({ type: CollectionActions.DELETE });
-      const teacherId = getTeacherId();
-      return Api.delete(
-        dispatch,
-        `/api/professores/${teacherId}/colecoes/${id}`
-      )
-        .then(response => {
-          dispatch({ ...response, type: CollectionActions.DELETED });
-          dispatch(AlertActions.open('Coleção excluída com sucesso!'));
-          dispatch(CollectionsActions.load());
-        })
-        .catch(error =>
-          dispatch(AlertActions.open(`Ocorreu um erro: ${error}`))
-        );
-    };
+    return dispatch =>
+      run(dispatch, endpoints.deleteCollection, { id })
+        .then(() => dispatch(openAlert('Coleção excluída com sucesso!')))
+        .catch(ignoreError);
   },
   edit(id, name) {
-    return dispatch => {
-      dispatch({ type: CollectionActions.EDIT });
-      const data = { 'collection[name]': name };
-      const teacherId = getTeacherId();
-      return Api.put(
-        dispatch,
-        `/api/professores/${teacherId}/colecoes/${id}`,
-        data
-      )
-        .then(response => {
-          dispatch({ ...response, type: CollectionActions.EDITED });
-          dispatch(AlertActions.open('Coleção salva com sucesso!'));
-          dispatch(CollectionActions.load(id));
-        })
-        .catch(error =>
-          dispatch(AlertActions.open(`Ocorreu um erro: ${error}`))
-        );
-    };
-  },
-  load(id) {
-    return dispatch => {
-      dispatch({ type: CollectionActions.LOAD });
-      const teacherId = getTeacherId();
-      return Api.get(dispatch, `/api/professores/${teacherId}/colecoes/${id}`)
-        .then(response =>
-          dispatch({ ...response, type: CollectionActions.LOADED })
-        )
-        .catch(error =>
-          dispatch(AlertActions.open(`Ocorreu um erro: ${error}`))
-        );
-    };
-  },
-  loadSequences(id) {
-    return dispatch => {
-      dispatch({ type: CollectionActions.LOAD_SEQUENCES });
-      const teacherId = getTeacherId();
-      return Api.get(
-        dispatch,
-        `/api/professores/${teacherId}/colecoes/${id}/sequencias`
-      )
-        .then(response =>
-          dispatch({ ...response, type: CollectionActions.LOADED_SEQUENCES })
-        )
-        .catch(error =>
-          dispatch(AlertActions.open(`Ocorreu um erro: ${error}`))
-        );
-    };
-  },
-  loadProjects(id) {
-    return dispatch => {
-      dispatch({ type: CollectionActions.LOAD_PROJECTS });
-      const teacherId = getTeacherId();
-      return Api.get(
-        dispatch,
-        `/api/professores/${teacherId}/colecoes/${id}/projetos`
-      )
-        .then(response =>
-          dispatch({ ...response, type: CollectionActions.LOADED_PROJECTS })
-        )
-        .catch(error =>
-          dispatch(AlertActions.open(`Ocorreu um erro: ${error}`))
-        );
-    };
+    return dispatch =>
+      run(dispatch, endpoints.editCollection, { id, name })
+        .then(() => dispatch(openAlert('Coleção salva com sucesso!')))
+        .catch(ignoreError);
   },
 };
 

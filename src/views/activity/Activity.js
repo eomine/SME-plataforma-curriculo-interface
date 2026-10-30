@@ -1,23 +1,22 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { NavLink } from 'react-router-dom';
-import ActivityActions from 'actions/ActivityActions';
+import { NavLink } from 'react-router';
 import ActivityChars from './chars/ActivityChars';
 import ActivityCharsMobile from './chars/ActivityCharsMobile';
-import BodyActions from 'actions/BodyActions';
 import Cover from 'views/sequence/Cover';
 import Page from 'components/layout/Page';
-import SequenceActions from 'actions/SequenceActions';
 import SequencePreview from './SequencePreview';
 import Title from 'views/sequence/Title';
 import Tooltips from 'components/Tooltips';
 import getContentBlocks from 'utils/getContentBlocks';
-import isLogged from 'data/isLogged';
+import { useGetActivityQuery } from 'data/curriculoApi';
+import withQuery from 'utils/withQuery';
+import { withSequenceCollections } from 'data/itemQueries';
 import arrowLeft from 'images/arrows/left.svg';
 import arrowRight from 'images/arrows/right.svg';
-import styles from 'views/sequence/Sequence.scss';
-import styles1 from './Activity.scss';
+import styles from 'views/sequence/Sequence.module.scss';
+import styles1 from './Activity.module.scss';
+import typesetMath from 'utils/typesetMath';
 
 class Activity extends Component {
   state = {
@@ -31,22 +30,11 @@ class Activity extends Component {
   };
 
   componentDidMount() {
-    const params = this.props.match.params;
-    this.props.load(params.slug1, params.slug2);
-
     if (this.props.location.pathname.match(/imprimir/)) {
       window.print();
     }
 
-    window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
-  }
-
-  componentDidUpdate(prevProps) {
-    const params = this.props.match.params;
-    const prevParams = prevProps.match.params;
-    if (params.slug2 !== prevParams.slug2) {
-      this.props.load(params.slug1, params.slug2);
-    }
+    typesetMath();
   }
 
   render() {
@@ -132,37 +120,10 @@ class Activity extends Component {
 Activity.propTypes = {
   data: PropTypes.object,
   isSaved: PropTypes.bool,
-  load: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state, ownProps) => {
-  let slug = '';
-  if (ownProps.match) {
-    const params = ownProps.match.params;
-    slug = `${params.slug1}_${params.slug2}`;
-  } else {
-    slug = `${ownProps.slug1}_${ownProps.slug2}`;
-  }
-
-  return {
-    data: state.ActivityReducer[slug],
-    isSaved: state.SequenceReducer.isSaved,
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    load: (slug1, slug2) => {
-      dispatch(BodyActions.showLoading());
-      dispatch(ActivityActions.load(slug1, slug2));
-      if (isLogged()) {
-        dispatch(SequenceActions.loadCollections(slug1));
-      }
-    },
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Activity);
+export default withQuery(useGetActivityQuery, {
+  arg: props => ({ sequenceSlug: props.match.params.slug1, activitySlug: props.match.params.slug2 }),
+  mapResult: result => ({ data: result.currentData || null }),
+  showLoading: true,
+})(withSequenceCollections(props => props.match.params.slug1)(Activity));

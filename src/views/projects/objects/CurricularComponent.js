@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
 import CurricularComponent from 'components/objects/CurricularComponent';
-import ProjectFiltersActions from 'actions/ProjectFiltersActions';
+import { projectFiltersActions } from 'reducers/filtersSlice';
 
 const mapDispatchToProps = dispatch => {
   return {
     toggleFilter: data => {
-      dispatch(ProjectFiltersActions.toggleFilter(data));
+      dispatch(projectFiltersActions.toggleFilter(data));
     },
   };
 };

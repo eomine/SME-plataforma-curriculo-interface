@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import ReactTooltip from 'react-tooltip';
+import { Tooltip } from 'react-tooltip';
 import { connect } from 'react-redux';
-import FiltersActions from 'actions/FiltersActions';
+import { sequenceFiltersActions } from 'reducers/filtersSlice';
 import ImageButton from './ImageButton';
 import TextButton from './TextButton';
 import arrowLeft from 'images/arrows/left.svg';
 import chevronLeft from 'images/chevrons/left.svg';
 import iconHelp from 'images/icons/help.svg';
-import styles from './CategoryPanel.scss';
+import styles from './CategoryPanel.module.scss';
 
 function isCategoryOneOf(category, list) {
   return category && list.indexOf(category.slug) >= 0;
@@ -83,22 +83,20 @@ class CategoryPanel extends Component {
       }
 
       btnTooltip = (
-        <button data-tip data-for="tooltip">
+        <button data-tooltip-id="tooltip">
           <img src={iconHelp} alt="Ajuda" />
         </button>
       );
 
       tooltip = (
-        <ReactTooltip
+        <Tooltip
           place="bottom"
-          type="dark"
-          effect="solid"
           id="tooltip"
           className="tooltip"
         >
           <strong>{tooltipTitle}</strong>
           <p>{tooltipText}</p>
-        </ReactTooltip>
+        </Tooltip>
       );
     }
 
@@ -136,21 +134,20 @@ CategoryPanel.propTypes = {
   items: PropTypes.array.isRequired,
   itemsExtra: PropTypes.array.isRequired,
   hideCategory: PropTypes.func.isRequired,
-  search: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => {
-  const currCategory = state.FiltersReducer.currCategory;
+  const currCategory = state.sequenceFilters.currCategory;
   return {
     currCategory,
-    isShowingCategory: state.FiltersReducer.isShowingCategory,
+    isShowingCategory: state.sequenceFilters.isShowingCategory,
     items: currCategory
-      ? state.FiltersReducer.filters.filter(
+      ? state.sequenceFilters.filters.filter(
           item => item.type === currCategory.slug
         )
       : [],
     itemsExtra: currCategory
-      ? state.FiltersReducer.filtersExtra.filter(
+      ? state.sequenceFilters.filtersExtra.filter(
           item => item.type === currCategory.slug
         )
       : [],
@@ -160,10 +157,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     hideCategory: () => {
-      dispatch(FiltersActions.hideCategory());
-    },
-    search: () => {
-      dispatch(FiltersActions.backToCategoryList());
+      dispatch(sequenceFiltersActions.hideCategory());
     },
   };
 };

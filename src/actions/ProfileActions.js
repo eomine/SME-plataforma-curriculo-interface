@@ -1,14 +1,11 @@
 import Api from 'data/Api';
-import AlertActions from 'actions/AlertActions';
-import ProjectsActions from 'actions/ProjectsActions';
+import { openAlert } from 'reducers/messagesSlice';
 
 const ProfileActions = {
   DELETE_PHOTO: 'ProfileActions.DELETE_PHOTO',
   DELETED_PHOTO: 'ProfileActions.DELETED_PHOTO',
   LOAD: 'ProfileActions.LOAD',
   LOADED: 'ProfileActions.LOADED',
-  LOAD_CLASSROOMS: 'ProfileActions.LOAD_CLASSROOMS',
-  LOADED_CLASSROOMS: 'ProfileActions.LOADED_CLASSROOMS',
   SAVE_NICKNAME: 'ProfileActions.SAVE_NICKNAME',
   SAVE_PHOTO: 'ProfileActions.SAVE_PHOTO',
   SAVED_NICKNAME: 'ProfileActions.SAVED_NICKNAME',
@@ -21,10 +18,10 @@ const ProfileActions = {
           dispatch({ ...response, type: ProfileActions.DELETED_PHOTO })
         )
         .then(response =>
-          dispatch(AlertActions.open('Foto apagada com sucesso!'))
+          dispatch(openAlert('Foto apagada com sucesso!'))
         )
         .catch(error =>
-          dispatch(AlertActions.open(`Ocorreu um erro: ${error}`))
+          dispatch(openAlert(`Ocorreu um erro: ${error}`))
         );
     };
   },
@@ -33,22 +30,6 @@ const ProfileActions = {
       '/api/perfil',
       ProfileActions.LOAD,
       ProfileActions.LOADED
-    );
-  },
-  loadClassrooms() {
-    const teacherId = localStorage.getItem('teacherId');
-    return Api.simpleGet(
-      `/api/professores/${teacherId}`,
-      ProfileActions.LOAD_CLASSROOMS,
-      ProfileActions.LOADED_CLASSROOMS
-    );
-  },
-  loadMyProjects() {
-    const teacherId = localStorage.getItem('teacherId');
-    return Api.simpleGet(
-      `/api/professores/${teacherId}/meus_projetos`,
-      ProjectsActions.LOAD,
-      ProjectsActions.LOADED
     );
   },
   saveNickname(id, nickname) {
@@ -60,10 +41,10 @@ const ProfileActions = {
           dispatch({ ...response, type: ProfileActions.SAVED_NICKNAME })
         )
         .then(response =>
-          dispatch(AlertActions.open('Perfil salvo com sucesso!'))
+          dispatch(openAlert('Perfil salvo com sucesso!'))
         )
         .catch(error =>
-          dispatch(AlertActions.open(`Ocorreu um erro: ${error}`))
+          dispatch(openAlert(`Ocorreu um erro: ${error}`))
         );
     };
   },
@@ -76,10 +57,10 @@ const ProfileActions = {
           dispatch({ ...response, type: ProfileActions.SAVED_PHOTO })
         )
         .then(response =>
-          dispatch(AlertActions.open('Foto salva com sucesso!'))
+          dispatch(openAlert('Foto salva com sucesso!'))
         )
         .catch(error =>
-          dispatch(AlertActions.open(`Ocorreu um erro: ${error}`))
+          dispatch(openAlert(`Ocorreu um erro: ${error}`))
         );
     };
   },

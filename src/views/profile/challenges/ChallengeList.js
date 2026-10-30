@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router';
 import Challenge from './Challenge';
-import styles from 'views/profile/collections/CollectionList.scss';
-import styles1 from './ChallengeList.scss';
+import styles from 'views/profile/collections/CollectionList.module.scss';
+import styles1 from './ChallengeList.module.scss';
 
 class ChallengeList extends Component {
   render() {

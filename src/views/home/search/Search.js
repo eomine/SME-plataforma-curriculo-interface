@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { history } from 'index';
-import AlertActions from 'actions/AlertActions';
+import { history } from 'utils/history';
+import { openAlert } from 'reducers/messagesSlice';
 import CurricularComponentField from './CurricularComponentField';
-import FiltersActions from 'actions/FiltersActions';
+import { sequenceFiltersActions } from 'reducers/filtersSlice';
 import SearchField from './SearchField';
 import SegmentField from './SegmentField';
 import StageField from './StageField';
 import YearField from './YearField';
-import styles from './Search.scss';
+import styles from './Search.module.scss';
 
 class Search extends Component {
   onSubmit = () => {
@@ -75,19 +75,19 @@ Search.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    filters: state.FiltersReducer.filters,
-    filtersExtra: state.FiltersReducer.filters,
-    query: state.FiltersReducer.query,
+    filters: state.sequenceFilters.filters,
+    filtersExtra: state.sequenceFilters.filters,
+    query: state.sequenceFilters.query,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     load: () => {
-      dispatch(FiltersActions.load());
+      dispatch(sequenceFiltersActions.load());
     },
     openAlert: message => {
-      dispatch(AlertActions.open(message));
+      dispatch(openAlert(message));
     },
   };
 };

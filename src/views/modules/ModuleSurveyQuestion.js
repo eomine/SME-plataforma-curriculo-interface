@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styles from './ModuleSurveyQuestion.scss';
-import StarRatingComponent from 'react-star-rating-component';
+import styles from './ModuleSurveyQuestion.module.scss';
+import Rating from '@mui/material/Rating';
+import StarIcon from '@mui/icons-material/Star';
 
 class ModuleSurveyQuestion extends React.PureComponent {
 
@@ -13,9 +14,12 @@ class ModuleSurveyQuestion extends React.PureComponent {
     };
   }
 
-  onStarClick(nextValue, prevValue, name) {
-    this.setState({rating: nextValue});
-  }
+  // Clicar na estrela já marcada não zera a nota.
+  onRatingChange = (event, nextValue) => {
+    if (nextValue !== null) {
+      this.setState({rating: nextValue});
+    }
+  };
 
   render() {
 
@@ -39,11 +43,12 @@ class ModuleSurveyQuestion extends React.PureComponent {
       ratingContent = (
         <div className={styles.rating}>
           <h3>Avaliação: {rating}</h3>
-          <StarRatingComponent
+          <Rating
             name="rate1"
-            starCount={10}
+            max={10}
             value={rating}
-            onStarClick={this.onStarClick.bind(this)}
+            onChange={this.onRatingChange}
+            emptyIcon={<StarIcon fontSize="inherit" style={{ color: '#333' }} />}
             />
         </div>
       );

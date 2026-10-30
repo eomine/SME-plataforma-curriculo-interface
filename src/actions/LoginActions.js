@@ -1,6 +1,7 @@
 import Api from 'data/Api';
-import AlertActions from 'actions/AlertActions';
-import { history } from 'index';
+import { openAlert } from 'reducers/messagesSlice';
+import { curriculoApi } from 'data/curriculoApi';
+import { history } from 'utils/history';
 
 const LoginActions = {
   LOGGED_IN: 'LoginActions.LOGGED_IN',
@@ -24,7 +25,7 @@ const LoginActions = {
           dispatch({ type: LoginActions.LOGGED_IN });
         })
         .catch(error =>
-          dispatch(AlertActions.open(`Ocorreu um erro: ${error}`))
+          dispatch(openAlert(`Ocorreu um erro: ${error}`))
         );
     };
   },
@@ -45,7 +46,7 @@ const LoginActions = {
           dispatch({ type: LoginActions.LOGGED_IN });
         })
         .catch(error =>
-          dispatch(AlertActions.open(`Ocorreu um erro: ${error}`))
+          dispatch(openAlert(`Ocorreu um erro: ${error}`))
         );
     };
   },
@@ -56,6 +57,8 @@ const LoginActions = {
       localStorage.removeItem('blocked');
       localStorage.removeItem('teacherId');
       dispatch({ type: LoginActions.LOGGED_OUT });
+      // O cache do curriculoApi guarda dados do professor (coleções etc.).
+      dispatch(curriculoApi.util.resetApiState());
 
       if (history.location.pathname.match(/perfil|colecao/)) {
         history.push('/');

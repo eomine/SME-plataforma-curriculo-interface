@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { API_URL } from 'data/constants';
-import FiltersActions from 'actions/FiltersActions';
-import styles from './ImageButton.scss';
+import { sequenceFiltersActions } from 'reducers/filtersSlice';
+import styles from './ImageButton.module.scss';
 
 class ImageButton extends Component {
   onClicked = () => {
@@ -31,7 +31,7 @@ ImageButton.propTypes = {
 const mapDispatchToProps = dispatch => {
   return {
     toggleFilter: data => {
-      dispatch(FiltersActions.toggleFilter(data));
+      dispatch(sequenceFiltersActions.toggleFilter(data));
     },
   };
 };

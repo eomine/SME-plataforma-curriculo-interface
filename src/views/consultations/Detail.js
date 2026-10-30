@@ -1,25 +1,20 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { history } from 'index';
-import ConsultationActions from 'actions/ConsultationActions';
-import TeacherSurveyFormsActions from 'actions/TeacherSurveyFormsActions';
+import { history } from 'utils/history';
 import FullModal from 'components/layout/FullModal';
 import iconCloseBigWhite from 'images/icons/closeBigWhite.svg';
-import styles from './Detail.scss';
+import styles from './Detail.module.scss';
 import { API_URL } from 'data/constants';
+import { useGetConsultationQuery, useGetFinishedSurveyFormsQuery } from 'data/curriculoApi';
+import getTeacherId from 'data/getTeacherId';
+import withQuery from 'utils/withQuery';
 
 class Detail extends Component {
   state = { surveyFormsStatus: [] };
 
   onClickedClose = () => {
-    history.goBack();
+    history.back();
   };
-
-  componentDidMount() {
-    this.props.load(this.props.match.params.id);
-    this.props.loadFinishedFormIds();
-  }
 
   render() {
     const data = this.props.data;
@@ -51,14 +46,14 @@ class Detail extends Component {
               <div className="col-md-8 offset-md-2">
                 <h2>Esta Consulta estará disponível entre as seguintes datas:</h2>
                 <h3>{data['initial_date']} ~ {data['final_date']}</h3>
-                <img className={styles.cover_image} src={data.cover_image}></img>
-                {(data.documents.length > 0) ? <h2>Acesse os documentos abaixo referentes a Consulta:</h2> : <h2></h2> }
+                <img className={styles.cover_image} alt="" src={data.cover_image}></img>
+                {(data.documents.length > 0) ? <h2>Acesse os documentos abaixo referentes a Consulta:</h2> : null }
                 {data.documents.map((d, index) => {
                   return(
-                    <a target='_blank' key={index.toString()} className={styles.button} href={d}>Documento {(index + 1).toString()}</a>
+                    <a target='_blank' rel='noopener noreferrer' key={index.toString()} className={styles.button} href={d}>Documento {(index + 1).toString()}</a>
                   );
                 })}
-                {(data.survey_forms.length > 0) ? <h2>Responda os formulários abaixo:</h2> : <h2></h2> }
+                {(data.survey_forms.length > 0) ? <h2>Responda os formulários abaixo:</h2> : null }
                 {data.survey_forms.map((survey_form, index) => {
                   return(
                     <div key={index.toString()}>
@@ -90,29 +85,15 @@ class Detail extends Component {
 Detail.propTypes = {
   data: PropTypes.object,
   answersFinished: PropTypes.array,
-  load: PropTypes.func.isRequired,
-  loadFinishedFormIds: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => {
-  return {
-    data: state.ConsultationReducer.currItem,
-    answersFinished: state.TeacherSurveyFormsReducer.answersFinished,
-  };
-};
 
-const mapDispatchToProps = dispatch => {
-  return {
-    load: id => {
-      dispatch(ConsultationActions.load(id));
-    },
-    loadFinishedFormIds: () => {
-      dispatch(TeacherSurveyFormsActions.loadFinishedFormIds());
-    },
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Detail);
+export default withQuery(useGetConsultationQuery, {
+  arg: props => props.match.params.id,
+  mapResult: result => ({ data: result.currentData || null }),
+})(withQuery(useGetFinishedSurveyFormsQuery, {
+  arg: () => getTeacherId(),
+  // Como antes, busca de novo sempre que o detalhe abre.
+  options: { refetchOnMountOrArgChange: true },
+  mapResult: result => ({ answersFinished: result.currentData || [] }),
+})(Detail));

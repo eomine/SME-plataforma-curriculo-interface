@@ -4,7 +4,7 @@ import DesktopModal from 'components/layout/DesktopModal';
 import ModalPage from 'components/layout/ModalPage';
 import School from './School';
 import ModalHeader from 'components/header/ModalHeader';
-import styles from './Classrooms.scss';
+import styles from './Classrooms.module.scss';
 
 class Classrooms extends Component {
   render() {

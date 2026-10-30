@@ -1,38 +1,35 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import TextField from '@material-ui/core/TextField';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import TextField from '@mui/material/TextField';
 import { connect } from 'react-redux';
-import { withStyles } from '@material-ui/core/styles';
-import AlertActions from 'actions/AlertActions';
+import ChallengeActions from 'actions/ChallengeActions';
+import { withChallenge } from 'data/challengeQueries';
+import { styled } from '@mui/material/styles';
+import { openAlert, askConfirmation } from 'reducers/messagesSlice';
 import Attachment from './Attachment';
 import BigPreview from 'components/objects/BigPreview';
-import ChallengeActions from 'actions/ChallengeActions';
 import ChallengePreview from './ChallengePreview';
-import ConfirmActions from 'actions/ConfirmActions';
 import DesktopModal from 'components/layout/DesktopModal';
 import ModalHeader from 'components/header/ModalHeader';
 import ModalPage from 'components/layout/ModalPage';
 import formatFileSize from 'utils/formatFileSize';
 import iconClip from 'images/icons/clip.svg';
 import iconPlus from 'images/icons/plus1.svg';
-import styles from './SendResult.scss';
-import styles1 from 'views/sequence/save/SaveSequence.scss';
+import styles from './SendResult.module.scss';
+import styles1 from 'views/sequence/save/SaveSequence.module.scss';
 
 const MAX_CHARS = 3000;
 const MAX_SIZE = 10 * 1024 * 1024;
 const MAX_SIZE_FORMATTED = formatFileSize(MAX_SIZE);
 
-const CustomCheckbox = withStyles({
-  root: {
-    color: '#6a6a6a',
-    '&$checked': {
-      color: '#008080',
-    },
+const CustomCheckbox = styled(Checkbox)({
+  color: '#6a6a6a',
+  '&.Mui-checked': {
+    color: '#008080',
   },
-  checked: {},
-})(Checkbox);
+});
 
 class SendResult extends Component {
   state = {
@@ -117,13 +114,14 @@ class SendResult extends Component {
 
   onClickedSend = () => {
     if (this.state.attachments.length <= 0) {
-      this.props.openConfirm(
-        'Deseja continuar sem anexo?',
-        'Ocorreu uma falha e não foi possível salvar todos os anexos.',
-        'Continuar sem anexo',
-        'Tentar novamente',
-        this.onClickedContinue
-      );
+      this.props
+        .openConfirm(
+          'Deseja continuar sem anexo?',
+          'Ocorreu uma falha e não foi possível salvar todos os anexos.',
+          'Continuar sem anexo',
+          'Tentar novamente'
+        )
+        .then(confirmed => confirmed && this.onClickedContinue());
     } else {
       this.onClickedContinue();
     }
@@ -142,13 +140,6 @@ class SendResult extends Component {
       this.state.attachments
     );
   };
-
-  componentDidMount() {
-    const slug = this.props.match.params.slug;
-    if (!this.props.challenge || this.props.challenge.slug !== slug) {
-      this.props.load(slug);
-    }
-  }
 
   render() {
     if (this.props.challenge == null) {
@@ -236,7 +227,7 @@ class SendResult extends Component {
                   Adicionar mais um vídeo
                 </button>
                 
-                <label className={styles.label}>Outros anexos (opcional)</label>
+                <p className={styles.label}>Outros anexos (opcional)</p>
                 <div className={styles.attachments}>{attachmentItems}</div>
                 <label className={styles.btnAddFile}>
                   Selecionar arquivo
@@ -271,37 +262,24 @@ class SendResult extends Component {
 
 SendResult.propTypes = {
   challenge: PropTypes.object,
-  load: PropTypes.func.isRequired,
   openAlert: PropTypes.func.isRequired,
   openConfirm: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => {
-  return {
-    challenge: state.ChallengeReducer.currItem,
-  };
-};
-
 const mapDispatchToProps = dispatch => {
   return {
-    load: slug => {
-      dispatch(ChallengeActions.loadResults(slug));
-    },
     sendResult: (slug, classroom, description, videos, attachments) => {
       dispatch(ChallengeActions.sendResult(slug, classroom, description, videos, attachments));
     },
     openAlert: message => {
-      dispatch(AlertActions.open(message));
+      dispatch(openAlert(message));
     },
-    openConfirm: (title, message, labelYes, labelNo, onConfirm) => {
-      dispatch(
-        ConfirmActions.open(title, message, labelYes, labelNo, onConfirm)
-      );
-    },
+    openConfirm: (title, message, labelYes, labelNo) =>
+      dispatch(askConfirmation(title, message, labelYes, labelNo)),
   };
 };
 
-export default connect(
-  mapStateToProps,
+export default withChallenge()(connect(
+  null,
   mapDispatchToProps
-)(SendResult);
+)(SendResult));

@@ -1,28 +1,22 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { NavLink } from 'react-router';
+import { skipToken } from '@reduxjs/toolkit/query/react';
+import { useGetCollectionsQuery } from 'data/curriculoApi';
+import getTeacherId from 'data/getTeacherId';
+import withQuery from 'utils/withQuery';
+import { withSequence, withSequenceCollections } from 'data/itemQueries';
 import BigPreview from 'components/objects/BigPreview';
-import CollectionsActions from 'actions/CollectionsActions';
 import Collection from './Collection';
 import DesktopModal from 'components/layout/DesktopModal';
 import ModalHeader from 'components/header/ModalHeader';
 import ModalPage from 'components/layout/ModalPage';
-import SequenceActions from 'actions/SequenceActions';
 import SequencePreview from 'views/activity/SequencePreview';
 import createModalLink from 'utils/createModalLink';
 import iconPlus from 'images/icons/plus1.svg';
-import styles from './SaveSequence.scss';
+import styles from './SaveSequence.module.scss';
 
 class SaveSequence extends Component {
-  componentDidMount() {
-    const slug = this.props.match.params.slug;
-    if (!this.props.data || this.props.data.slug !== slug) {
-      this.props.load(slug);
-    }
-    this.props.loadCollections();
-  }
-
   render() {
     if (this.props.data == null) {
       return <span />;
@@ -41,7 +35,7 @@ class SaveSequence extends Component {
     link.state.sequenceId = data.id;
 
     const btnCreate = (
-      <NavLink className={styles.btn} to={link}>
+      <NavLink className={styles.btn} {...link}>
         <img src={iconPlus} alt="Criar coleção" />
         Criar coleção
       </NavLink>
@@ -84,32 +78,11 @@ class SaveSequence extends Component {
 SaveSequence.propTypes = {
   collections: PropTypes.array.isRequired,
   data: PropTypes.object,
-  load: PropTypes.func.isRequired,
-  loadCollections: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => {
-  return {
-    collections: state.CollectionsReducer.items,
-    data: state.SequenceReducer.currItem,
-    inCollections: state.SequenceReducer.collections,
-    isSaved: state.SequenceReducer.isSaved,
-  };
-};
+const withCollections = withQuery(useGetCollectionsQuery, {
+  arg: () => getTeacherId() || skipToken,
+  mapResult: result => ({ collections: result.data || [] }),
+});
 
-const mapDispatchToProps = dispatch => {
-  return {
-    load: slug => {
-      dispatch(SequenceActions.load(slug));
-      dispatch(SequenceActions.loadCollections(slug));
-    },
-    loadCollections: () => {
-      dispatch(CollectionsActions.load());
-    },
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SaveSequence);
+export default withSequence()(withSequenceCollections()(withCollections(SaveSequence)));

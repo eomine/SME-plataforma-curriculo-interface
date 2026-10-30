@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ImageGallery from 'react-image-gallery';
-import styles from './ModuleGallery.scss';
+import 'react-image-gallery/styles/image-gallery.css';
+import styles from './ModuleGallery.module.scss';
 import { API_URL } from 'data/constants';
 
 class ModuleGallery extends Component {

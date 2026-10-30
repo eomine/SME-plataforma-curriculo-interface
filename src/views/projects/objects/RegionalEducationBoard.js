@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
 import RegionalEducationBoard from 'components/objects/RegionalEducationBoard';
-import ProjectFiltersActions from 'actions/ProjectFiltersActions';
+import { projectFiltersActions } from 'reducers/filtersSlice';
 
 const mapDispatchToProps = dispatch => {
   return {
     toggleFilter: data => {
-      dispatch(ProjectFiltersActions.toggleFilter(data));
+      dispatch(projectFiltersActions.toggleFilter(data));
     },
   };
 };

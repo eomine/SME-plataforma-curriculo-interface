@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import BodyActions from 'actions/BodyActions';
-import ProjectFiltersActions from 'actions/ProjectFiltersActions';
-import ProjectsActions from 'actions/ProjectsActions';
+import { projectFiltersActions } from 'reducers/filtersSlice';
+import { skipToken } from '@reduxjs/toolkit/query/react';
+import { useGetProjectsInfiniteQuery } from 'data/curriculoApi';
+import withQuery from 'utils/withQuery';
+import { showAllProjects } from 'reducers/projectsSlice';
 import Bar from './bar/Bar';
 import Filters from './filters/Filters';
 import GridItem from './GridItem';
@@ -11,13 +13,13 @@ import Loading from 'components/loading/Loading';
 import Page from 'components/layout/Page';
 import ResultsLoading from './ResultsLoading';
 import ResultsNotFound from './ResultsNotFound';
-import styles from './Projects.scss';
+import styles from './Projects.module.scss';
 
 class Projects extends Component {
   state = { windowHeight: 1000 };
 
   onClickedLoadMore = () => {
-    this.props.loadMore(this.props.nextPage);
+    this.props.loadMore();
   };
 
   componentDidMount() {
@@ -98,34 +100,48 @@ class Projects extends Component {
 Projects.propTypes = {
   data: PropTypes.array.isRequired,
   isSearching: PropTypes.bool.isRequired,
-  nextPage: PropTypes.string,
+  nextPage: PropTypes.bool,
   totalItems: PropTypes.number,
   load: PropTypes.func.isRequired,
+  loadMore: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => {
   return {
-    data: state.ProjectsReducer.items,
-    isSearching: state.ProjectsReducer.isSearching,
-    nextPage: state.ProjectsReducer.nextPage,
-    totalItems: state.ProjectsReducer.totalItems,
+    query: state.projects.query,
+    expandedId: state.projects.expandedId,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     load: () => {
-      dispatch(BodyActions.showLoading());
-      dispatch(ProjectFiltersActions.clearFilters());
-      dispatch(ProjectsActions.load());
-    },
-    loadMore: page => {
-      dispatch(ProjectsActions.loadMore(page));
+      dispatch(projectFiltersActions.clearFilters());
+      dispatch(showAllProjects());
     },
   };
 };
 
+// A busca atual (query) vem do slice projects; os resultados, do cache.
+const withProjects = withQuery(useGetProjectsInfiniteQuery, {
+  arg: props => (props.query === null ? skipToken : props.query),
+  mapResult: (result, props) => {
+    const pages = result.data ? result.data.pages : [];
+    return {
+      data: pages
+        .flatMap(page => page.items)
+        .map(item => ({ ...item, isExpanded: item.id === props.expandedId })),
+      isSearching: result.isFetching,
+      nextPage: result.hasNextPage,
+      totalItems: pages.length ? pages[0].totalItems : 0,
+      loadMore: result.fetchNextPage,
+    };
+  },
+  // Loading global a cada nova busca, mas não ao carregar mais.
+  showLoading: result => result.isFetching && !result.isFetchingNextPage,
+});
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Projects);
+)(withProjects(Projects));

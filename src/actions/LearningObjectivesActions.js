@@ -1,26 +1,33 @@
 import Api from 'data/Api';
 import getFiltersQueryString from 'data/getFiltersQueryString';
+import { withGlobalLoading } from 'reducers/bodySlice';
+import { openAlert } from 'reducers/messagesSlice';
 
 const LearningObjectivesActions = {
   LOAD: 'LearningObjectivesActions.LOAD',
   LOADED: 'LearningObjectivesActions.LOADED',
-  LOADED_STAGES: 'FiltersActions.LOADED_STAGES',
-  LOADED_YEARS: 'FiltersActions.LOADED_YEARS',
+  LOADED_STAGES: 'LearningObjectivesActions.LOADED_STAGES',
+  LOADED_YEARS: 'LearningObjectivesActions.LOADED_YEARS',
   HIDE_OBJECTIVES: 'LearningObjectivesActions.HIDE_OBJECTIVES',
   SHOW_OBJECTIVES: 'LearningObjectivesActions.SHOW_OBJECTIVES',
   SEARCH: 'LearningObjectivesActions.SEARCH',
   LOADED_RESULTS: 'LearningObjectivesActions.LOADED_RESULTS',
   HIDE_RESULTS: 'LearningObjectivesActions.HIDE_RESULTS',
   TOGGLE_FILTER: 'LearningObjectivesActions.TOGGLE_FILTER',
-  TOGGLE_SEGMENTS: 'FiltersActions.TOGGLE_SEGMENTS',
-  TOGGLE_STAGES: 'FiltersActions.TOGGLE_STAGES',
+  TOGGLE_SEGMENTS: 'LearningObjectivesActions.TOGGLE_SEGMENTS',
+  TOGGLE_STAGES: 'LearningObjectivesActions.TOGGLE_STAGES',
 
+  // Com o loading global enquanto os filtros não chegam.
   load() {
-    return Api.simpleGet(
-      '/api/filtros',
-      LearningObjectivesActions.LOAD,
-      LearningObjectivesActions.LOADED
-    );
+    return dispatch => {
+      dispatch({ type: LearningObjectivesActions.LOAD });
+      return withGlobalLoading(
+        dispatch,
+        Api.get(dispatch, '/api/filtros')
+          .then(response => dispatch({ ...response, type: LearningObjectivesActions.LOADED }))
+          .catch(error => dispatch(openAlert(`Ocorreu um erro: ${error}`)))
+      );
+    };
   },
   toggleSegments(filter) {
     return (dispatch, getState) => {
@@ -36,7 +43,7 @@ const LearningObjectivesActions = {
   },
   toggleStages(filter) {
     return (dispatch, getState) => {
-      let filterToRemove = getState().FiltersReducer.filters.filter(
+      let filterToRemove = getState().LearningObjectivesReducer.filters.filter(
         item => (item !== filter) && (item.type === 'stages') && (item.isActive === true)
       );
       if (filterToRemove.length > 0) {
@@ -90,7 +97,7 @@ const LearningObjectivesActions = {
           dispatch({ ...response, type: LearningObjectivesActions.LOADED_STAGES })
         );
       }
-      if (filter.type = "stages") {
+      if (filter.type === 'stages') {
         Api.get(dispatch, `/api/filtros?${queryString}`).then(response =>
           dispatch({ ...response, type: LearningObjectivesActions.LOADED_YEARS })
         );

@@ -1,5 +1,5 @@
-@import "~variables.scss";
-@import "~tools.scss";
+@import "variables.scss";
+@import "tools.scss";
 
 * {
   box-sizing: border-box;
@@ -7,7 +7,7 @@
 
 html,
 body,
-:global(#root) {
+#root {
   height: 100%;
 }
 
@@ -60,9 +60,9 @@ a:hover {
   text-decoration: none;
 }
 
-:global(.btn),
-:global(.btnSmall),
-:global(.btnFullWidth) {
+.btn,
+.btnSmall,
+.btnFullWidth {
   align-items: center;
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: rem(4);
@@ -88,24 +88,25 @@ a:hover {
   }
 }
 
-:global(.btnBig) {
+.btnBig {
   font-size: rem(15);
   line-height: rem(20);
   padding: rem(18) rem(26);
 }
 
-:global(.btnSmall) {
+.btnSmall {
   font-size: rem(12) !important;
   line-height: rem(16) !important;
   padding: rem(12) rem(26);
 }
 
-:global(.btnFullWidth) {
+.btnFullWidth {
   display: flex;
   width: 100%;
 }
 
-:global(.tooltip) {
+// .react-tooltip para vencer os estilos que o react-tooltip injeta.
+.react-tooltip.tooltip {
   font-size: rem(13);
   font-weight: normal;
   line-height: rem(16);
@@ -113,7 +114,11 @@ a:hover {
   min-width: rem(120);
   padding: rem(13) rem(20);
 
-  > strong {
+  .react-tooltip-content-wrapper {
+    padding: 0;
+  }
+
+  strong {
     display: block;
     font-size: rem(15);
     font-weight: normal;
@@ -121,11 +126,11 @@ a:hover {
   }
 }
 
-:global(.ql-image) {
+.ql-image {
   width: 100%;
 }
 
-:global(.ql-image-wrapper) {
+.ql-image-wrapper {
   margin-bottom: rem(30);
   max-width: 100%;
   width: 100% !important;
@@ -136,7 +141,7 @@ a:hover {
   }
 }
 
-:global(.ql-video-wrapper) {
+.ql-video-wrapper {
   position: relative;
   padding-bottom: 56.25%; /* 16:9 */
   padding-top: 25px;
@@ -151,7 +156,7 @@ a:hover {
   }
 }
 
-:global(.quill-text) {
+.quill-text {
   font-size: rem(16);
   line-height: rem(21);
 
@@ -251,7 +256,7 @@ a:hover {
 }
 
 @include mq("tablet-portrait", max) {
-  :global(.modal) {
+  .modal {
     background-color: white;
     border-radius: rem(4);
     position: fixed;
@@ -263,19 +268,29 @@ a:hover {
     z-index: 120;
   }
 
-  :global(.modalIn) {
+  .modalIn {
     transition: left 0.3s ease-in-out;
     left: 0;
   }
 
-  :global(.modalOut) {
+  .modalOut {
     transition: left 0.3s ease-in-out;
     left: 100%;
   }
 }
 
+// Modais das rotas (components/RouteModals).
+.modalOpen {
+  overflow: hidden;
+}
+
+.modalOverlay {
+  position: fixed;
+  z-index: 1000;
+}
+
 @include mq("tablet-portrait") {
-  :global(.react-router-modal__wrapper) {
+  .modalOverlay {
     align-items: center;
     display: flex;
     justify-content: center;
@@ -287,25 +302,27 @@ a:hover {
     z-index: 130;
   }
 
-  :global(.modal) {
+  .modal {
     background-color: white;
     border-radius: rem(4);
     opacity: 0;
     position: relative;
   }
 
-  :global(.modalIn) {
+  .modalIn {
     transition: opacity 0.5s ease-in-out;
     opacity: 1;
   }
 
-  :global(.modalOut) {
+  .modalOut {
     transition: opacity 0.3s ease-in-out;
     opacity: 0;
   }
 
-  :global(.backdrop) {
+  // Fundo escuro atrás do modal.
+  .modalOverlay::before {
     background-color: black;
+    content: "";
     opacity: 0;
     position: absolute;
     top: 0;
@@ -314,12 +331,12 @@ a:hover {
     height: 100%;
   }
 
-  :global(.backdropIn) {
+  .modalOverlayIn::before {
     transition: opacity 0.3s ease-in-out;
     opacity: 0.5;
   }
 
-  :global(.backdropOut) {
+  .modalOverlayOut::before {
     transition: opacity 0.3s ease-in-out;
     opacity: 0;
   }
@@ -331,4 +348,27 @@ a:hover {
     overflow-x: hidden;
     padding-right: 0 !important;
   }
+}
+
+// Regras globais que estavam em CSS modules (views/projects/Projects e
+// views/modules/ModuleSurveyQuestion). Seletores de elemento não são isolados
+// pelo CSS module, então valiam para o site todo enquanto todo o CSS carregava
+// junto. Com as páginas carregando sob demanda, ficam aqui para continuar
+// valendo em todas as páginas.
+label {
+  font-size: 0.8rem;
+  text-align: justify;
+}
+
+img {
+  max-width: 100%;
+}
+
+textarea {
+  width: 50%;
+  height: 60px;
+}
+
+i {
+  font-size: 30px;
 }

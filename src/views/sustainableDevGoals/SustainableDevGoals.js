@@ -1,17 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import BodyActions from 'actions/BodyActions';
 import Button from './Button';
 import Page from 'components/layout/Page';
-import SustainableDevGoalsActions from 'actions/SustainableDevGoalsActions';
-import styles from './SustainableDevGoals.scss';
+import { useGetSustainableDevGoalsQuery } from 'data/curriculoApi';
+import withQuery from 'utils/withQuery';
+import styles from './SustainableDevGoals.module.scss';
 
 class SustainableDevGoals extends Component {
-  componentDidMount() {
-    this.props.load();
-  }
-
   render() {
     const items = this.props.data.map((item, i) => {
       return <Button key={i} data={item} />;
@@ -60,25 +55,9 @@ class SustainableDevGoals extends Component {
 
 SustainableDevGoals.propTypes = {
   data: PropTypes.array.isRequired,
-  load: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => {
-  return {
-    data: state.SustainableDevGoalsReducer.items,
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    load: () => {
-      dispatch(BodyActions.showLoading());
-      dispatch(SustainableDevGoalsActions.load());
-    },
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SustainableDevGoals);
+export default withQuery(useGetSustainableDevGoalsQuery, {
+  mapResult: result => ({ data: result.data || [] }),
+  showLoading: true,
+})(SustainableDevGoals);

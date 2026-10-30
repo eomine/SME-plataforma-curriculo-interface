@@ -1,55 +1,76 @@
-import { createMuiTheme } from '@material-ui/core/styles';
+import { createTheme } from '@mui/material/styles';
 
-const theme = createMuiTheme({
-  overrides: {
+const theme = createTheme({
+  components: {
+    // Padrões do Material-UI v4 que o layout assume.
+    MuiFormControl: {
+      defaultProps: {
+        variant: 'standard',
+      },
+    },
+    MuiTextField: {
+      defaultProps: {
+        variant: 'standard',
+      },
+    },
     MuiFormHelperText: {
-      root: {
-        bottom: -18,
-        position: 'absolute',
+      styleOverrides: {
+        root: {
+          bottom: -18,
+          position: 'absolute',
+        },
       },
     },
     MuiInput: {
-      input: {
-        fontWeight: 'bold',
-      },
-      inputMultiline: {
-        padding: '2px 0',
+      styleOverrides: {
+        input: ({ ownerState }) => ({
+          fontWeight: 'bold',
+          ...(ownerState.multiline && { padding: '2px 0' }),
+        }),
       },
     },
     MuiOutlinedInput: {
-      root: {
-        '&$focused $notchedOutline': {
-          borderColor: '#3bd2da',
-          borderWidth: 1,
+      styleOverrides: {
+        root: {
+          '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+            borderColor: '#3bd2da',
+            borderWidth: 1,
+          },
         },
       },
     },
     MuiSelect: {
-      select: {
-        fontSize: 15,
-        fontWeight: 'bold',
-      },
-    },
-    MuiTab: {
-      root: {
-        color: '#6a6a6a',
-        fontSize: 12,
-        fontWeight: 'bold',
-        '&$selected': {
-          color: '#008080',
+      styleOverrides: {
+        select: {
+          fontSize: 15,
+          fontWeight: 'bold',
         },
       },
     },
-    MuiPrivateTabIndicator: {
-      colorSecondary: {
-        backgroundColor: '#008080',
+    MuiTab: {
+      styleOverrides: {
+        root: {
+          color: '#6a6a6a',
+          fontSize: 12,
+          fontWeight: 'bold',
+          '&.Mui-selected': {
+            color: '#008080',
+          },
+        },
+      },
+    },
+    MuiTabs: {
+      defaultProps: {
+        indicatorColor: 'secondary',
       },
     },
     MuiFormControlLabel: {
-      label: {
-        fontSize: 13,
-        fontWeight: 600,
-        lineHeight: '18px',
+      styleOverrides: {
+        label: {
+          fontSize: 13,
+          fontWeight: 600,
+          lineHeight: '18px',
+        },
       },
     },
   },
@@ -67,7 +88,6 @@ const theme = createMuiTheme({
   typography: {
     fontFamily: 'Open Sans',
     fontSize: 16,
-    useNextVariants: true,
   },
 });
 

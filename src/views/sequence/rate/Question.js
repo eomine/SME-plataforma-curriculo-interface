@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import iconStar from 'images/icons/star.png';
 import iconStarActive from 'images/icons/starActive.png';
-import styles from './Question.scss';
+import styles from './Question.module.scss';
 
 class Question extends React.PureComponent {
   state = {

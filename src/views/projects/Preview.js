@@ -1,14 +1,14 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import Collapse from '@material-ui/core/Collapse';
-import { NavLink } from 'react-router-dom';
+import Collapse from '@mui/material/Collapse';
+import { NavLink } from 'react-router';
 import KnowledgeMatrixItem from 'components/objects/KnowledgeMatrixItem';
 import LearningObjectiveItem from 'components/objects/LearningObjectiveItem';
 import SustainableDevGoalItem from 'components/objects/SustainableDevGoalItem';
 import Tooltips from 'components/Tooltips';
 import withWidth from 'components/hoc/withWidth';
 import iconHelp from 'images/icons/help.svg';
-import styles from './Preview.scss';
+import styles from './Preview.module.scss';
 
 function onlyUnique(value, index, self) {
     if (value === undefined) {
@@ -51,7 +51,7 @@ class Preview extends Component {
     const sustainableDevGoalsTitle = sustainableDevGoals.length ? (
       <div className={styles.title}>
         Objetivos de Desenvolvimento Sustentável (ODS)
-        <button data-tip data-for={`tooltipDevelopmentGoals-${salt}`}>
+        <button data-tooltip-id={`tooltipDevelopmentGoals-${salt}`}>
           <img src={iconHelp} alt="Ajuda" />
         </button>
       </div>
@@ -64,14 +64,14 @@ class Preview extends Component {
         <div className={styles.scroll}>
           <div className={styles.title}>
             Matriz de Saberes
-            <button data-tip data-for={`tooltipKnowledgeMatrices-${salt}`}>
+            <button data-tooltip-id={`tooltipKnowledgeMatrices-${salt}`}>
               <img src={iconHelp} alt="Ajuda" />
             </button>
           </div>
           <div>{knowledgeMatrices}</div>
           <div className={styles.title}>
             Objetivos de Aprendizagem
-            <button data-tip data-for={`tooltipLearningObjectives-${salt}`}>
+            <button data-tooltip-id={`tooltipLearningObjectives-${salt}`}>
               <img src={iconHelp} alt="Ajuda" />
             </button>
           </div>

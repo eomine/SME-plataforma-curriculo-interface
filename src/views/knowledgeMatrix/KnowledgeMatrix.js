@@ -1,17 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import BodyActions from 'actions/BodyActions';
-import KnowledgeMatrixActions from 'actions/KnowledgeMatrixActions';
+import { useGetKnowledgeMatricesQuery } from 'data/curriculoApi';
+import withQuery from 'utils/withQuery';
 import Button from './Button';
 import Page from 'components/layout/Page';
-import styles from './KnowledgeMatrix.scss';
+import styles from './KnowledgeMatrix.module.scss';
 
 class KnowledgeMatrix extends Component {
-  componentDidMount() {
-    this.props.load();
-  }
-
   render() {
     const items = this.props.data.map((item, i) => {
       return <Button key={i} data={item} />;
@@ -53,25 +48,9 @@ class KnowledgeMatrix extends Component {
 
 KnowledgeMatrix.propTypes = {
   data: PropTypes.array.isRequired,
-  load: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => {
-  return {
-    data: state.KnowledgeMatrixReducer.items,
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    load: () => {
-      dispatch(BodyActions.showLoading());
-      dispatch(KnowledgeMatrixActions.load());
-    },
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(KnowledgeMatrix);
+export default withQuery(useGetKnowledgeMatricesQuery, {
+  mapResult: result => ({ data: result.data || [] }),
+  showLoading: true,
+})(KnowledgeMatrix);

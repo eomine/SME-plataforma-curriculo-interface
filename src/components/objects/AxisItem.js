@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import styles from './AxisItem.scss';
+import styles from './AxisItem.module.scss';
 
 class AxisItem extends Component {
   render() {

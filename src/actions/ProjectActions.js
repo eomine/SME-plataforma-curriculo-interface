@@ -1,61 +1,28 @@
-import Api from 'data/Api';
-import getTeacherId from 'data/getTeacherId';
-import axios from 'axios';
-import AlertActions from './AlertActions';
-import { API_URL } from 'data/constants';
+import { openAlert } from 'reducers/messagesSlice';
+import { withGlobalLoading } from 'reducers/bodySlice';
+import { curriculoApi } from 'data/curriculoApi';
+
+// Comentários de projeto, pelas mutations do curriculoApi (que recarregam o
+// projeto quando terminam). Em caso de erro o baseQuery já mostra o alerta.
+function runComment(dispatch, endpoint, args, successMessage) {
+  return withGlobalLoading(
+    dispatch,
+    dispatch(endpoint.initiate(args))
+      .unwrap()
+      .then(() => dispatch(openAlert(successMessage)))
+      .catch(() => {})
+  );
+}
 
 const ProjectActions = {
-  LOAD: 'ProjectActions.LOAD',
-  LOAD_COLLECTIONS: 'ProjectActions.LOAD_COLLECTIONS',
-  LOADED: 'ProjectActions.LOADED',
-  LOADED_COLLECTIONS: 'ProjectActions.LOADED_COLLECTIONS',
-
-  load(slug) {
-    return Api.simpleGet(
-      `/api/projects/${slug}`,
-      ProjectActions.LOAD,
-      ProjectActions.LOADED
-    );
+  createComment(comment, slug) {
+    return dispatch =>
+      runComment(dispatch, curriculoApi.endpoints.createComment, { comment, slug }, 'Comentário salvo com sucesso.');
   },
-  loadCollections(slug) {
-    return Api.simpleGet(
-      `/api/projects/${slug}/colecoes`,
-      ProjectActions.LOAD_COLLECTIONS,
-      ProjectActions.LOADED_COLLECTIONS
-    );
+  deleteComment(id, slug) {
+    return dispatch =>
+      runComment(dispatch, curriculoApi.endpoints.deleteComment, { id, slug }, 'Comentário apagado com sucesso.');
   },
-  createComment(comment) {
-    return (dispatch) => {
-      const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(comment)
-      };
-      fetch(`${API_URL}/api/comments`, requestOptions)
-        .then(response => {
-          dispatch(AlertActions.open(`Comentário salvo com sucesso.`));
-        })
-        .catch(error =>
-          dispatch(AlertActions.open(`Ocorreu um erro: ${error}`))
-        );
-    };
-  },
-  deleteComment(comment_id) {
-    return (dispatch) => {
-      const requestOptions = {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({id: comment_id})
-      };
-      fetch(`${API_URL}/api/comments/${comment_id}`, requestOptions)
-        .then(response => {
-          dispatch(AlertActions.open(`Comentário apagado com sucesso.`));
-        })
-        .catch(error =>
-          dispatch(AlertActions.open(`Ocorreu um erro: ${error}`))
-        );
-    };
-  }
 };
 
 export default ProjectActions;

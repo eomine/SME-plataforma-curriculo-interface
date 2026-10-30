@@ -1,23 +1,23 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import FormControl from '@material-ui/core/FormControl';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import IconButton from '@material-ui/core/IconButton';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import TextField from '@material-ui/core/TextField';
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import FormControl from '@mui/material/FormControl';
+import FormHelperText from '@mui/material/FormHelperText';
+import IconButton from '@mui/material/IconButton';
+import Input from '@mui/material/Input';
+import InputLabel from '@mui/material/InputLabel';
+import InputAdornment from '@mui/material/InputAdornment';
+import TextField from '@mui/material/TextField';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { connect } from 'react-redux';
-import { history } from 'index';
+import { history } from 'utils/history';
 import DesktopModal from 'components/layout/DesktopModal';
 import ModalFooter from 'components/footer/ModalFooter';
 import ModalPage from 'components/layout/ModalPage';
 import LoginActions from 'actions/LoginActions';
 import iconClose from 'images/icons/closeBig.svg';
 import logo from 'images/logo.svg';
-import styles from './Login.scss';
+import styles from './Login.module.scss';
 
 class Login extends Component {
   ref = React.createRef();
@@ -47,7 +47,7 @@ class Login extends Component {
   };
 
   onClickedClose = () => {
-    history.goBack();
+    history.back();
   };
 
   onClickedShowPassword = e => {
@@ -137,7 +137,7 @@ class Login extends Component {
                     <IconButton
                       aria-label="Exibir senha"
                       onClick={this.onClickedShowPassword}
-                    >
+                      size="large">
                       {isShowingPassword ? (
                         <Visibility />
                       ) : (

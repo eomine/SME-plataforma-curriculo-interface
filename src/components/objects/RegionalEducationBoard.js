@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import styles from './RegionalEducationBoard.scss';
+import styles from './RegionalEducationBoard.module.scss';
 
 class RegionalEducationBoard extends Component {
   onClicked = () => {

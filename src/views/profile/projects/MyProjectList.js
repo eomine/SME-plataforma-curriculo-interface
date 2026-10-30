@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import GridItem from './GridItem';
-import styles from './MyProjectList.scss';
+import styles from './MyProjectList.module.scss';
 
 class MyProjectList extends React.PureComponent {
   render() {

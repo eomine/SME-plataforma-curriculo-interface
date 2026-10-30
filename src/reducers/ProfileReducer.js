@@ -8,7 +8,6 @@ const initialState = {
   name: '',
   nickname: '',
   photo: null,
-  schools: [],
 };
 
 function ProfileReducer(state = initialState, action) {
@@ -46,12 +45,6 @@ function ProfileReducer(state = initialState, action) {
         numCollections: teacher.number_of_collections,
         numComponents: teacher.number_of_components,
         numNotEvaluatedSequences: teacher.number_of_sequences_not_evaluated,
-      };
-
-    case ProfileActions.LOADED_CLASSROOMS:
-      return {
-        ...state,
-        schools: action.data.schools,
       };
 
     case ProfileActions.SAVED_NICKNAME:
