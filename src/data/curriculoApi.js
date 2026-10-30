@@ -34,7 +34,6 @@ export const curriculoApi = createApi({
       query: ({ sequenceSlug, activitySlug }) =>
         `/api/sequencias/${sequenceSlug}/atividades/${activitySlug}`,
     }),
-    // Coleções do professor
     // Desafios
     getOngoingChallenges: build.query({
       query: () => '/api/desafios/andamento',
@@ -200,11 +199,11 @@ export const curriculoApi = createApi({
       query: ({ slug }) => `/api/sequencias/${slug}/colecoes`,
       providesTags: ['ItemCollections'],
     }),
-    // Sequências realizadas pelo professor logado (o argumento é o teacherId).
     // "Meus projetos" do perfil
     getMyProjects: build.query({
       query: teacherId => teacherUrl(teacherId, '/meus_projetos'),
     }),
+    // Sequências realizadas pelo professor logado (o argumento é o teacherId).
     getPerformedSequences: build.query({
       query: () => '/api/sequencias_realizadas',
     }),
