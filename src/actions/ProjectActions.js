@@ -1,14 +1,13 @@
 import { openAlert } from 'reducers/messagesSlice';
 import { withGlobalLoading } from 'reducers/bodySlice';
-import { curriculoApi } from 'data/curriculoApi';
+import { curriculoApi, runMutation } from 'data/curriculoApi';
 
 // Comentários de projeto, pelas mutations do curriculoApi (que recarregam o
 // projeto quando terminam). Em caso de erro o baseQuery já mostra o alerta.
 function runComment(dispatch, endpoint, args, successMessage) {
   return withGlobalLoading(
     dispatch,
-    dispatch(endpoint.initiate(args))
-      .unwrap()
+    runMutation(dispatch, endpoint, args)
       .then(() => dispatch(openAlert(successMessage)))
       .catch(() => {})
   );

@@ -1,5 +1,5 @@
 import { openAlert } from 'reducers/messagesSlice';
-import { curriculoApi } from 'data/curriculoApi';
+import { curriculoApi, runMutation } from 'data/curriculoApi';
 import getTeacherId from 'data/getTeacherId';
 
 const RatingActions = {
@@ -18,8 +18,7 @@ const RatingActions = {
         },
       };
 
-      return dispatch(curriculoApi.endpoints.saveSequenceRating.initiate({ slug, rating }))
-        .unwrap()
+      return runMutation(dispatch, curriculoApi.endpoints.saveSequenceRating, { slug, rating })
         .then(() => dispatch(openAlert('Avaliação salva com sucesso!')))
         // O erro já foi mostrado no alerta do curriculoApi.
         .catch(() => {});

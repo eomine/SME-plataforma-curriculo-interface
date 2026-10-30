@@ -1,13 +1,12 @@
 import { openAlert } from 'reducers/messagesSlice';
-import { curriculoApi } from 'data/curriculoApi';
+import { curriculoApi, runMutation } from 'data/curriculoApi';
 import { history } from 'utils/history';
 
 // As opções do formulário vêm de data/projectFormQueries.
 const CreateProjectActions = {
   create(project) {
     return dispatch =>
-      dispatch(curriculoApi.endpoints.createProject.initiate(project))
-        .unwrap()
+      runMutation(dispatch, curriculoApi.endpoints.createProject, project)
         .then(() => {
           dispatch(openAlert(`Projeto salvo com sucesso.`));
           history.push(`/perfil`);

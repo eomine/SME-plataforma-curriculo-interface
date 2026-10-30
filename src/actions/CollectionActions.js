@@ -1,15 +1,14 @@
 import { openAlert, openSnackbar } from 'reducers/messagesSlice';
 import { projectSaved } from 'reducers/projectSlice';
 import getTeacherId from 'data/getTeacherId';
-import { curriculoApi, markProjectSaved, markSequenceSaved } from 'data/curriculoApi';
+import { curriculoApi, markProjectSaved, markSequenceSaved, runMutation } from 'data/curriculoApi';
 import { history } from 'utils/history';
 
 // As coleções ficam no cache do curriculoApi; estas actions chamam as
 // mutations dele e cuidam do resto (snackbar, navegação, alertas). Em caso de
 // erro o baseQuery já mostra o alerta, então aqui o erro só interrompe o fluxo.
 const { endpoints } = curriculoApi;
-const run = (dispatch, endpoint, args) =>
-  dispatch(endpoint.initiate({ teacherId: getTeacherId(), ...args })).unwrap();
+const run = (dispatch, endpoint, args) => runMutation(dispatch, endpoint, { teacherId: getTeacherId(), ...args });
 const ignoreError = () => {};
 
 function savedSnackbar(dispatch, name) {

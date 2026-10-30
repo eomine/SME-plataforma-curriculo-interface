@@ -1,5 +1,5 @@
 import { openAlert } from 'reducers/messagesSlice';
-import { curriculoApi } from 'data/curriculoApi';
+import { curriculoApi, runMutation } from 'data/curriculoApi';
 import { history } from 'utils/history';
 
 // A resposta e os formulários finalizados vêm do curriculoApi
@@ -7,8 +7,7 @@ import { history } from 'utils/history';
 const TeacherSurveyFormsActions = {
   create(surveyFormAnswer) {
     return dispatch =>
-      dispatch(curriculoApi.endpoints.saveSurveyFormAnswer.initiate(surveyFormAnswer))
-        .unwrap()
+      runMutation(dispatch, curriculoApi.endpoints.saveSurveyFormAnswer, surveyFormAnswer)
         .then(() => {
           dispatch(openAlert(`Resposta salva com sucesso.`));
           history.push(`/consultas-publicas`);

@@ -337,6 +337,14 @@ export const {
   useGetSustainableDevGoalQuery,
 } = curriculoApi;
 
+// Roda uma mutation fora de componentes (nas actions) e devolve o resultado,
+// ou rejeita com o erro. Sem track: ninguém lê o estado dessas mutations, que
+// só ficaria acumulado na store (com o FormData dos envios). As tags são
+// invalidadas do mesmo jeito.
+export function runMutation(dispatch, endpoint, args) {
+  return dispatch(endpoint.initiate(args, { track: false })).unwrap();
+}
+
 // Marca o item como salvo em todas as buscas da lista já em cache, como os
 // reducers faziam com o SAVED_SEQUENCE e o SAVED_PROJECT.
 function markSaved(endpointName, id) {

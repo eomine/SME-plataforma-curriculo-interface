@@ -1,7 +1,7 @@
 import { openSnackbar } from 'reducers/messagesSlice';
 import { loadSavedChallenges } from 'reducers/challengesSlice';
 import getTeacherId from 'data/getTeacherId';
-import { curriculoApi } from 'data/curriculoApi';
+import { curriculoApi, runMutation } from 'data/curriculoApi';
 import { history } from 'utils/history';
 
 // Favoritos e envio de resultado, pelas mutations do curriculoApi. Em caso de
@@ -12,8 +12,7 @@ const ignoreError = () => {};
 const ChallengeActions = {
   delete(id) {
     return dispatch =>
-      dispatch(endpoints.deleteFavoriteChallenge.initiate({ teacherId: getTeacherId(), challengeId: id }))
-        .unwrap()
+      runMutation(dispatch, endpoints.deleteFavoriteChallenge, { teacherId: getTeacherId(), challengeId: id })
         .then(() => {
           dispatch(openSnackbar('Desafio removido'));
           dispatch(loadSavedChallenges());
@@ -22,8 +21,7 @@ const ChallengeActions = {
   },
   save(id) {
     return dispatch =>
-      dispatch(endpoints.saveFavoriteChallenge.initiate({ teacherId: getTeacherId(), challengeId: id }))
-        .unwrap()
+      runMutation(dispatch, endpoints.saveFavoriteChallenge, { teacherId: getTeacherId(), challengeId: id })
         .then(() => {
           dispatch(openSnackbar('Desafio salvo'));
           dispatch(loadSavedChallenges());
@@ -40,8 +38,7 @@ const ChallengeActions = {
         'result[archives][]': files,
         'result[teacher_id]': getTeacherId(),
       };
-      return dispatch(endpoints.sendChallengeResult.initiate({ slug, body }))
-        .unwrap()
+      return runMutation(dispatch, endpoints.sendChallengeResult, { slug, body })
         .then(() => {
           history.back();
           dispatch(openSnackbar('Desafio salvo'));

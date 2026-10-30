@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import messages from 'reducers/messagesSlice';
-import { curriculoApi, markProjectSaved, markSequenceSaved } from 'data/curriculoApi';
+import { curriculoApi, markProjectSaved, markSequenceSaved, runMutation } from 'data/curriculoApi';
 
 // O history real precisa de window.
 vi.mock('utils/history', () => ({ history: { push: vi.fn() } }));
@@ -176,6 +176,31 @@ describe('curriculoApi', () => {
     expect(JSON.parse(options.body)).toEqual({ body: '<p>Oi</p>', project_id: 1 });
     await vi.waitFor(() => expect(fetch).toHaveBeenCalledTimes(3));
     expect(fetch.mock.calls[2][0]).toMatch(/\/api\/projects\/meu-projeto$/);
+  });
+
+  it('runMutation devolve o resultado, invalida as tags e não guarda a mutation', async () => {
+    const fetch = vi.fn(() => Promise.resolve(new Response(JSON.stringify({ id: 9 }))));
+    vi.stubGlobal('fetch', fetch);
+    const store = createStore();
+    const { createCollection, getCollections } = curriculoApi.endpoints;
+    store.dispatch(getCollections.initiate('1'));
+    await vi.waitFor(() => expect(fetch).toHaveBeenCalledTimes(1));
+
+    const data = await runMutation(store.dispatch, createCollection, { teacherId: '1', name: 'Nova' });
+
+    expect(data).toEqual({ id: 9 });
+    expect(store.getState().curriculoApi.mutations).toEqual({});
+    await vi.waitFor(() => expect(fetch).toHaveBeenCalledTimes(3));
+    expect(fetch.mock.calls[2][0]).toMatch(/\/api\/professores\/1\/colecoes$/);
+  });
+
+  it('runMutation rejeita com o erro da API', async () => {
+    mockFetch(422, { error: 'nome inválido' });
+    const store = createStore();
+
+    await expect(
+      runMutation(store.dispatch, curriculoApi.endpoints.createCollection, { teacherId: '1', name: '' })
+    ).rejects.toBe('nome inválido');
   });
 
   it('mostra o alerta de erro, como as actions faziam', async () => {
