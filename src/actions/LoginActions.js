@@ -3,6 +3,10 @@ import { openAlert } from 'reducers/messagesSlice';
 import { curriculoApi } from 'data/curriculoApi';
 import { history } from 'utils/history';
 
+// As listas de sequências e projetos em cache foram buscadas sem login e não
+// marcam o que o professor já salvou.
+const invalidateLoggedOutData = () => curriculoApi.util.invalidateTags(['SequenceList', 'ProjectList']);
+
 const LoginActions = {
   LOGGED_IN: 'LoginActions.LOGGED_IN',
   LOGGED_OUT: 'LoginActions.LOGGED_OUT',
@@ -23,6 +27,7 @@ const LoginActions = {
 
           history.push('/perfil');
           dispatch({ type: LoginActions.LOGGED_IN });
+          dispatch(invalidateLoggedOutData());
         })
         .catch(error =>
           dispatch(openAlert(`Ocorreu um erro: ${error}`))
@@ -44,6 +49,7 @@ const LoginActions = {
 
           history.push('/perfil');
           dispatch({ type: LoginActions.LOGGED_IN });
+          dispatch(invalidateLoggedOutData());
         })
         .catch(error =>
           dispatch(openAlert(`Ocorreu um erro: ${error}`))

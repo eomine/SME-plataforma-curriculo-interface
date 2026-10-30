@@ -28,7 +28,7 @@ const teacherUrl = (teacherId, path = '') => `/api/professores/${teacherId}${pat
 export const curriculoApi = createApi({
   reducerPath: 'curriculoApi',
   baseQuery,
-  tagTypes: ['Collections', 'Collection', 'CollectionItems', 'ItemCollections', 'Project', 'ProjectList', 'ChallengeResults', 'SurveyAnswers'],
+  tagTypes: ['Collections', 'Collection', 'CollectionItems', 'ItemCollections', 'Project', 'ProjectList', 'SequenceList', 'ChallengeResults', 'SurveyAnswers'],
   endpoints: build => ({
     getActivity: build.query({
       query: ({ sequenceSlug, activitySlug }) =>
@@ -118,7 +118,8 @@ export const curriculoApi = createApi({
     }),
     deleteCollection: build.mutation({
       query: ({ teacherId, id }) => ({ url: teacherUrl(teacherId, `/colecoes/${id}`), method: 'DELETE' }),
-      invalidatesTags: ['Collections', 'ItemCollections'],
+      // As listas mostram "Salvo" (already_saved_in_collection) pelos itens dela.
+      invalidatesTags: ['Collections', 'ItemCollections', 'SequenceList', 'ProjectList'],
     }),
     // Os contadores da lista de coleções também mudam.
     addToCollection: build.mutation({
@@ -140,10 +141,12 @@ export const curriculoApi = createApi({
         url: teacherUrl(teacherId, `/colecoes/${id}/${kind === 'project' ? 'projetos' : 'sequencias'}/${itemId}`),
         method: 'DELETE',
       }),
+      // Ao salvar, as listas marcam o item (markSaved); ao tirar, recarregam.
       invalidatesTags: (result, error, { id, kind }) => [
         'Collections',
         'ItemCollections',
         { type: 'CollectionItems', id: `${kind}-${id}` },
+        kind === 'project' ? 'ProjectList' : 'SequenceList',
       ],
     }),
     // Sequência e projeto
@@ -229,7 +232,8 @@ export const curriculoApi = createApi({
     getMethodology: build.query({
       query: slug => `/api/metodos/${slug}`,
     }),
-    // Lista paginada de projetos, como a de sequências.
+    // Lista paginada de projetos, como a de sequências. As listas dependem do
+    // login (already_saved_in_collection) e recarregam quando ele muda.
     getProjects: build.infiniteQuery({
       providesTags: ['ProjectList'],
       query: ({ queryArg, pageParam }) =>
@@ -277,6 +281,7 @@ export const curriculoApi = createApi({
     // Lista paginada: o argumento é a query string da busca ('' = todas) e
     // cada página seguinte vem da URL do header Link da anterior.
     getSequences: build.infiniteQuery({
+      providesTags: ['SequenceList'],
       query: ({ queryArg, pageParam }) =>
         pageParam || (queryArg ? `/api/sequencias?${queryArg}` : '/api/sequencias'),
       transformResponse: (items, meta) => ({

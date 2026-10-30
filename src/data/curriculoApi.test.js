@@ -124,6 +124,21 @@ describe('curriculoApi', () => {
     expect(getSequences.select('')(store.getState()).data.pages[0].items).toEqual([{ id: 2 }]);
   });
 
+  it('tirar uma sequência de uma coleção recarrega a lista de sequências', async () => {
+    const fetch = vi.fn(() => Promise.resolve(new Response(JSON.stringify([]))));
+    vi.stubGlobal('fetch', fetch);
+    const store = createStore();
+    const { getProjects, getSequences, removeFromCollection } = curriculoApi.endpoints;
+    store.dispatch(getSequences.initiate(''));
+    store.dispatch(getProjects.initiate(''));
+    await vi.waitFor(() => expect(fetch).toHaveBeenCalledTimes(2));
+
+    await store.dispatch(removeFromCollection.initiate({ teacherId: '1', id: 7, kind: 'sequence', itemId: 42 })).unwrap();
+
+    await vi.waitFor(() => expect(fetch).toHaveBeenCalledTimes(4));
+    expect(fetch.mock.calls[3][0]).toMatch(/\/api\/sequencias$/);
+  });
+
   it('salvar numa coleção envia o FormData das actions e recarrega a coleção e a lista', async () => {
     const fetch = vi.fn(() => Promise.resolve(new Response(JSON.stringify([]))));
     vi.stubGlobal('fetch', fetch);
