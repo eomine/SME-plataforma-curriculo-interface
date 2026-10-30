@@ -1,12 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router';
 import { connect } from 'react-redux';
-import { history } from 'index';
-import BodyActions from 'actions/BodyActions';
+import { history } from 'utils/history';
 import ClassroomYear from 'components/objects/ClassroomYear';
 import CollectionActions from 'actions/CollectionActions';
-import ConfirmActions from 'actions/ConfirmActions';
+import { askConfirmation } from 'reducers/messagesSlice';
+import { skipToken } from '@reduxjs/toolkit/query/react';
+import {
+  useGetCollectionProjectsQuery,
+  useGetCollectionQuery,
+  useGetCollectionSequencesQuery,
+} from 'data/curriculoApi';
+import getTeacherId from 'data/getTeacherId';
+import withQuery from 'utils/withQuery';
 import EmptySequenceList from './EmptySequenceList';
 import EmptyProjectList from './EmptyProjectList';
 import Page from 'components/layout/Page';
@@ -16,38 +23,29 @@ import createModalLink from 'utils/createModalLink';
 import iconClose from 'images/icons/closeBig.svg';
 import iconEdit from 'images/icons/edit.svg';
 import iconDelete from 'images/icons/delete1.svg';
-import styles from './Collection.scss';
+import styles from './Collection.module.scss';
 
 class Collection extends Component {
-  componentDidMount() {
-    const id = this.props.match.params.id;
-    this.props.load(id);
-    this.props.loadSequences(id);
-    this.props.loadProjects(id);
-  }
-
   onClickedClose = () => {
-    history.goBack();
+    history.back();
   };
 
   onClickedConfirm = () => {
     this.props.delete(this.props.match.params.id);
-    history.goBack();
+    history.back();
   };
 
   onClickedDelete = () => {
     const { name } = this.props.data;
-    const { sequences } = this.props;
 
-    const numSequences = sequences.length;
-
-    this.props.openConfirm(
-      'Excluir essa coleção e todas as suas sequências de atividades?',
-      `Sua coleção ${name} e todas as suas sequências e projetos serão excluídos permanentemente.`,
-      'Excluir',
-      'Cancelar',
-      this.onClickedConfirm
-    );
+    this.props
+      .openConfirm(
+        'Excluir essa coleção e todas as suas sequências de atividades?',
+        `Sua coleção ${name} e todas as suas sequências e projetos serão excluídos permanentemente.`,
+        'Excluir',
+        'Cancelar'
+      )
+      .then(confirmed => confirmed && this.onClickedConfirm());
   };
 
   render() {
@@ -76,7 +74,7 @@ class Collection extends Component {
       <Page>
         <div className={styles.header}>
           <div className={styles.buttons}>
-            <NavLink to={link}>
+            <NavLink {...link}>
               <img src={iconEdit} alt="Editar" />
             </NavLink>
             <button onClick={this.onClickedDelete}>
@@ -102,7 +100,6 @@ Collection.propTypes = {
   classrooms: PropTypes.array.isRequired,
   data: PropTypes.object.isRequired,
   delete: PropTypes.func.isRequired,
-  load: PropTypes.func.isRequired,
   openConfirm: PropTypes.func.isRequired,
   sequences: PropTypes.array.isRequired,
   projects: PropTypes.array.isRequired,
@@ -112,38 +109,34 @@ Collection.defaultProps = {
   classrooms: [],
 };
 
-const mapStateToProps = state => {
-  return {
-    data: state.CollectionReducer.data,
-    sequences: state.CollectionReducer.sequences,
-    projects: state.CollectionReducer.projects,
-  };
-};
-
 const mapDispatchToProps = dispatch => {
   return {
     delete: id => {
       dispatch(CollectionActions.delete(id));
     },
-    load: id => {
-      dispatch(BodyActions.showLoading());
-      dispatch(CollectionActions.load(id));
-    },
-    loadSequences: id => {
-      dispatch(CollectionActions.loadSequences(id));
-    },
-    loadProjects: id => {
-      dispatch(CollectionActions.loadProjects(id));
-    },
-    openConfirm: (title, message, labelYes, labelNo, onConfirm) => {
-      dispatch(
-        ConfirmActions.open(title, message, labelYes, labelNo, onConfirm)
-      );
-    },
+    openConfirm: (title, message, labelYes, labelNo) =>
+      dispatch(askConfirmation(title, message, labelYes, labelNo)),
   };
 };
 
-export default connect(
-  mapStateToProps,
+const collectionArg = props =>
+  getTeacherId() ? { teacherId: getTeacherId(), id: props.match.params.id } : skipToken;
+
+const withCollection = withQuery(useGetCollectionQuery, {
+  arg: collectionArg,
+  mapResult: result => ({ data: result.currentData || {} }),
+});
+const withSequences = withQuery(useGetCollectionSequencesQuery, {
+  arg: collectionArg,
+  mapResult: result => ({ sequences: result.currentData || [] }),
+  showLoading: true,
+});
+const withProjects = withQuery(useGetCollectionProjectsQuery, {
+  arg: collectionArg,
+  mapResult: result => ({ projects: result.currentData || [] }),
+});
+
+export default withCollection(withSequences(withProjects(connect(
+  null,
   mapDispatchToProps
-)(Collection);
+)(Collection))));

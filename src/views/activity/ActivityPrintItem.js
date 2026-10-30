@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import ActivityActions from 'actions/ActivityActions';
 import ActivityChars from './chars/ActivityChars';
 import Cover from 'views/sequence/Cover';
 import ModuleExercise from 'views/modules/ModuleExercise';
@@ -13,12 +11,14 @@ import ModuleTextWithTables from 'views/modules/ModuleTextWithTables';
 import ModuleTeacher from 'views/modules/ModuleTeacher';
 import Title from 'views/sequence/Title';
 import convertQuillToHtml from 'utils/convertQuillToHtml';
-import styles from './ActivityPrintItem.scss';
+import { useGetActivityQuery } from 'data/curriculoApi';
+import withQuery from 'utils/withQuery';
+import styles from './ActivityPrintItem.module.scss';
+import typesetMath from 'utils/typesetMath';
 
 class ActivityPrintItem extends Component {
   componentDidMount() {
-    this.props.load(this.props.slug1, this.props.slug2);
-    window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
+    typesetMath();
   }
 
   render() {
@@ -103,32 +103,9 @@ class ActivityPrintItem extends Component {
 
 ActivityPrintItem.propTypes = {
   data: PropTypes.object,
-  load: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state, ownProps) => {
-  let slug = '';
-  if (ownProps.match) {
-    const params = ownProps.match.params;
-    slug = `${params.slug1}_${params.slug2}`;
-  } else {
-    slug = `${ownProps.slug1}_${ownProps.slug2}`;
-  }
-
-  return {
-    data: state.ActivityReducer[slug],
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    load: (slug1, slug2) => {
-      dispatch(ActivityActions.load(slug1, slug2));
-    },
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ActivityPrintItem);
+export default withQuery(useGetActivityQuery, {
+  arg: props => ({ sequenceSlug: props.slug1, activitySlug: props.slug2 }),
+  mapResult: result => ({ data: result.currentData || null }),
+})(ActivityPrintItem);

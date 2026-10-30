@@ -2,13 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Moment from 'react-moment';
 import 'moment/locale/pt-br';
-import 'moment-timezone';
-import { NavLink } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { history } from 'index';
+import 'moment-timezone/builds/moment-timezone-with-data-1970-2030';
+import { NavLink } from 'react-router';
+import { withChallengeResult } from 'data/challengeQueries';
+import { history } from 'utils/history';
 import Attachment from './Attachment';
 import Avatar from 'components/objects/Avatar';
-import ChallengeActions from 'actions/ChallengeActions';
 import DesktopModal from 'components/layout/DesktopModal';
 import ModalHeader from 'components/header/ModalHeader';
 import ModalPage from 'components/layout/ModalPage';
@@ -16,10 +15,9 @@ import ModuleGallery from 'views/modules/ModuleGallery';
 import withWidth from 'components/hoc/withWidth';
 import arrowLeft from 'images/arrows/left.svg';
 import arrowRight from 'images/arrows/right.svg';
-import iconClip from 'images/icons/clip.svg';
-import styles from './Result.scss';
-import styles1 from 'views/challenge/Result.scss';
-import styles2 from 'views/activity/Activity.scss';
+import styles from './Result.module.scss';
+import styles1 from 'views/challenge/Result.module.scss';
+import styles2 from 'views/activity/Activity.module.scss';
 
 class Result extends Component {
   onClickedPrev = () => {
@@ -37,19 +35,6 @@ class Result extends Component {
     const linkNext = `/desafio/${slug}/resultado/${nextId}`;
     history.replace(linkNext);
   };
-
-  componentDidUpdate(prevProps) {
-    const params = this.props.match.params;
-    const prevParams = prevProps.match.params;
-    if (params.id !== prevParams.id || params.slug !== prevParams.slug) {
-      this.props.load(params.slug, params.id);
-    }
-  }
-
-  componentDidMount() {
-    const { id, slug } = this.props.match.params;
-    this.props.load(slug, id);
-  }
 
   render() {
     const { currResult, windowWidth } = this.props;
@@ -90,7 +75,6 @@ class Result extends Component {
       );
     });
 
-    const icon = false ? <img src={iconClip} alt="Anexos" className={styles1.icon} /> : null;
     const attachments = currResult.documents.map((item, i) => {
       return (
         <Attachment
@@ -139,7 +123,6 @@ class Result extends Component {
                       <div className={styles1.name}>{currResult.teacher.name}</div>
                       <div className={styles1.date}>{currResult.class_name} &middot; {friendlyDate}</div>
                     </div>
-                    {icon}
                   </div>
                   <div className={styles.text}>{currResult.description}</div>
                   <hr />
@@ -174,21 +157,4 @@ Result.propTypes = {
   currResult: PropTypes.object,
 };
 
-const mapStateToProps = state => {
-  return {
-    currResult: state.ChallengeReducer.currResult,
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    load: (slug, resultId) => {
-      dispatch(ChallengeActions.loadResult(slug, resultId));
-    },
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withWidth(Result));
+export default withChallengeResult(withWidth(Result));

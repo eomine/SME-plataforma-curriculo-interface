@@ -1,7 +1,7 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router';
 import iconCollection from './collection.svg';
-import styles from 'views/profile/collections/EmptyList.scss';
+import styles from 'views/profile/collections/EmptyList.module.scss';
 
 class EmptyProjectList extends React.PureComponent {
   render() {

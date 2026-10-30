@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import MenuItem from '@material-ui/core/MenuItem';
-import TextField from '@material-ui/core/TextField';
+import MenuItem from '@mui/material/MenuItem';
+import TextField from '@mui/material/TextField';
 import { connect } from 'react-redux';
-import FiltersActions from 'actions/FiltersActions';
-import styles from './OrderButton.scss';
+import { sequenceFiltersActions } from 'reducers/filtersSlice';
+import styles from './OrderButton.module.scss';
 
 class OrderButton extends Component {
   state = { order: 'default' };
@@ -78,14 +78,14 @@ OrderButton.defaultProps = {
 
 const mapStateToProps = state => {
   return {
-    order: state.FiltersReducer.order,
+    order: state.sequenceFilters.order,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     setOrder: value => {
-      dispatch(FiltersActions.setOrder(value));
+      dispatch(sequenceFiltersActions.setOrder(value));
     },
   };
 };

@@ -1,8 +1,8 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router';
 import createModalLink from 'utils/createModalLink';
 import iconCollections from './collections.svg';
-import styles from './EmptyList.scss';
+import styles from './EmptyList.module.scss';
 
 class EmptyList extends React.PureComponent {
   render() {
@@ -19,7 +19,7 @@ class EmptyList extends React.PureComponent {
                 Crie uma nova coleção para salvar sequências de atividades, projetos do TCA e
                 acessá-los mais tarde.
               </p>
-              <NavLink className="btnSmall" to={link}>
+              <NavLink className="btnSmall" {...link}>
                 Criar coleção
               </NavLink>
             </div>

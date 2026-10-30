@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router';
 import Collection from './Collection';
 import createModalLink from 'utils/createModalLink';
 import iconPlus from 'images/icons/plus.svg';
-import styles from './CollectionList.scss';
+import styles from './CollectionList.module.scss';
 
 class CollectionList extends Component {
   render() {
@@ -31,14 +31,14 @@ class CollectionList extends Component {
           <h2>Minhas Coleções</h2>
           <div className={styles.rowTitle}>
             <h3>{items.length} {word}</h3>
-            <NavLink className="btnSmall" to={link}>
+            <NavLink className="btnSmall" {...link}>
               Criar coleção
               <img src={iconPlus} alt="Criar coleção" />
             </NavLink>
           </div>
           <div className="row">{items}</div>
           <div className={styles.rowBelow}>
-            <NavLink className="btnFullWidth" to={link}>
+            <NavLink className="btnFullWidth" {...link}>
               Criar uma nova coleção
               <img src={iconPlus} alt="Criar coleção" />
             </NavLink>

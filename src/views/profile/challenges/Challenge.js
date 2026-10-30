@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router';
 import { connect } from 'react-redux';
 import { API_URL } from 'data/constants';
 import ChallengeActions from 'actions/ChallengeActions';
-import ConfirmActions from 'actions/ConfirmActions';
+import { askConfirmation } from 'reducers/messagesSlice';
 import createModalLink from 'utils/createModalLink';
 import iconCheck from 'images/icons/check.png';
 import iconDelete from 'images/icons/delete.svg';
-import styles from 'views/collection/Sequence.scss';
+import styles from 'views/collection/Sequence.module.scss';
 
 class Challenge extends React.PureComponent {
   onClickedConfirm = () => {
@@ -16,13 +16,14 @@ class Challenge extends React.PureComponent {
   };
 
   onClickedDelete = () => {
-    this.props.openConfirm(
-      'Excluir este desafio?',
-      'Esta ação remove o desafio da sua lista mas não exclui os resultados previamente enviados por você.',
-      'Excluir',
-      'Cancelar',
-      this.onClickedConfirm
-    );
+    this.props
+      .openConfirm(
+        'Excluir este desafio?',
+        'Esta ação remove o desafio da sua lista mas não exclui os resultados previamente enviados por você.',
+        'Excluir',
+        'Cancelar'
+      )
+      .then(confirmed => confirmed && this.onClickedConfirm());
   };
 
   render() {
@@ -67,7 +68,7 @@ class Challenge extends React.PureComponent {
             <img src={iconCheck} alt="Desafio realizado" />
             Desafio realizado
           </span>
-          <NavLink to={link}>Ver meu resultado</NavLink>
+          <NavLink {...link}>Ver meu resultado</NavLink>
         </div>
       );
     }
@@ -109,11 +110,8 @@ const mapDispatchToProps = dispatch => {
     delete: id => {
       dispatch(ChallengeActions.delete(id));
     },
-    openConfirm: (title, message, labelYes, labelNo, onConfirm) => {
-      dispatch(
-        ConfirmActions.open(title, message, labelYes, labelNo, onConfirm)
-      );
-    },
+    openConfirm: (title, message, labelYes, labelNo) =>
+      dispatch(askConfirmation(title, message, labelYes, labelNo)),
   };
 };
 

@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import { TimelineLite } from 'gsap/TweenMax';
 import { connect } from 'react-redux';
 import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
-import AlertActions from 'actions/AlertActions';
-import BodyActions from 'actions/BodyActions';
+import { openAlert } from 'reducers/messagesSlice';
 import Chip from 'components/objects/Chip';
 import CurricularComponent from './CurricularComponent';
 import ExpandableLearningObjective from 'components/objects/ExpandableLearningObjective';
@@ -18,7 +17,7 @@ import withWidth from 'components/hoc/withWidth';
 import chevronLeft from 'images/chevrons/left.svg';
 import iconCloseBig from 'images/icons/closeBig.svg';
 import iconWarning from 'images/icons/warning.svg';
-import styles from './LearningObjectives.scss';
+import styles from './LearningObjectives.module.scss';
 
 class LearningObjectives extends Component {
   refFilters = React.createRef();
@@ -74,8 +73,12 @@ class LearningObjectives extends Component {
     this.target = document.querySelector('#learningObjectives');
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.isShowingResults) {
+  componentDidUpdate(prevProps) {
+    const { isShowingResults, results } = this.props;
+    if (
+      isShowingResults &&
+      (!prevProps.isShowingResults || results !== prevProps.results)
+    ) {
       this.tl.kill();
       this.tl.clear();
       this.tl.to(this.refFilters.current, 0.1, { opacity: 0, display: 'none' });
@@ -292,7 +295,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     load: () => {
-      dispatch(BodyActions.showLoading());
       dispatch(LearningObjectivesActions.load());
     },
     hideObjectives: () => {
@@ -302,7 +304,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(LearningObjectivesActions.hideResults());
     },
     openAlert: message => {
-      dispatch(AlertActions.open(message));
+      dispatch(openAlert(message));
     },
     search: filters => {
       dispatch(LearningObjectivesActions.search(filters));

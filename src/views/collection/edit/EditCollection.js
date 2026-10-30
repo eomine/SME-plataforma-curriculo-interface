@@ -1,15 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import TextField from '@material-ui/core/TextField';
+import TextField from '@mui/material/TextField';
 import { connect } from 'react-redux';
-import { history } from 'index';
+import { history } from 'utils/history';
 import Classroom from './Classroom';
+import { skipToken } from '@reduxjs/toolkit/query/react';
+import { useGetCollectionQuery } from 'data/curriculoApi';
+import getTeacherId from 'data/getTeacherId';
+import withQuery from 'utils/withQuery';
 import CollectionActions from 'actions/CollectionActions';
 import DesktopModal from 'components/layout/DesktopModal';
 import ModalPage from 'components/layout/ModalPage';
 import ModalFooter from 'components/footer/ModalFooter';
 import ModalHeader from 'components/header/ModalHeader';
-import styles from './EditCollection.scss';
+import styles from './EditCollection.module.scss';
 
 class EditCollection extends Component {
   state = {
@@ -23,8 +27,6 @@ class EditCollection extends Component {
         ...this.state,
         name: this.props.data.name,
       });
-    } else {
-      this.props.load(this.props.match.params.id);
     }
   }
 
@@ -46,7 +48,7 @@ class EditCollection extends Component {
 
   onClickedSave = () => {
     this.props.edit(this.props.match.params.id, this.state.name);
-    history.goBack();
+    history.back();
   };
 
   render() {
@@ -154,13 +156,6 @@ class EditCollection extends Component {
 EditCollection.propTypes = {
   data: PropTypes.object.isRequired,
   edit: PropTypes.func.isRequired,
-  load: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = state => {
-  return {
-    data: state.CollectionReducer.data,
-  };
 };
 
 const mapDispatchToProps = dispatch => {
@@ -168,13 +163,14 @@ const mapDispatchToProps = dispatch => {
     edit: (id, name) => {
       dispatch(CollectionActions.edit(id, name));
     },
-    load: id => {
-      dispatch(CollectionActions.load(id));
-    },
   };
 };
 
-export default connect(
-  mapStateToProps,
+export default withQuery(useGetCollectionQuery, {
+  arg: props =>
+    getTeacherId() ? { teacherId: getTeacherId(), id: props.match.params.id } : skipToken,
+  mapResult: result => ({ data: result.currentData || {} }),
+})(connect(
+  null,
   mapDispatchToProps
-)(EditCollection);
+)(EditCollection));

@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Collapse from '@material-ui/core/Collapse';
-import SwipeableViews from 'react-swipeable-views';
-import Tab from '@material-ui/core/Tab';
-import Tabs from '@material-ui/core/Tabs';
-import { connect } from 'react-redux';
-import { history } from 'index';
-import BodyActions from 'actions/BodyActions';
+import Collapse from '@mui/material/Collapse';
+import SwipeableViews from 'components/SwipeableViews';
+import Tab from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';
+import { history } from 'utils/history';
 import Page from 'components/layout/Page';
-import ChallengeActions from 'actions/ChallengeActions';
-import ChallengesActions from 'actions/ChallengesActions';
 import ChallengeChars from './chars/ChallengeChars';
 import ChallengeCharsMobile from './chars/ChallengeCharsMobile';
 import Cover from './Cover';
@@ -20,9 +16,12 @@ import Tooltips from 'components/Tooltips';
 import getCategoryLabel from './getCategoryLabel';
 import getContentBlocks from 'utils/getContentBlocks';
 import isLogged from 'data/isLogged';
+import { withChallenge, withChallengeResults } from 'data/challengeQueries';
 import chevronDown from 'images/chevrons/down.svg';
 import chevronUp from 'images/chevrons/up.svg';
-import styles from './Challenge.scss';
+import styles from './Challenge.module.scss';
+import onKeyActivate from 'utils/onKeyActivate';
+import typesetMath from 'utils/typesetMath';
 
 class Challenge extends Component {
   state = {
@@ -46,7 +45,7 @@ class Challenge extends Component {
   };
 
   onClickedLoadMore = () => {
-    this.props.loadMore(this.props.nextPage);
+    this.props.loadMore();
   };
 
   onClickedMaterials = () => {
@@ -79,8 +78,6 @@ class Challenge extends Component {
   };
 
   componentDidMount() {
-    this.props.load(this.props.match.params.slug);
-
     if (this.props.location.pathname.match(/imprimir/)) {
       this.setState({
         ...this.state,
@@ -88,7 +85,7 @@ class Challenge extends Component {
       });
     }
 
-    window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
+    typesetMath();
   }
 
   componentDidUpdate(prevProps) {
@@ -120,7 +117,7 @@ class Challenge extends Component {
 
       materials = (
         <div className={styles.materials}>
-          <div className={styles.btnMaterials} onClick={this.onClickedMaterials}>
+          <div className={styles.btnMaterials} role="button" tabIndex={0} onClick={this.onClickedMaterials} onKeyDown={onKeyActivate(this.onClickedMaterials)}>
             <h3 className={styles.categoryName}>{data.list.title}</h3>
             <img src={chevron} alt={label} />
           </div>
@@ -248,39 +245,9 @@ class Challenge extends Component {
 Challenge.propTypes = {
   data: PropTypes.object,
   results: PropTypes.array.isRequired,
-  nextPage: PropTypes.string,
+  nextPage: PropTypes.bool,
   totalItems: PropTypes.number,
   isLoading: PropTypes.bool,
 };
 
-const mapStateToProps = state => {
-  return {
-    data: state.ChallengeReducer.currItem,
-    results: state.ChallengeReducer.results,
-    nextPage: state.ChallengeReducer.nextPage,
-    totalItems: state.ChallengeReducer.totalItems,
-    isLoading: state.ChallengeReducer.isLoading,
-    saved: state.ChallengesReducer.saved,
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    load: slug => {
-      dispatch(BodyActions.showLoading());
-      dispatch(ChallengeActions.load(slug));
-      dispatch(ChallengeActions.loadResults(slug));
-      if (isLogged()) {
-        // dispatch(ChallengesActions.loadSaved());
-      }
-    },
-    loadMore: page => {
-      dispatch(ChallengeActions.loadMoreResults(page));
-    },
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Challenge);
+export default withChallenge('data', { showLoading: true })(withChallengeResults(Challenge));

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Page from 'components/layout/Page';
 import Home from 'views/home/Home';
-import styles from './AnswerBooks.scss';
+import styles from './AnswerBooks.module.scss';
 import StageContent from 'components/StageContent';
 import { API_URL } from 'data/constants';
 
@@ -36,11 +36,7 @@ class AnswerBooks extends Component {
 
   render() {
     const segments = this.state.books.map(book => book.segment).filter(onlyUnique).sort();
-    const segmentBooks = this.state.segments.filter((segment) => {
-      if (segments.includes(segment.name)){
-        return true
-      }
-    }).map(segment => segment.name)
+    const segmentBooks = this.state.segments.filter(segment => segments.includes(segment.name)).map(segment => segment.name)
 
     const contents = (
       <div className="container">

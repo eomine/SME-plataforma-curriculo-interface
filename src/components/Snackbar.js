@@ -1,12 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Snackbar1 from '@material-ui/core/Snackbar';
+import Snackbar1 from '@mui/material/Snackbar';
 import { connect } from 'react-redux';
-import SnackbarActions from 'actions/SnackbarActions';
+import { closeSnackbar } from 'reducers/messagesSlice';
 
 class Snackbar extends Component {
   render() {
-    const { close, isOpened, message } = this.props;
+    const { close, highlight, isOpened, message } = this.props;
+    const content = highlight ? (
+      <span>
+        {message} <strong>{highlight}</strong>
+      </span>
+    ) : (
+      message
+    );
 
     return (
       <Snackbar1
@@ -17,7 +24,7 @@ class Snackbar extends Component {
         open={isOpened}
         autoHideDuration={6000}
         onClose={close}
-        message={message}
+        message={content}
       />
     );
   }
@@ -26,20 +33,22 @@ class Snackbar extends Component {
 Snackbar.propTypes = {
   close: PropTypes.func.isRequired,
   isOpened: PropTypes.bool,
-  message: PropTypes.any.isRequired,
+  highlight: PropTypes.string,
+  message: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => {
   return {
-    isOpened: state.SnackbarReducer.isOpened,
-    message: state.SnackbarReducer.message,
+    isOpened: state.messages.snackbar.isOpened,
+    message: state.messages.snackbar.message,
+    highlight: state.messages.snackbar.highlight,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     close: () => {
-      dispatch(SnackbarActions.close());
+      dispatch(closeSnackbar());
     },
   };
 };

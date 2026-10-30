@@ -1,23 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { NavLink } from 'react-router';
 import { API_URL } from 'data/constants';
-import { history } from 'index';
-import SustainableDevGoalsActions from 'actions/SustainableDevGoalsActions';
+import { history } from 'utils/history';
+import { useGetSustainableDevGoalQuery } from 'data/curriculoApi';
+import withQuery from 'utils/withQuery';
 import FullModal from 'components/layout/FullModal';
 import Goal from './Goal';
 import iconCloseBigWhite from 'images/icons/closeBigWhite.svg';
-import styles from './Detail.scss';
+import styles from './Detail.module.scss';
 
 class Detail extends Component {
   onClickedClose = () => {
-    history.goBack();
+    history.back();
   };
-
-  componentDidMount() {
-    this.props.loadItem(this.props.match.params.id);
-  }
 
   render() {
     const data = this.props.data;
@@ -73,24 +69,9 @@ class Detail extends Component {
 
 Detail.propTypes = {
   data: PropTypes.object,
-  loadItem: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => {
-  return {
-    data: state.SustainableDevGoalsReducer.currItem,
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    loadItem: id => {
-      dispatch(SustainableDevGoalsActions.loadItem(id));
-    },
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Detail);
+export default withQuery(useGetSustainableDevGoalQuery, {
+  arg: props => props.match.params.id,
+  mapResult: result => ({ data: result.currentData || null }),
+})(Detail);

@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { clearAllBodyScrollLocks } from 'body-scroll-lock';
-import AlertActions from 'actions/AlertActions';
-import ProjectFiltersActions from 'actions/ProjectFiltersActions';
-import ProjectsActions from 'actions/ProjectsActions';
+import { openAlert } from 'reducers/messagesSlice';
+import { projectFiltersActions } from 'reducers/filtersSlice';
+import { searchProjects } from 'reducers/projectsSlice';
 import Category from 'views/projects/categories/Category';
 import CategoryPanel from 'views/projects/categories/CategoryPanel';
 import RegionalEducationBoard from 'views/projects/objects/RegionalEducationBoard';
@@ -13,7 +13,7 @@ import SegmentButton from 'views/projects/objects/SegmentButton';
 import StageButton from 'views/projects/objects/StageButton';
 import YearButton from 'views/projects/objects/YearButton';
 import iconCloseBig from 'images/icons/closeBig.svg';
-import styles from './Filters.scss';
+import styles from './Filters.module.scss';
 
 class Filters extends Component {
   ref = React.createRef();
@@ -168,28 +168,28 @@ Filters.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    filters: state.ProjectFiltersReducer.filters,
-    filtersExtra: state.ProjectFiltersReducer.filtersExtra,
-    isExpanded: state.ProjectFiltersReducer.isExpanded,
-    order: state.ProjectFiltersReducer.order,
-    query: state.ProjectFiltersReducer.query,
+    filters: state.projectFilters.filters,
+    filtersExtra: state.projectFilters.filtersExtra,
+    isExpanded: state.projectFilters.isExpanded,
+    order: state.projectFilters.order,
+    query: state.projectFilters.query,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     load: () => {
-      dispatch(ProjectFiltersActions.load());
+      dispatch(projectFiltersActions.load());
     },
     openAlert: message => {
-      dispatch(AlertActions.open(message));
+      dispatch(openAlert(message));
     },
     search: () => {
-      dispatch(ProjectFiltersActions.search());
-      dispatch(ProjectsActions.search());
+      dispatch(projectFiltersActions.search());
+      dispatch(searchProjects());
     },
     togglePanel: () => {
-      dispatch(ProjectFiltersActions.togglePanel());
+      dispatch(projectFiltersActions.togglePanel());
     },
   };
 };

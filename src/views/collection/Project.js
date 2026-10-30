@@ -1,14 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router';
 import { connect } from 'react-redux';
-import { API_URL } from 'data/constants';
 import CollectionActions from 'actions/CollectionActions';
-import ConfirmActions from 'actions/ConfirmActions';
-import createModalLink from 'utils/createModalLink';
-import iconCheck from 'images/icons/check.png';
+import { askConfirmation } from 'reducers/messagesSlice';
 import iconDelete from 'images/icons/delete.svg';
-import styles from './Project.scss';
+import styles from './Project.module.scss';
 import logoPrefecture from 'views/project/images/prefecture.jpg';
 
 class Project extends React.PureComponent {
@@ -17,17 +14,18 @@ class Project extends React.PureComponent {
   };
 
   onClickedDelete = () => {
-    this.props.openConfirm(
-      'Excluir projeto?',
-      'Você não poderá reverter esta ação.',
-      'Excluir',
-      'Cancelar',
-      this.onClickedConfirm
-    );
+    this.props
+      .openConfirm(
+        'Excluir projeto?',
+        'Você não poderá reverter esta ação.',
+        'Excluir',
+        'Cancelar'
+      )
+      .then(confirmed => confirmed && this.onClickedConfirm());
   };
 
   render() {
-    const { id, curricularComponents, image, slug, title } = this.props;
+    const { curricularComponents, image, slug, title } = this.props;
 
     const link = `/projeto/${slug}`;
 
@@ -57,9 +55,9 @@ class Project extends React.PureComponent {
                 {curricularComponents && (
                   curricularComponents.map((curricular_component, idx) => {
                     if(idx > 2) {
-                      return <label key={idx}></label>
+                      return null
                     } else {
-                      return <label key={idx} style={{marginLeft: '5px', marginRight: '5px', color: curricular_component.color}}>{curricular_component.name}</label>
+                      return <span key={idx} className={styles.curricularComponent} style={{marginLeft: '5px', marginRight: '5px', color: curricular_component.color}}>{curricular_component.name}</span>
                     }
                   })
                 )}
@@ -89,11 +87,8 @@ Project.propTypes = {
 
 const mapDispatchToProps = dispatch => {
   return {
-    openConfirm: (title, message, labelYes, labelNo, onConfirm) => {
-      dispatch(
-        ConfirmActions.open(title, message, labelYes, labelNo, onConfirm)
-      );
-    },
+    openConfirm: (title, message, labelYes, labelNo) =>
+      dispatch(askConfirmation(title, message, labelYes, labelNo)),
     removeProject: (collectionId, sequenceId) => {
       dispatch(CollectionActions.removeProject(collectionId, sequenceId));
     },

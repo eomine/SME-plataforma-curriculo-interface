@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { API_URL } from 'data/constants';
-import styles from './Avatar.scss';
+import styles from './Avatar.module.scss';
 
 class Avatar extends React.PureComponent {
   render() {

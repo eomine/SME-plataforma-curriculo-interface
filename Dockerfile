@@ -1,18 +1,14 @@
-FROM node:9.11.2 as build
+FROM node:22-alpine as build
 
-RUN mkdir -p /app 
 WORKDIR /app
 
-
-COPY package.json package.json
-COPY npm-shrinkwrap.json npm-shrinkwrap.json
-
-RUN npm install
+COPY package.json npm-shrinkwrap.json .npmrc ./
+RUN npm ci --no-audit --no-fund
 
 COPY . ./
-
-RUN npm install && \
-    npm run build --production
+RUN npm run lint
+RUN npm test
+RUN npm run build
 
 FROM nginx:alpine
 COPY entrypoint.sh /app/entrypoint.sh

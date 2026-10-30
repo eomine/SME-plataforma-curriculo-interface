@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router';
 import { API_URL } from 'data/constants';
 import arrowRight from 'images/arrows/right.svg';
-import styles from './OtherMethodology.scss';
+import styles from './OtherMethodology.module.scss';
 
 class OtherMethodology extends Component {
   render() {

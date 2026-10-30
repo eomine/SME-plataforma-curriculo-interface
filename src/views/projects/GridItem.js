@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
-import ProjectsActions from 'actions/ProjectsActions';
+import { toggleProjectPreview } from 'reducers/projectsSlice';
 import GridItemBase from './GridItemBase';
 
 const mapDispatchToProps = dispatch => {
   return {
     togglePreview: id => {
-      dispatch(ProjectsActions.togglePreview(id));
+      dispatch(toggleProjectPreview(id));
     },
   };
 };

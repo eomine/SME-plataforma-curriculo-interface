@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { API_URL } from 'data/constants';
+import { useGetMethodologiesQuery, useGetMethodologyQuery } from 'data/curriculoApi';
+import withQuery from 'utils/withQuery';
+import { withChallengeLists } from 'data/challengeQueries';
 import Challenge from 'views/technologies/Challenge';
-import ChallengesActions from 'actions/ChallengesActions';
 import Contents from './Contents';
-import MethodologiesActions from 'actions/MethodologiesActions';
 import OtherMethodology from './OtherMethodology';
 import Page from 'components/layout/Page';
 import ProjectContents from './ProjectContents';
 import arrowDownGreen from 'images/arrows/downGreen.svg';
-import styles from './Methodology.scss';
-import styles1 from 'views/technologies/Technologies.scss';
+import styles from './Methodology.module.scss';
+import styles1 from 'views/technologies/Technologies.module.scss';
 
 class Methodology extends Component {
   state = {
@@ -27,14 +27,7 @@ class Methodology extends Component {
     const slug = this.props.match.params.slug;
     if (prevProps.match.params.slug !== slug) {
       window.scrollTo(0, 0);
-      this.props.loadItem(slug);
     }
-  }
-
-  componentDidMount() {
-    this.props.loadOngoing();
-    this.props.loadMethodologies();
-    this.props.loadItem(this.props.match.params.slug);
   }
 
   render() {
@@ -46,7 +39,7 @@ class Methodology extends Component {
 
     const { slug, title, description } = data;
 
-    const contents = slug === 'projeto' ? <ProjectContents /> : <Contents slug={slug} />;
+    const contents = slug === 'projeto' ? <ProjectContents data={data} /> : <Contents data={data} />;
 
     const others = methodologies.filter(item => item.slug !== slug);
     const otherItems = others.map((item, i) => {
@@ -106,38 +99,16 @@ Methodology.propTypes = {
   data: PropTypes.object,
   methodologies: PropTypes.array.isRequired,
   challenges: PropTypes.array.isRequired,
-  loadOngoing: PropTypes.func.isRequired,
   loadFinished: PropTypes.func.isRequired,
-  loadMethodologies: PropTypes.func.isRequired,
-  loadItem: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => {
-  return {
-    data: state.MethodologiesReducer.currItem,
-    methodologies: state.MethodologiesReducer.items,
-    challenges: state.ChallengesReducer.items,
-  };
-};
+const withMethodologies = withQuery(useGetMethodologiesQuery, {
+  mapResult: result => ({ methodologies: result.data || [] }),
+});
 
-const mapDispatchToProps = dispatch => {
-  return {
-    loadOngoing: () => {
-      dispatch(ChallengesActions.loadOngoing());
-    },
-    loadFinished: () => {
-      dispatch(ChallengesActions.loadFinished());
-    },
-    loadMethodologies: () => {
-      dispatch(MethodologiesActions.load());
-    },
-    loadItem: slug => {
-      dispatch(MethodologiesActions.loadItem(slug));
-    },
-  };
-};
+const withMethodology = withQuery(useGetMethodologyQuery, {
+  arg: props => props.match.params.slug,
+  mapResult: result => ({ data: result.currentData || null }),
+});
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Methodology);
+export default withMethodologies(withMethodology(withChallengeLists(Methodology)));

@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { clearAllBodyScrollLocks } from 'body-scroll-lock';
-import AlertActions from 'actions/AlertActions';
-import FiltersActions from 'actions/FiltersActions';
-import SequencesActions from 'actions/SequencesActions';
+import { openAlert } from 'reducers/messagesSlice';
+import { sequenceFiltersActions } from 'reducers/filtersSlice';
+import { searchSequences } from 'reducers/sequencesSlice';
 import Category from 'views/sequences/categories/Category';
 import CategoryPanel from 'views/sequences/categories/CategoryPanel';
 import CurricularComponent from 'views/sequences/objects/CurricularComponent';
@@ -12,7 +12,7 @@ import SegmentButton from 'views/sequences/objects/SegmentButton';
 import StageButton from 'views/sequences/objects/StageButton';
 import YearButton from 'views/sequences/objects/YearButton';
 import iconCloseBig from 'images/icons/closeBig.svg';
-import styles from './Filters.scss';
+import styles from './Filters.module.scss';
 
 class Filters extends Component {
   ref = React.createRef();
@@ -159,28 +159,28 @@ Filters.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    filters: state.FiltersReducer.filters,
-    filtersExtra: state.FiltersReducer.filtersExtra,
-    isExpanded: state.FiltersReducer.isExpanded,
-    order: state.FiltersReducer.order,
-    query: state.FiltersReducer.query,
+    filters: state.sequenceFilters.filters,
+    filtersExtra: state.sequenceFilters.filtersExtra,
+    isExpanded: state.sequenceFilters.isExpanded,
+    order: state.sequenceFilters.order,
+    query: state.sequenceFilters.query,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     load: () => {
-      dispatch(FiltersActions.load());
+      dispatch(sequenceFiltersActions.load());
     },
     openAlert: message => {
-      dispatch(AlertActions.open(message));
+      dispatch(openAlert(message));
     },
     search: () => {
-      dispatch(FiltersActions.search());
-      dispatch(SequencesActions.search());
+      dispatch(sequenceFiltersActions.search());
+      dispatch(searchSequences());
     },
     togglePanel: () => {
-      dispatch(FiltersActions.togglePanel());
+      dispatch(sequenceFiltersActions.togglePanel());
     },
   };
 };

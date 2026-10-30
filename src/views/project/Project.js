@@ -1,23 +1,20 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { history } from 'index';
 import Cover from './Cover';
 import Title from './Title';
 import Page from 'components/layout/Page';
 import ProjectActions from 'actions/ProjectActions';
-import BodyActions from 'actions/BodyActions';
+import { withProject } from 'data/itemQueries';
 import ProjectChars from './chars/ProjectChars';
-import ReadMore from 'components/ReadMore';
-import Link from '@material-ui/core/Link';
-import styles from './Project.scss';
+import styles from './Project.module.scss';
 import getTeacherId from 'data/getTeacherId';
-import ReactQuill from 'react-quill';
-import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
+import RichTextEditor from 'components/RichTextEditor';
+import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
 import iconClose from 'images/icons/close.svg';
-import AlertActions from 'actions/AlertActions';
+import { openAlert } from 'reducers/messagesSlice';
 
 class Project extends Component {
   state = {
@@ -41,12 +38,12 @@ class Project extends Component {
     });
   }
 
-  setRedirect = (href) => {
+  getLinkUrl = (href) => {
     let validateUrl = href.search(/http/i);
     if (validateUrl !== -1) {
-      window.location.href = href;
+      return href;
     } else {
-      window.location.href = `https://${href}`;
+      return `https://${href}`;
     }
   }
 
@@ -77,8 +74,6 @@ class Project extends Component {
   }
 
   componentDidMount() {
-    this.props.load(this.props.match.params.slug);
-
     if (this.props.location.pathname.match(/imprimir/)) {
       this.setState({
         ...this.state,
@@ -96,8 +91,7 @@ class Project extends Component {
   }
 
   render() {
-    const { data, isSearching, isSaved, comments } = this.props;
-    const description = data.description;
+    const { data, isSaved, comments } = this.props;
     const { isPrint } = this.state;
     const  cardsComment = comments.map((comment, index) => {
       return (
@@ -150,7 +144,7 @@ class Project extends Component {
     const formats = [
       'header', 'font', 'size',
       'bold', 'italic', 'underline', 'strike', 'blockquote',
-      'list', 'bullet', 'indent',
+      'list', 'indent',
       'link', 'image', 'video'
     ]
 
@@ -201,7 +195,7 @@ class Project extends Component {
                 {data.links && (data.links.map((link, idx) => {
                   return (
                     <p key={idx}>
-                      <a className={styles.links} onClick={()=>this.setRedirect(link.link)}>
+                      <a className={styles.links} href={this.getLinkUrl(link.link)}>
                         {link.link}
                       </a>
                     </p>
@@ -230,7 +224,7 @@ class Project extends Component {
             <div className="row">
               <div className='col-sm-12 col-md-12 col-lg-12 co-xl-12'>
                 <h3>Novo Comentário:</h3>
-                <ReactQuill
+                <RichTextEditor
                   style={{marginTop: '5%', marginBottom: '5%'}}
                   theme={this.state.theme}
                   onChange={(html) => this.commentChange(html)}
@@ -266,41 +260,32 @@ Project.propTypes = {
   comments: PropTypes.array,
   isSaved: PropTypes.bool,
   isSearching: PropTypes.bool.isRequired,
-  load: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => {
+// "Salvo" só depois de salvar nesta sessão: a página não carrega em quais
+// coleções o projeto está (como antes).
+const mapStateToProps = (state, { data }) => {
   return {
-    data: state.ProjectReducer.currItem,
-    comments: state.ProjectReducer.comments,
-    isSaved: state.ProjectReducer.isSaved,
-    isSearching: state.ProjectReducer.isSearching,
+    comments: data.comments || [],
+    isSaved: state.project.savedIds.includes(data.id),
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    load: slug => {
-      dispatch(BodyActions.showLoading());
-      dispatch(ProjectActions.load(slug));
-    },
     createComment: (comment, slug) => {
-      dispatch(BodyActions.showLoading());
-      dispatch(ProjectActions.createComment(comment));
-      dispatch(ProjectActions.load(slug));
+      dispatch(ProjectActions.createComment(comment, slug));
     },
     deleteComment: (id, slug) => {
-      dispatch(BodyActions.showLoading());
-      dispatch(ProjectActions.deleteComment(id));
-      dispatch(ProjectActions.load(slug));
+      dispatch(ProjectActions.deleteComment(id, slug));
     },
     openAlert: message => {
-      dispatch(AlertActions.open(message));
+      dispatch(openAlert(message));
     },
   };
 };
 
-export default connect(
+export default withProject(connect(
   mapStateToProps,
   mapDispatchToProps
-)(Project);
+)(Project));

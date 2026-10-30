@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router';
 import { connect } from 'react-redux';
 import { API_URL } from 'data/constants';
 import CollectionActions from 'actions/CollectionActions';
-import ConfirmActions from 'actions/ConfirmActions';
+import { askConfirmation } from 'reducers/messagesSlice';
 import createModalLink from 'utils/createModalLink';
 import iconCheck from 'images/icons/check.png';
 import iconDelete from 'images/icons/delete.svg';
-import styles from './Sequence.scss';
+import styles from './Sequence.module.scss';
 
 class Sequence extends React.PureComponent {
   onClickedConfirm = () => {
@@ -16,13 +16,14 @@ class Sequence extends React.PureComponent {
   };
 
   onClickedDelete = () => {
-    this.props.openConfirm(
-      'Excluir sequência?',
-      'Você não poderá reverter esta ação.',
-      'Excluir',
-      'Cancelar',
-      this.onClickedConfirm
-    );
+    this.props
+      .openConfirm(
+        'Excluir sequência?',
+        'Você não poderá reverter esta ação.',
+        'Excluir',
+        'Cancelar'
+      )
+      .then(confirmed => confirmed && this.onClickedConfirm());
   };
 
   render() {
@@ -42,7 +43,7 @@ class Sequence extends React.PureComponent {
       const label = hasEvaluated ? 'Ver avaliação' : 'Avaliar';
       const route = hasEvaluated ? 'avaliacao' : 'avaliar';
       const link = createModalLink(`/sequencia/${slug}/${route}`);
-      const btn = <NavLink to={link}>{label}</NavLink>;
+      const btn = <NavLink {...link}>{label}</NavLink>;
 
       bar = (
         <div className={styles.bar}>
@@ -111,11 +112,8 @@ Sequence.propTypes = {
 
 const mapDispatchToProps = dispatch => {
   return {
-    openConfirm: (title, message, labelYes, labelNo, onConfirm) => {
-      dispatch(
-        ConfirmActions.open(title, message, labelYes, labelNo, onConfirm)
-      );
-    },
+    openConfirm: (title, message, labelYes, labelNo) =>
+      dispatch(askConfirmation(title, message, labelYes, labelNo)),
     removeSequence: (collectionId, sequenceId) => {
       dispatch(CollectionActions.removeSequence(collectionId, sequenceId));
     },

@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
-import HomeActions from 'actions/HomeActions';
+import { toggleHomePreview } from 'reducers/homeSlice';
 import GridItemBase from 'views/sequences/GridItemBase';
 
 const mapDispatchToProps = dispatch => {
   return {
     togglePreview: id => {
-      dispatch(HomeActions.togglePreview(id));
+      dispatch(toggleHomePreview(id));
     },
   };
 };

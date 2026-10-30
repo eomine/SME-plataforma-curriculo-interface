@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Page from 'components/layout/Page';
-import SurveyFormActions from 'actions/SurveyFormActions';
 import TeacherSurveyFormsActions from 'actions/TeacherSurveyFormsActions';
-import styles from './SurveyForm.scss';
+import { useGetSurveyFormAnswerQuery, useGetSurveyFormQuery } from 'data/curriculoApi';
+import getTeacherId from 'data/getTeacherId';
+import withQuery from 'utils/withQuery';
+import styles from './SurveyForm.module.scss';
 import getContentBlocks from 'utils/getContentBlocks';
-import Slider from '@material-ui/core/Slider';
+import Slider from '@mui/material/Slider';
 
 class SurveyForm extends Component {
 
@@ -31,18 +33,29 @@ class SurveyForm extends Component {
     this.validationFields = this.validationFields.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (Object.keys(nextProps.surveyFormAnswer).length > 0){
+  // Copia para o state as respostas e as perguntas quando chegam da API (ou
+  // já estão em cache ao abrir a página).
+  componentDidMount() {
+    this.copyFromProps({});
+  }
+
+  componentDidUpdate(prevProps) {
+    this.copyFromProps(prevProps);
+  }
+
+  copyFromProps(prevProps) {
+    const { surveyFormAnswer, contentBlocks } = this.props;
+    if (surveyFormAnswer !== prevProps.surveyFormAnswer && Object.keys(surveyFormAnswer).length > 0){
       this.setState({
-        surveyFormAnswer: nextProps.surveyFormAnswer,
+        surveyFormAnswer,
       });
     }
 
-    if (nextProps.contentBlocks.length > 0){
+    if (contentBlocks !== prevProps.contentBlocks && contentBlocks.length > 0){
       this.setState({
         errors: {
           ...this.state.errors,
-          question: nextProps.contentBlocks.map(() => ({
+          question: contentBlocks.map(() => ({
             rating: false,
             comment: false,
           }))
@@ -54,7 +67,7 @@ class SurveyForm extends Component {
   validationQuestions() {
     let errorsQuestion = JSON.parse(JSON.stringify(this.state.errors.question));
 
-    this.state.surveyFormAnswer.answers_attributes.map((answer, index) => {
+    this.state.surveyFormAnswer.answers_attributes.forEach((answer, index) => {
       if (this.props.contentBlocks[index].content.required_rating === "true" && this.props.contentBlocks[index].content.required_comment === "true"){
         if (answer.rating && answer.comment){
           errorsQuestion[index] = {
@@ -181,13 +194,8 @@ class SurveyForm extends Component {
     });
   }
 
-  componentDidMount() {
-    this.props.load(this.props.match.params.id);
-    this.props.new(this.props.match.params.id);
-  }
-
   render() {
-    const { surveyForm, contentBlocks, isLoading, surveyFormAnswer } = this.props;
+    const { surveyForm, contentBlocks } = this.props;
 
     const blocks = contentBlocks
       ? getContentBlocks(contentBlocks)
@@ -247,7 +255,6 @@ class SurveyForm extends Component {
                             <Slider
                               value={this.state.surveyFormAnswer.answers_attributes[index].rating}
                               aria-labelledby="discrete-slider"
-                              valueLabelDisplay="auto"
                               step={1}
                               valueLabelDisplay="on"
                               marks
@@ -332,29 +339,12 @@ SurveyForm.propTypes = {
   contentBlocks: PropTypes.array,
   surveyFormAnswer: PropTypes.object,
   isLoading: PropTypes.bool.isRequired,
-  load: PropTypes.func.isRequired,
-  new: PropTypes.func.isRequired,
   create: PropTypes.func.isRequired,
   alertError: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => {
-  return {
-    surveyForm: state.SurveyFormReducer.surveyForm,
-    contentBlocks: state.SurveyFormReducer.contentBlocks,
-    surveyFormAnswer: state.TeacherSurveyFormsReducer.surveyFormAnswer,
-    isLoading: state.SurveyFormReducer.isLoading,
-  };
-};
-
 const mapDispatchToProps = dispatch => {
   return {
-    load: id => {
-      dispatch(SurveyFormActions.load(id));
-    },
-    new: surveyFormId => {
-      dispatch(TeacherSurveyFormsActions.new(surveyFormId));
-    },
     create: surveyFormAnswer => {
       dispatch(TeacherSurveyFormsActions.create(surveyFormAnswer));
     },
@@ -364,7 +354,19 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(
-  mapStateToProps,
+export default withQuery(useGetSurveyFormQuery, {
+  arg: props => props.match.params.id,
+  mapResult: ({ currentData, isFetching }) => ({
+    surveyForm: currentData ? currentData.survey_form : {},
+    contentBlocks: currentData ? currentData.survey_form_content_blocks : [],
+    isLoading: isFetching,
+  }),
+})(withQuery(useGetSurveyFormAnswerQuery, {
+  arg: props => ({ teacherId: getTeacherId(), surveyFormId: props.match.params.id }),
+  // Como antes, busca a resposta de novo sempre que a página abre.
+  options: { refetchOnMountOrArgChange: true },
+  mapResult: ({ currentData }) => ({ surveyFormAnswer: currentData || {} }),
+})(connect(
+  null,
   mapDispatchToProps
-)(SurveyForm);
+)(SurveyForm)));

@@ -1,18 +1,20 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import TextField from '@material-ui/core/TextField';
+import TextField from '@mui/material/TextField';
 import { connect } from 'react-redux';
-import { history } from 'index';
+import { skipToken } from '@reduxjs/toolkit/query/react';
+import { useGetSequenceQuery } from 'data/curriculoApi';
+import withQuery from 'utils/withQuery';
+import { history } from 'utils/history';
 import BigPreview from 'components/objects/BigPreview';
 import CollectionActions from 'actions/CollectionActions';
 import DesktopModal from 'components/layout/DesktopModal';
 import ModalPage from 'components/layout/ModalPage';
 import ModalFooter from 'components/footer/ModalFooter';
 import ModalHeader from 'components/header/ModalHeader';
-import SequenceActions from 'actions/SequenceActions';
 import SequencePreview from 'views/activity/SequencePreview';
-import styles from 'views/collection/edit/EditCollection.scss';
-import styles1 from 'views/sequence/save/SaveSequence.scss';
+import styles from 'views/collection/edit/EditCollection.module.scss';
+import styles1 from 'views/sequence/save/SaveSequence.module.scss';
 
 class CreateCollection extends Component {
   state = {
@@ -34,7 +36,7 @@ class CreateCollection extends Component {
       history.go(-2);
     } else {
       this.props.create(this.state.name);
-      history.goBack();
+      history.back();
     }
   };
 
@@ -50,10 +52,6 @@ class CreateCollection extends Component {
       });
     }
 
-    const slug = this.props.match.params.slug;
-    if (!this.props.sequence || this.props.sequence.slug !== slug) {
-      this.props.load(slug);
-    }
   }
 
   render() {
@@ -117,12 +115,6 @@ CreateCollection.defaultProps = {
   classrooms: [],
 };
 
-const mapStateToProps = state => {
-  return {
-    sequence: state.SequenceReducer.currItem,
-  };
-};
-
 const mapDispatchToProps = dispatch => {
   return {
     create: name => {
@@ -131,13 +123,14 @@ const mapDispatchToProps = dispatch => {
     createAndSaveSequence: (name, sequenceId) => {
       dispatch(CollectionActions.createAndSaveSequence(name, sequenceId));
     },
-    load: slug => {
-      dispatch(SequenceActions.load(slug));
-    },
   };
 };
 
-export default connect(
-  mapStateToProps,
+// A sequência (como `sequence`) só existe quando a coleção é criada a partir dela.
+export default withQuery(useGetSequenceQuery, {
+  arg: props => props.match.params.slug || skipToken,
+  mapResult: result => ({ sequence: result.currentData || null }),
+})(connect(
+  null,
   mapDispatchToProps
-)(CreateCollection);
+)(CreateCollection));

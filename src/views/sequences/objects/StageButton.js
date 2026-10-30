@@ -1,14 +1,14 @@
 import { connect } from 'react-redux';
 import StageButton from 'components/objects/StageButton';
-import FiltersActions from 'actions/FiltersActions';
+import { sequenceFiltersActions } from 'reducers/filtersSlice';
 
 const mapDispatchToProps = dispatch => {
   return {
     toggleStages: data => {
-      dispatch(FiltersActions.toggleStages(data))
+      dispatch(sequenceFiltersActions.toggleStages(data))
     },
     getYears: data => {
-      dispatch(FiltersActions.getYears(data))
+      dispatch(sequenceFiltersActions.getYears(data))
     },
   };
 };

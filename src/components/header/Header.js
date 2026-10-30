@@ -1,21 +1,21 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Headroom from 'react-headroom';
-import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router';
 import { connect } from 'react-redux';
 import Avatar from 'views/profile/Avatar';
-import BodyActions from 'actions/BodyActions';
-import Fade from '@material-ui/core/Fade';
+import { showMobileMenu } from 'reducers/bodySlice';
+import Fade from '@mui/material/Fade';
 import CurriculoPopover from 'components/popovers/CurriculoPopover';
 import BooksPopover from 'components/popovers/BooksPopover';
 import LoginPopover from 'components/popovers/LoginPopover';
-import Paper from '@material-ui/core/Paper';
-import Popper from '@material-ui/core/Popper';
+import Paper from '@mui/material/Paper';
+import Popper from '@mui/material/Popper';
 import ProfileActions from 'actions/ProfileActions';
 import ProfilePopover from 'components/popovers/ProfilePopover';
 import isLogged from 'data/isLogged';
 import chevronDown from 'images/chevrons/down.svg';
-import styles from './Header.scss';
+import styles from './Header.module.scss';
 
 class Header extends Component {
   state = { anchor: null };
@@ -74,12 +74,6 @@ class Header extends Component {
     const ConsultationLink = isLogged() ? (
       <NavLink to='/consultas-publicas' onClick={this.onClickedClose}>
         Consultas à Rede
-      </NavLink>
-    ) : null;
-
-    const answerBooksLink = isLogged() ? (
-      <NavLink to='/cadernos-respostas' onClick={this.onClickedClose}>
-        Cadernos dos Professores
       </NavLink>
     ) : null;
 
@@ -149,6 +143,7 @@ class Header extends Component {
             {avatar}
             <button
               className={styles.toggler}
+              aria-label="Menu"
               onClick={this.onClickedToggler}
             />
           </div>
@@ -176,7 +171,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(ProfileActions.load());
     },
     showMobileMenu: () => {
-      dispatch(BodyActions.showMobileMenu());
+      dispatch(showMobileMenu());
     },
   };
 };

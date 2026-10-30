@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Chip from 'components/objects/Chip';
 import iconClock from 'images/icons/clock.svg';
 import iconClockWhite from 'images/icons/clockWhite.svg';
-import styles from './Cover.scss';
+import styles from './Cover.module.scss';
 import { API_URL } from 'data/constants';
 
 class Cover extends Component {
