@@ -45,9 +45,11 @@ class Sequence extends Component {
 
   }
 
-  componentDidUpdate(prevProps) {
-    console.log(this.state.isPrint, !prevProps.data, this.props.data);
-    if (this.state.isPrint && !prevProps.data && this.props.data) {
+  // Imprime quando a página de impressão tem a sequência: ao ligar o isPrint,
+  // se ela já estava em cache (vindo da página da sequência), ou quando chega.
+  componentDidUpdate(prevProps, prevState) {
+    const { data } = this.props;
+    if (this.state.isPrint && data && (!prevState.isPrint || !prevProps.data)) {
       setTimeout(window.print, 2000);
     }
   }
